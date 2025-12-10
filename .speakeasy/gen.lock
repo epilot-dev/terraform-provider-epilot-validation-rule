@@ -1,0 +1,252 @@
+lockVersion: 2.0.0
+id: d6281e06-600f-41ec-b1e1-8b7594d42e13
+management:
+  docChecksum: 78e317545b6e6f21d3c0d14ac47c1473
+  docVersion: 1.0.0
+  speakeasyVersion: 1.611.0
+  generationVersion: 2.694.1
+  releaseVersion: 0.18.3
+  configChecksum: 8d078b096067c9f29127f8d6218e7b9b
+features:
+  terraform:
+    additionalDependencies: 0.1.0
+    constsAndDefaults: 0.2.1
+    core: 3.44.1
+    globalSecurity: 2.82.0
+    globalServerURLs: 2.83.0
+    retries: 2.81.4
+    unions: 2.81.17
+generatedFiles:
+  - .gitattributes
+  - USAGE.md
+  - examples/README.md
+  - examples/data-sources/epilot-validation-rule_validation_rule/data-source.tf
+  - examples/provider/provider.tf
+  - examples/resources/epilot-validation-rule_validation_rule/import-by-string-id.tf
+  - examples/resources/epilot-validation-rule_validation_rule/import.sh
+  - examples/resources/epilot-validation-rule_validation_rule/resource.tf
+  - go.mod
+  - go.sum
+  - internal/planmodifiers/boolplanmodifier/suppress_diff.go
+  - internal/planmodifiers/float32planmodifier/suppress_diff.go
+  - internal/planmodifiers/float64planmodifier/suppress_diff.go
+  - internal/planmodifiers/int32planmodifier/suppress_diff.go
+  - internal/planmodifiers/int64planmodifier/suppress_diff.go
+  - internal/planmodifiers/listplanmodifier/suppress_diff.go
+  - internal/planmodifiers/mapplanmodifier/suppress_diff.go
+  - internal/planmodifiers/numberplanmodifier/suppress_diff.go
+  - internal/planmodifiers/objectplanmodifier/suppress_diff.go
+  - internal/planmodifiers/setplanmodifier/suppress_diff.go
+  - internal/planmodifiers/stringplanmodifier/suppress_diff.go
+  - internal/planmodifiers/utils/state_check.go
+  - internal/provider/provider.go
+  - internal/provider/reflect/diags.go
+  - internal/provider/reflect/doc.go
+  - internal/provider/reflect/generic_attr_value.go
+  - internal/provider/reflect/helpers.go
+  - internal/provider/reflect/interfaces.go
+  - internal/provider/reflect/into.go
+  - internal/provider/reflect/map.go
+  - internal/provider/reflect/number.go
+  - internal/provider/reflect/options.go
+  - internal/provider/reflect/outof.go
+  - internal/provider/reflect/pointer.go
+  - internal/provider/reflect/primitive.go
+  - internal/provider/reflect/slice.go
+  - internal/provider/reflect/struct.go
+  - internal/provider/typeconvert/date.go
+  - internal/provider/typeconvert/datetime.go
+  - internal/provider/typeconvert/int.go
+  - internal/provider/types/all.go
+  - internal/provider/types/create_validation_rule_request_rule.go
+  - internal/provider/types/four.go
+  - internal/provider/types/numeric_condition.go
+  - internal/provider/types/numeric_condition1.go
+  - internal/provider/types/numeric_condition2.go
+  - internal/provider/types/numeric_condition3.go
+  - internal/provider/types/numeric_condition_all.go
+  - internal/provider/types/numeric_fact_condition.go
+  - internal/provider/types/numeric_fact_condition1.go
+  - internal/provider/types/numeric_fact_condition2.go
+  - internal/provider/types/numeric_fact_condition4.go
+  - internal/provider/types/numeric_fact_condition_params.go
+  - internal/provider/types/numeric_fact_condition_schemas_params.go
+  - internal/provider/types/numeric_nested_condition.go
+  - internal/provider/types/numeric_nested_condition1.go
+  - internal/provider/types/numeric_nested_condition2.go
+  - internal/provider/types/numeric_nested_condition3.go
+  - internal/provider/types/numeric_rule_type.go
+  - internal/provider/types/one.go
+  - internal/provider/types/pattern_condition.go
+  - internal/provider/types/pattern_condition1.go
+  - internal/provider/types/pattern_condition2.go
+  - internal/provider/types/pattern_condition3.go
+  - internal/provider/types/pattern_condition_all.go
+  - internal/provider/types/pattern_fact_condition.go
+  - internal/provider/types/pattern_fact_condition1.go
+  - internal/provider/types/pattern_fact_condition3.go
+  - internal/provider/types/pattern_fact_condition_params.go
+  - internal/provider/types/pattern_nested_condition.go
+  - internal/provider/types/pattern_nested_condition1.go
+  - internal/provider/types/pattern_nested_condition2.go
+  - internal/provider/types/pattern_nested_condition3.go
+  - internal/provider/types/pattern_rule_type.go
+  - internal/provider/types/regex_condition.go
+  - internal/provider/types/regex_condition1.go
+  - internal/provider/types/regex_condition2.go
+  - internal/provider/types/regex_condition3.go
+  - internal/provider/types/regex_fact_condition.go
+  - internal/provider/types/regex_nested_condition.go
+  - internal/provider/types/regex_rule_type.go
+  - internal/provider/types/three.go
+  - internal/provider/types/two.go
+  - internal/provider/types/used_by.go
+  - internal/provider/utils.go
+  - internal/provider/validationrule_data_source.go
+  - internal/provider/validationrule_data_source_sdk.go
+  - internal/provider/validationrule_resource.go
+  - internal/provider/validationrule_resource_sdk.go
+  - internal/sdk/.gitattributes
+  - internal/sdk/docs/models/operations/option.md
+  - internal/sdk/internal/config/sdkconfiguration.go
+  - internal/sdk/internal/hooks/hooks.go
+  - internal/sdk/internal/utils/contenttype.go
+  - internal/sdk/internal/utils/env.go
+  - internal/sdk/internal/utils/form.go
+  - internal/sdk/internal/utils/headers.go
+  - internal/sdk/internal/utils/json.go
+  - internal/sdk/internal/utils/pathparams.go
+  - internal/sdk/internal/utils/queryparams.go
+  - internal/sdk/internal/utils/requestbody.go
+  - internal/sdk/internal/utils/retries.go
+  - internal/sdk/internal/utils/security.go
+  - internal/sdk/internal/utils/utils.go
+  - internal/sdk/models/errors/sdkerror.go
+  - internal/sdk/models/operations/addusedbyreference.go
+  - internal/sdk/models/operations/createvalidationrule.go
+  - internal/sdk/models/operations/deletevalidationrule.go
+  - internal/sdk/models/operations/getvalidationrulebyid.go
+  - internal/sdk/models/operations/getvalidationrules.go
+  - internal/sdk/models/operations/options.go
+  - internal/sdk/models/operations/removeusedbyreference.go
+  - internal/sdk/models/operations/updatevalidationrule.go
+  - internal/sdk/models/shared/createvalidationrulerequest.go
+  - internal/sdk/models/shared/getvalidationrulesresponse.go
+  - internal/sdk/models/shared/numericcondition.go
+  - internal/sdk/models/shared/numericfactcondition.go
+  - internal/sdk/models/shared/numericnestedcondition.go
+  - internal/sdk/models/shared/numericruletype.go
+  - internal/sdk/models/shared/patterncondition.go
+  - internal/sdk/models/shared/patternfactcondition.go
+  - internal/sdk/models/shared/patternnestedcondition.go
+  - internal/sdk/models/shared/patternruletype.go
+  - internal/sdk/models/shared/regexcondition.go
+  - internal/sdk/models/shared/regexfactcondition.go
+  - internal/sdk/models/shared/regexnestedcondition.go
+  - internal/sdk/models/shared/regexruletype.go
+  - internal/sdk/models/shared/security.go
+  - internal/sdk/models/shared/updatevalidationrule.go
+  - internal/sdk/models/shared/usedby.go
+  - internal/sdk/models/shared/validationrule.go
+  - internal/sdk/retry/config.go
+  - internal/sdk/sdk.go
+  - internal/sdk/types/bigint.go
+  - internal/sdk/types/date.go
+  - internal/sdk/types/datetime.go
+  - internal/sdk/types/decimal.go
+  - internal/sdk/types/pointers.go
+  - internal/sdk/validationrules.go
+  - internal/validators/DateValidator.go
+  - internal/validators/ExactlyOneChild.go
+  - internal/validators/JSONParseValidator.go
+  - internal/validators/RFC3339Validator.go
+  - internal/validators/boolvalidators/not_null.go
+  - internal/validators/float32validators/not_null.go
+  - internal/validators/float64validators/not_null.go
+  - internal/validators/int32validators/not_null.go
+  - internal/validators/int64validators/not_null.go
+  - internal/validators/listvalidators/not_null.go
+  - internal/validators/mapvalidators/not_null.go
+  - internal/validators/numbervalidators/not_null.go
+  - internal/validators/objectvalidators/not_null.go
+  - internal/validators/setvalidators/not_null.go
+  - internal/validators/stringvalidators/not_null.go
+  - main.go
+  - terraform-registry-manifest.json
+  - tools/tools.go
+examples:
+  getValidationRules:
+    speakeasy-default-get-validation-rules:
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {"message": "Invalid request body"}
+        "500":
+          application/json: {"message": "Unknown API Error"}
+  createValidationRule:
+    speakeasy-default-create-validation-rule:
+      responses:
+        "201":
+          application/json: {"title": "<value>", "_schema_version": "<value>", "_id": "<id>", "_organization_id": "<id>", "created_at": "1734524290635", "updated_at": "1735660708266", "created_by": "<value>", "updated_by": "<value>"}
+  getValidationRuleById:
+    speakeasy-default-get-validation-rule-by-id:
+      parameters:
+        path:
+          ruleId: "<id>"
+      responses:
+        "200":
+          application/json: {"title": "<value>", "_schema_version": "<value>", "_id": "<id>", "_organization_id": "<id>", "created_at": "1714091829843", "updated_at": "1735622725777", "created_by": "<value>", "updated_by": "<value>"}
+        "404":
+          application/json: {"message": "Validation rule not found"}
+        "500":
+          application/json: {"message": "Unknown API Error"}
+  updateValidationRule:
+    speakeasy-default-update-validation-rule:
+      parameters:
+        path:
+          ruleId: "<id>"
+      responses:
+        "200":
+          application/json: {"title": "<value>", "_schema_version": "<value>", "_id": "<id>", "_organization_id": "<id>", "created_at": "1721087672716", "updated_at": "1735603935439", "created_by": "<value>", "updated_by": "<value>"}
+        "400":
+          application/json: {"message": "Invalid request body"}
+        "500":
+          application/json: {"message": "Unknown API Error"}
+  deleteValidationRule:
+    speakeasy-default-delete-validation-rule:
+      parameters:
+        path:
+          ruleId: "<id>"
+      responses:
+        "500":
+          application/json: {"message": "Unknown API Error"}
+  addUsedByReference:
+    speakeasy-default-add-used-by-reference:
+      parameters:
+        path:
+          ruleId: "<id>"
+      responses:
+        "200":
+          application/json: {"title": "<value>", "_schema_version": "<value>", "_id": "<id>", "_organization_id": "<id>", "created_at": "1712880510479", "updated_at": "1735622751944", "created_by": "<value>", "updated_by": "<value>"}
+        "400":
+          application/json: {"message": "Invalid request body"}
+        "404":
+          application/json: {"message": "Validation rule not found"}
+        "500":
+          application/json: {"message": "Unknown API Error"}
+  removeUsedByReference:
+    speakeasy-default-remove-used-by-reference:
+      parameters:
+        path:
+          ruleId: "<id>"
+      responses:
+        "200":
+          application/json: {"title": "<value>", "_schema_version": "<value>", "_id": "<id>", "_organization_id": "<id>", "created_at": "1729624850310", "updated_at": "1735650820862", "created_by": "<value>", "updated_by": "<value>"}
+        "400":
+          application/json: {"message": "Invalid request body"}
+        "404":
+          application/json: {"message": "Validation rule not found"}
+        "500":
+          application/json: {"message": "Unknown API Error"}
+examplesVersion: 1.0.2
