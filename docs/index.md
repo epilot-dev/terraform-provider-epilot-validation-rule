@@ -16,7 +16,7 @@ terraform {
   required_providers {
     epilot-validation-rule = {
       source  = "epilot-dev/epilot-validation-rule"
-      version = "0.18.3"
+      version = "0.18.4"
     }
   }
 }
