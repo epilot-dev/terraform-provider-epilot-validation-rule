@@ -10,7 +10,6 @@ import (
 type RemoveUsedByReferenceRequest struct {
 	// The unique identifier of the validation rule to update.
 	RuleID string `pathParam:"style=simple,explode=false,name=ruleId"`
-	// The used_by reference to remove
 	UsedBy *shared.UsedBy `request:"mediaType=application/json"`
 }
 

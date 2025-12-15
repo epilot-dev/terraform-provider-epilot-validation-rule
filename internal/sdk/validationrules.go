@@ -1168,8 +1168,6 @@ func (s *ValidationRules) DeleteValidationRule(ctx context.Context, request oper
 
 }
 
-// AddUsedByReference - Add a reference to the used_by array
-// Adds a single reference to the used_by array of a validation rule
 func (s *ValidationRules) AddUsedByReference(ctx context.Context, request operations.AddUsedByReferenceRequest, opts ...operations.Option) (*operations.AddUsedByReferenceResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
@@ -1437,8 +1435,6 @@ func (s *ValidationRules) AddUsedByReference(ctx context.Context, request operat
 
 }
 
-// RemoveUsedByReference - Remove a reference from the used_by array
-// Removes a specific reference from the used_by array of a validation rule
 func (s *ValidationRules) RemoveUsedByReference(ctx context.Context, request operations.RemoveUsedByReferenceRequest, opts ...operations.Option) (*operations.RemoveUsedByReferenceResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
