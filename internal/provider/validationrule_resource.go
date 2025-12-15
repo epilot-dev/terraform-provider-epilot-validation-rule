@@ -49,7 +49,6 @@ type ValidationRuleResourceModel struct {
 	Title          types.String                            `tfsdk:"title"`
 	UpdatedAt      types.String                            `tfsdk:"updated_at"`
 	UpdatedBy      types.String                            `tfsdk:"updated_by"`
-	UsedBy         []tfTypes.UsedBy                        `tfsdk:"used_by"`
 }
 
 func (r *ValidationRuleResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -8042,40 +8041,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 			"updated_by": schema.StringAttribute{
 				Computed:    true,
 				Description: `User ID of the last updater.`,
-			},
-			"used_by": schema.ListNestedAttribute{
-				Computed: true,
-				Optional: true,
-				NestedObject: schema.NestedAttributeObject{
-					Validators: []validator.Object{
-						speakeasy_objectvalidators.NotNull(),
-					},
-					Attributes: map[string]schema.Attribute{
-						"schema_slug": schema.StringAttribute{
-							Computed:    true,
-							Optional:    true,
-							Description: `Slug of the schema using this rule for entities.`,
-						},
-						"source_id": schema.StringAttribute{
-							Computed:    true,
-							Optional:    true,
-							Description: `Source identifier for the usage context.`,
-						},
-						"type": schema.StringAttribute{
-							Computed:    true,
-							Optional:    true,
-							Description: `The context in which the rule is used (e.g., journey or entity). Not Null; must be one of ["journey", "entity"]`,
-							Validators: []validator.String{
-								speakeasy_stringvalidators.NotNull(),
-								stringvalidator.OneOf(
-									"journey",
-									"entity",
-								),
-							},
-						},
-					},
-				},
-				Description: `Describes where and how a validation rule is applied.`,
 			},
 		},
 	}

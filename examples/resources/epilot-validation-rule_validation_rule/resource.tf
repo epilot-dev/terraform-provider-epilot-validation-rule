@@ -38,11 +38,4 @@ resource "epilot-validation-rule_validation_rule" "my_validationrule" {
     }
   }
   title = "...my_title..."
-  used_by = [
-    {
-      schema_slug = "...my_schema_slug..."
-      source_id   = "...my_source_id..."
-      type        = "journey"
-    }
-  ]
 }

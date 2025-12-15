@@ -8,34 +8,34 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-validation-rule/internal/sdk/internal/utils"
 )
 
-// RegexRuleTypeType - Indicates this is a regex-based validation rule.
-type RegexRuleTypeType string
+// Type - Indicates this is a regex-based validation rule.
+type Type string
 
 const (
-	RegexRuleTypeTypeRegex RegexRuleTypeType = "regex"
+	TypeRegex Type = "regex"
 )
 
-func (e RegexRuleTypeType) ToPointer() *RegexRuleTypeType {
+func (e Type) ToPointer() *Type {
 	return &e
 }
-func (e *RegexRuleTypeType) UnmarshalJSON(data []byte) error {
+func (e *Type) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "regex":
-		*e = RegexRuleTypeType(v)
+		*e = Type(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for RegexRuleTypeType: %v", v)
+		return fmt.Errorf("invalid value for Type: %v", v)
 	}
 }
 
 // RegexRuleType - Validation rule that uses a regular expression to validate input.
 type RegexRuleType struct {
 	// Indicates this is a regex-based validation rule.
-	Type RegexRuleTypeType `json:"type"`
+	Type Type `json:"type"`
 	// Condition definition for a regex-based validation rule (2 levels deep)
 	Conditions RegexCondition `json:"conditions"`
 }
@@ -51,9 +51,9 @@ func (r *RegexRuleType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *RegexRuleType) GetType() RegexRuleTypeType {
+func (o *RegexRuleType) GetType() Type {
 	if o == nil {
-		return RegexRuleTypeType("")
+		return Type("")
 	}
 	return o.Type
 }

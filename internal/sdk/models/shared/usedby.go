@@ -7,18 +7,18 @@ import (
 	"fmt"
 )
 
-// Type - The context in which the rule is used (e.g., journey or entity).
-type Type string
+// UsedByType - The context in which the rule is used (e.g., journey or entity).
+type UsedByType string
 
 const (
-	TypeJourney Type = "journey"
-	TypeEntity  Type = "entity"
+	UsedByTypeJourney UsedByType = "journey"
+	UsedByTypeEntity  UsedByType = "entity"
 )
 
-func (e Type) ToPointer() *Type {
+func (e UsedByType) ToPointer() *UsedByType {
 	return &e
 }
-func (e *Type) UnmarshalJSON(data []byte) error {
+func (e *UsedByType) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -27,26 +27,26 @@ func (e *Type) UnmarshalJSON(data []byte) error {
 	case "journey":
 		fallthrough
 	case "entity":
-		*e = Type(v)
+		*e = UsedByType(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for Type: %v", v)
+		return fmt.Errorf("invalid value for UsedByType: %v", v)
 	}
 }
 
 // UsedBy - Describes where and how a validation rule is applied.
 type UsedBy struct {
 	// The context in which the rule is used (e.g., journey or entity).
-	Type Type `json:"type"`
+	Type UsedByType `json:"type"`
 	// Slug of the schema using this rule for entities.
 	SchemaSlug *string `json:"schema_slug,omitempty"`
 	// Source identifier for the usage context.
 	SourceID *string `json:"source_id,omitempty"`
 }
 
-func (o *UsedBy) GetType() Type {
+func (o *UsedBy) GetType() UsedByType {
 	if o == nil {
-		return Type("")
+		return UsedByType("")
 	}
 	return o.Type
 }

@@ -32,7 +32,6 @@ data "epilot-validation-rule_validation_rule" "my_validationrule" {
 - `title` (String) Title of the validation rule.
 - `updated_at` (String) ISO timestamp when the rule was last updated.
 - `updated_by` (String) User ID of the last updater.
-- `used_by` (Attributes List) Describes where and how a validation rule is applied. (see [below for nested schema](#nestedatt--used_by))
 
 <a id="nestedatt--rule"></a>
 ### Nested Schema for `rule`
@@ -2974,21 +2973,3 @@ Read-Only:
 Read-Only:
 
 - `error_message` (String) Custom error message
-
-
-
-
-
-
-
-
-
-
-<a id="nestedatt--used_by"></a>
-### Nested Schema for `used_by`
-
-Read-Only:
-
-- `schema_slug` (String) Slug of the schema using this rule for entities.
-- `source_id` (String) Source identifier for the usage context.
-- `type` (String) The context in which the rule is used (e.g., journey or entity).

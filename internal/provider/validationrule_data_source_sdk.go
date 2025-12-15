@@ -1797,17 +1797,6 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 		r.Title = types.StringValue(resp.Title)
 		r.UpdatedAt = types.StringValue(resp.UpdatedAt)
 		r.UpdatedBy = types.StringValue(resp.UpdatedBy)
-		r.UsedBy = []tfTypes.UsedBy{}
-
-		for _, usedByItem := range resp.UsedBy {
-			var usedBy tfTypes.UsedBy
-
-			usedBy.SchemaSlug = types.StringPointerValue(usedByItem.SchemaSlug)
-			usedBy.SourceID = types.StringPointerValue(usedByItem.SourceID)
-			usedBy.Type = types.StringValue(string(usedByItem.Type))
-
-			r.UsedBy = append(r.UsedBy, usedBy)
-		}
 	}
 
 	return diags

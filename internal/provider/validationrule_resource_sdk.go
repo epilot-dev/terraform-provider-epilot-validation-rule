@@ -1797,17 +1797,6 @@ func (r *ValidationRuleResourceModel) RefreshFromSharedValidationRule(ctx contex
 		r.Title = types.StringValue(resp.Title)
 		r.UpdatedAt = types.StringValue(resp.UpdatedAt)
 		r.UpdatedBy = types.StringValue(resp.UpdatedBy)
-		r.UsedBy = []tfTypes.UsedBy{}
-
-		for _, usedByItem := range resp.UsedBy {
-			var usedBy tfTypes.UsedBy
-
-			usedBy.SchemaSlug = types.StringPointerValue(usedByItem.SchemaSlug)
-			usedBy.SourceID = types.StringPointerValue(usedByItem.SourceID)
-			usedBy.Type = types.StringValue(string(usedByItem.Type))
-
-			r.UsedBy = append(r.UsedBy, usedBy)
-		}
 	}
 
 	return diags
@@ -1872,31 +1861,10 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 	} else {
 		placeholder = nil
 	}
-	usedBy := make([]shared.UsedBy, 0, len(r.UsedBy))
-	for _, usedByItem := range r.UsedBy {
-		typeVar := shared.Type(usedByItem.Type.ValueString())
-		schemaSlug := new(string)
-		if !usedByItem.SchemaSlug.IsUnknown() && !usedByItem.SchemaSlug.IsNull() {
-			*schemaSlug = usedByItem.SchemaSlug.ValueString()
-		} else {
-			schemaSlug = nil
-		}
-		sourceID := new(string)
-		if !usedByItem.SourceID.IsUnknown() && !usedByItem.SourceID.IsNull() {
-			*sourceID = usedByItem.SourceID.ValueString()
-		} else {
-			sourceID = nil
-		}
-		usedBy = append(usedBy, shared.UsedBy{
-			Type:       typeVar,
-			SchemaSlug: schemaSlug,
-			SourceID:   sourceID,
-		})
-	}
 	var rule shared.CreateValidationRuleRequestRule
 	var regexRuleType *shared.RegexRuleType
 	if r.Rule.RegexRuleType != nil {
-		typeVar1 := shared.RegexRuleTypeType(r.Rule.RegexRuleType.Type.ValueString())
+		typeVar := shared.Type(r.Rule.RegexRuleType.Type.ValueString())
 		var conditions shared.RegexCondition
 		var regexCondition1 *shared.RegexCondition1
 		if r.Rule.RegexRuleType.Conditions.One != nil {
@@ -2370,7 +2338,7 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 			}
 		}
 		regexRuleType = &shared.RegexRuleType{
-			Type:       typeVar1,
+			Type:       typeVar,
 			Conditions: conditions,
 		}
 	}
@@ -2381,7 +2349,7 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 	}
 	var patternRuleType *shared.PatternRuleType
 	if r.Rule.PatternRuleType != nil {
-		typeVar2 := shared.PatternRuleTypeType(r.Rule.PatternRuleType.Type.ValueString())
+		typeVar1 := shared.PatternRuleTypeType(r.Rule.PatternRuleType.Type.ValueString())
 		var conditions1 shared.PatternCondition
 		var patternCondition1 *shared.PatternCondition1
 		if r.Rule.PatternRuleType.Conditions.One != nil {
@@ -4684,7 +4652,7 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 			}
 		}
 		patternRuleType = &shared.PatternRuleType{
-			Type:       typeVar2,
+			Type:       typeVar1,
 			Conditions: conditions1,
 		}
 	}
@@ -4695,7 +4663,7 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 	}
 	var numericRuleType *shared.NumericRuleType
 	if r.Rule.NumericRuleType != nil {
-		typeVar3 := shared.NumericRuleTypeType(r.Rule.NumericRuleType.Type.ValueString())
+		typeVar2 := shared.NumericRuleTypeType(r.Rule.NumericRuleType.Type.ValueString())
 		var conditions2 shared.NumericCondition
 		var numericCondition1 *shared.NumericCondition1
 		if r.Rule.NumericRuleType.Conditions.One != nil {
@@ -6398,7 +6366,7 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 			}
 		}
 		numericRuleType = &shared.NumericRuleType{
-			Type:       typeVar3,
+			Type:       typeVar2,
 			Conditions: conditions2,
 		}
 	}
@@ -6410,7 +6378,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 	out := shared.CreateValidationRuleRequest{
 		Title:       title,
 		Placeholder: placeholder,
-		UsedBy:      usedBy,
 		Rule:        rule,
 	}
 
@@ -6432,31 +6399,10 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 	} else {
 		placeholder = nil
 	}
-	usedBy := make([]shared.UsedBy, 0, len(r.UsedBy))
-	for _, usedByItem := range r.UsedBy {
-		typeVar := shared.Type(usedByItem.Type.ValueString())
-		schemaSlug := new(string)
-		if !usedByItem.SchemaSlug.IsUnknown() && !usedByItem.SchemaSlug.IsNull() {
-			*schemaSlug = usedByItem.SchemaSlug.ValueString()
-		} else {
-			schemaSlug = nil
-		}
-		sourceID := new(string)
-		if !usedByItem.SourceID.IsUnknown() && !usedByItem.SourceID.IsNull() {
-			*sourceID = usedByItem.SourceID.ValueString()
-		} else {
-			sourceID = nil
-		}
-		usedBy = append(usedBy, shared.UsedBy{
-			Type:       typeVar,
-			SchemaSlug: schemaSlug,
-			SourceID:   sourceID,
-		})
-	}
 	var rule *shared.ValidationRuleBaseRule
 	var regexRuleType *shared.RegexRuleType
 	if r.Rule.RegexRuleType != nil {
-		typeVar1 := shared.RegexRuleTypeType(r.Rule.RegexRuleType.Type.ValueString())
+		typeVar := shared.Type(r.Rule.RegexRuleType.Type.ValueString())
 		var conditions shared.RegexCondition
 		var regexCondition1 *shared.RegexCondition1
 		if r.Rule.RegexRuleType.Conditions.One != nil {
@@ -6930,7 +6876,7 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 			}
 		}
 		regexRuleType = &shared.RegexRuleType{
-			Type:       typeVar1,
+			Type:       typeVar,
 			Conditions: conditions,
 		}
 	}
@@ -6941,7 +6887,7 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 	}
 	var patternRuleType *shared.PatternRuleType
 	if r.Rule.PatternRuleType != nil {
-		typeVar2 := shared.PatternRuleTypeType(r.Rule.PatternRuleType.Type.ValueString())
+		typeVar1 := shared.PatternRuleTypeType(r.Rule.PatternRuleType.Type.ValueString())
 		var conditions1 shared.PatternCondition
 		var patternCondition1 *shared.PatternCondition1
 		if r.Rule.PatternRuleType.Conditions.One != nil {
@@ -9244,7 +9190,7 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 			}
 		}
 		patternRuleType = &shared.PatternRuleType{
-			Type:       typeVar2,
+			Type:       typeVar1,
 			Conditions: conditions1,
 		}
 	}
@@ -9255,7 +9201,7 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 	}
 	var numericRuleType *shared.NumericRuleType
 	if r.Rule.NumericRuleType != nil {
-		typeVar3 := shared.NumericRuleTypeType(r.Rule.NumericRuleType.Type.ValueString())
+		typeVar2 := shared.NumericRuleTypeType(r.Rule.NumericRuleType.Type.ValueString())
 		var conditions2 shared.NumericCondition
 		var numericCondition1 *shared.NumericCondition1
 		if r.Rule.NumericRuleType.Conditions.One != nil {
@@ -10958,7 +10904,7 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 			}
 		}
 		numericRuleType = &shared.NumericRuleType{
-			Type:       typeVar3,
+			Type:       typeVar2,
 			Conditions: conditions2,
 		}
 	}
@@ -10970,7 +10916,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 	out := shared.ValidationRuleBase{
 		Title:       title,
 		Placeholder: placeholder,
-		UsedBy:      usedBy,
 		Rule:        rule,
 	}
 

@@ -53,13 +53,6 @@ resource "epilot-validation-rule_validation_rule" "my_validationrule" {
     }
   }
   title = "...my_title..."
-  used_by = [
-    {
-      schema_slug = "...my_schema_slug..."
-      source_id   = "...my_source_id..."
-      type        = "journey"
-    }
-  ]
 }
 ```
 
@@ -74,7 +67,6 @@ resource "epilot-validation-rule_validation_rule" "my_validationrule" {
 ### Optional
 
 - `placeholder` (String) Placeholder for the validation rule.
-- `used_by` (Attributes List) Describes where and how a validation rule is applied. (see [below for nested schema](#nestedatt--used_by))
 
 ### Read-Only
 
@@ -3026,24 +3018,6 @@ Optional:
 Optional:
 
 - `error_message` (String) Custom error message
-
-
-
-
-
-
-
-
-
-
-<a id="nestedatt--used_by"></a>
-### Nested Schema for `used_by`
-
-Optional:
-
-- `schema_slug` (String) Slug of the schema using this rule for entities.
-- `source_id` (String) Source identifier for the usage context.
-- `type` (String) The context in which the rule is used (e.g., journey or entity). Not Null; must be one of ["journey", "entity"]
 
 ## Import
 

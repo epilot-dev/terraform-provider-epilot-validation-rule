@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: d6281e06-600f-41ec-b1e1-8b7594d42e13
 management:
-  docChecksum: 78e317545b6e6f21d3c0d14ac47c1473
+  docChecksum: 52d8ee0e521e4341a23cef8b61956952
   docVersion: 1.0.0
   speakeasyVersion: 1.611.0
   generationVersion: 2.694.1
-  releaseVersion: 0.18.4
-  configChecksum: 81b4ec78012e8e73fecae14ce1ddf47d
+  releaseVersion: 0.18.5
+  configChecksum: 62e553407e65581abe9c4f51317d7cc7
 features:
   terraform:
     additionalDependencies: 0.1.0
@@ -100,7 +100,6 @@ generatedFiles:
   - internal/provider/types/regex_rule_type.go
   - internal/provider/types/three.go
   - internal/provider/types/two.go
-  - internal/provider/types/used_by.go
   - internal/provider/utils.go
   - internal/provider/validationrule_data_source.go
   - internal/provider/validationrule_data_source_sdk.go

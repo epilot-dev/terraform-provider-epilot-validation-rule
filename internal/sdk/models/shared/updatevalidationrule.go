@@ -97,10 +97,8 @@ type ValidationRuleBase struct {
 	// Title of the validation rule.
 	Title *string `json:"title,omitempty"`
 	// Placeholder for the validation rule.
-	Placeholder *string `json:"placeholder,omitempty"`
-	// Describes where and how a validation rule is applied.
-	UsedBy []UsedBy                `json:"used_by,omitempty"`
-	Rule   *ValidationRuleBaseRule `json:"rule,omitempty"`
+	Placeholder *string                 `json:"placeholder,omitempty"`
+	Rule        *ValidationRuleBaseRule `json:"rule,omitempty"`
 }
 
 func (o *ValidationRuleBase) GetTitle() *string {
@@ -115,13 +113,6 @@ func (o *ValidationRuleBase) GetPlaceholder() *string {
 		return nil
 	}
 	return o.Placeholder
-}
-
-func (o *ValidationRuleBase) GetUsedBy() []UsedBy {
-	if o == nil {
-		return nil
-	}
-	return o.UsedBy
 }
 
 func (o *ValidationRuleBase) GetRule() *ValidationRuleBaseRule {

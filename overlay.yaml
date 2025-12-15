@@ -47,3 +47,6 @@ actions:
   - target: $["components"]["schemas"]["ValidationRule"]
     update:
       x-speakeasy-entity: ValidationRule
+
+  - target: $["components"]["schemas"]["ValidationRuleBase"]["allOf"][0]["properties"]["used_by"]
+    remove: true
