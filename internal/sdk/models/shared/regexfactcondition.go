@@ -73,11 +73,11 @@ func (p *Params) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *Params) GetErrorMessage() *string {
-	if o == nil {
+func (p *Params) GetErrorMessage() *string {
+	if p == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return p.ErrorMessage
 }
 
 // RegexFactCondition - Fact-based condition for regex validation
@@ -86,10 +86,10 @@ type RegexFactCondition struct {
 	Fact Fact `json:"fact"`
 	// The operator to use for comparison
 	Operator Operator `json:"operator"`
-	// The actual regex
-	Value string `json:"value"`
 	// Additional parameters for the condition
 	Params *Params `json:"params,omitempty"`
+	// The actual regex
+	Value string `json:"value"`
 }
 
 func (r RegexFactCondition) MarshalJSON() ([]byte, error) {
@@ -97,36 +97,36 @@ func (r RegexFactCondition) MarshalJSON() ([]byte, error) {
 }
 
 func (r *RegexFactCondition) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &r, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &r, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *RegexFactCondition) GetFact() Fact {
-	if o == nil {
+func (r *RegexFactCondition) GetFact() Fact {
+	if r == nil {
 		return Fact("")
 	}
-	return o.Fact
+	return r.Fact
 }
 
-func (o *RegexFactCondition) GetOperator() Operator {
-	if o == nil {
+func (r *RegexFactCondition) GetOperator() Operator {
+	if r == nil {
 		return Operator("")
 	}
-	return o.Operator
+	return r.Operator
 }
 
-func (o *RegexFactCondition) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-func (o *RegexFactCondition) GetParams() *Params {
-	if o == nil {
+func (r *RegexFactCondition) GetParams() *Params {
+	if r == nil {
 		return nil
 	}
-	return o.Params
+	return r.Params
+}
+
+func (r *RegexFactCondition) GetValue() string {
+	if r == nil {
+		return ""
+	}
+	return r.Value
 }

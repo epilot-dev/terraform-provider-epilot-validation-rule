@@ -12,11 +12,11 @@ type GetValidationRuleByIDRequest struct {
 	RuleID string `pathParam:"style=simple,explode=false,name=ruleId"`
 }
 
-func (o *GetValidationRuleByIDRequest) GetRuleID() string {
-	if o == nil {
+func (g *GetValidationRuleByIDRequest) GetRuleID() string {
+	if g == nil {
 		return ""
 	}
-	return o.RuleID
+	return g.RuleID
 }
 
 // GetValidationRuleByIDValidationRulesResponseBody - Internal Server Error
@@ -24,11 +24,11 @@ type GetValidationRuleByIDValidationRulesResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *GetValidationRuleByIDValidationRulesResponseBody) GetMessage() *string {
-	if o == nil {
+func (g *GetValidationRuleByIDValidationRulesResponseBody) GetMessage() *string {
+	if g == nil {
 		return nil
 	}
-	return o.Message
+	return g.Message
 }
 
 // GetValidationRuleByIDResponseBody - Validation rule not found
@@ -36,11 +36,11 @@ type GetValidationRuleByIDResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *GetValidationRuleByIDResponseBody) GetMessage() *string {
-	if o == nil {
+func (g *GetValidationRuleByIDResponseBody) GetMessage() *string {
+	if g == nil {
 		return nil
 	}
-	return o.Message
+	return g.Message
 }
 
 type GetValidationRuleByIDResponse struct {
@@ -58,44 +58,44 @@ type GetValidationRuleByIDResponse struct {
 	FiveHundredApplicationJSONObject *GetValidationRuleByIDValidationRulesResponseBody
 }
 
-func (o *GetValidationRuleByIDResponse) GetContentType() string {
-	if o == nil {
+func (g *GetValidationRuleByIDResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetValidationRuleByIDResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetValidationRuleByIDResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetValidationRuleByIDResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetValidationRuleByIDResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
 
-func (o *GetValidationRuleByIDResponse) GetValidationRule() *shared.ValidationRule {
-	if o == nil {
+func (g *GetValidationRuleByIDResponse) GetValidationRule() *shared.ValidationRule {
+	if g == nil {
 		return nil
 	}
-	return o.ValidationRule
+	return g.ValidationRule
 }
 
-func (o *GetValidationRuleByIDResponse) GetFourHundredAndFourApplicationJSONObject() *GetValidationRuleByIDResponseBody {
-	if o == nil {
+func (g *GetValidationRuleByIDResponse) GetFourHundredAndFourApplicationJSONObject() *GetValidationRuleByIDResponseBody {
+	if g == nil {
 		return nil
 	}
-	return o.FourHundredAndFourApplicationJSONObject
+	return g.FourHundredAndFourApplicationJSONObject
 }
 
-func (o *GetValidationRuleByIDResponse) GetFiveHundredApplicationJSONObject() *GetValidationRuleByIDValidationRulesResponseBody {
-	if o == nil {
+func (g *GetValidationRuleByIDResponse) GetFiveHundredApplicationJSONObject() *GetValidationRuleByIDValidationRulesResponseBody {
+	if g == nil {
 		return nil
 	}
-	return o.FiveHundredApplicationJSONObject
+	return g.FiveHundredApplicationJSONObject
 }

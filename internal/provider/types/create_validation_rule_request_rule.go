@@ -3,7 +3,7 @@
 package types
 
 type CreateValidationRuleRequestRule struct {
-	NumericRuleType *NumericRuleType `queryParam:"inline" tfsdk:"numeric_rule_type" tfPlanOnly:"true"`
-	PatternRuleType *PatternRuleType `queryParam:"inline" tfsdk:"pattern_rule_type" tfPlanOnly:"true"`
-	RegexRuleType   *RegexRuleType   `queryParam:"inline" tfsdk:"regex_rule_type" tfPlanOnly:"true"`
+	NumericRuleType *NumericRuleType `queryParam:"inline" tfsdk:"numeric_rule_type"`
+	PatternRuleType *PatternRuleType `queryParam:"inline" tfsdk:"pattern_rule_type"`
+	RegexRuleType   *RegexRuleType   `queryParam:"inline" tfsdk:"regex_rule_type"`
 }

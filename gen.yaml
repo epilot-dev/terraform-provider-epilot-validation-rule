@@ -15,13 +15,16 @@ generation:
   auth:
     oAuth2ClientCredentialsEnabled: false
     oAuth2PasswordEnabled: false
+    hoistGlobalSecurity: true
   sdkHooksConfigAccess: true
+  schemas:
+    allOfMergeStrategy: shallowMerge
+  requestBodyFieldName: ""
+  persistentEdits: {}
   tests:
     generateTests: true
     generateNewTests: false
     skipResponseBodyAssertions: false
-  schemas:
-    allOfMergeStrategy: shallowMerge
   telemetryEnabled: false
 go:
   version: 0.0.1
@@ -40,7 +43,7 @@ go:
   outputModelSuffix: output
   packageName: openapi
 terraform:
-  version: 0.18.5
+  version: 0.19.0
   additionalDataSources: []
   additionalDependencies: {}
   additionalEphemeralResources: []
@@ -51,9 +54,14 @@ terraform:
   allowUnknownFieldsInWeakUnions: false
   author: epilot-dev
   baseErrorName: SDKBaseError
+  debugLogging: {}
   defaultErrorName: SDKError
+  enableCustomCodeRegions: false
+  enableOperationSecurity: false
+  enableOperationServers: false
   enableTypeDeduplication: true
   environmentVariables: []
+  excludeEmptyObjectSchemas: false
   imports:
     option: openapi
     paths:
@@ -62,7 +70,10 @@ terraform:
       operations: operations
       shared: shared
       webhooks: webhooks
+  includeEmptyObjects: false
+  inferUnionDiscriminators: false
   inputModelSuffix: input
   outputModelSuffix: output
   packageName: epilot-validation-rule
-  unionDeserializationStrategy: populated-fields
+  respectRequiredFields: false
+  unionStrategy: populated-fields

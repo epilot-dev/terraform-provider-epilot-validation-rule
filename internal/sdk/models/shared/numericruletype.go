@@ -45,22 +45,22 @@ func (n NumericRuleType) MarshalJSON() ([]byte, error) {
 }
 
 func (n *NumericRuleType) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &n, "", false, []string{"type", "conditions"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &n, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *NumericRuleType) GetType() NumericRuleTypeType {
-	if o == nil {
+func (n *NumericRuleType) GetType() NumericRuleTypeType {
+	if n == nil {
 		return NumericRuleTypeType("")
 	}
-	return o.Type
+	return n.Type
 }
 
-func (o *NumericRuleType) GetConditions() NumericCondition {
-	if o == nil {
+func (n *NumericRuleType) GetConditions() NumericCondition {
+	if n == nil {
 		return NumericCondition{}
 	}
-	return o.Conditions
+	return n.Conditions
 }
