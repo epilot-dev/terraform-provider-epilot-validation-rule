@@ -3,7 +3,7 @@
 package types
 
 type RegexCondition struct {
-	One   *RegexCondition1 `queryParam:"inline" tfsdk:"one" tfPlanOnly:"true"`
-	Two   *RegexCondition2 `queryParam:"inline" tfsdk:"two" tfPlanOnly:"true"`
-	Three *RegexCondition3 `queryParam:"inline" tfsdk:"three" tfPlanOnly:"true"`
+	One   *RegexCondition1 `queryParam:"inline" tfsdk:"one"`
+	Two   *RegexCondition2 `queryParam:"inline" tfsdk:"two"`
+	Three *RegexCondition3 `queryParam:"inline" tfsdk:"three"`
 }

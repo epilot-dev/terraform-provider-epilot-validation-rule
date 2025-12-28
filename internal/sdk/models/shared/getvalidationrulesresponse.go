@@ -6,9 +6,9 @@ type GetValidationRulesResponse struct {
 	Results []ValidationRule `json:"results,omitempty"`
 }
 
-func (o *GetValidationRulesResponse) GetResults() []ValidationRule {
-	if o == nil {
+func (g *GetValidationRulesResponse) GetResults() []ValidationRule {
+	if g == nil {
 		return nil
 	}
-	return o.Results
+	return g.Results
 }

@@ -3,6 +3,6 @@
 package types
 
 type All struct {
-	RegexFactCondition   *RegexFactCondition   `queryParam:"inline" tfsdk:"regex_fact_condition" tfPlanOnly:"true"`
-	RegexNestedCondition *RegexNestedCondition `queryParam:"inline" tfsdk:"regex_nested_condition" tfPlanOnly:"true"`
+	RegexFactCondition   *RegexFactCondition   `queryParam:"inline" tfsdk:"regex_fact_condition"`
+	RegexNestedCondition *RegexNestedCondition `queryParam:"inline" tfsdk:"regex_nested_condition"`
 }

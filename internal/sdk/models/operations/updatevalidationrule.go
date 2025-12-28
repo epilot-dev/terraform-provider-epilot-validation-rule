@@ -14,18 +14,18 @@ type UpdateValidationRuleRequest struct {
 	RequestBody *shared.ValidationRuleBase `request:"mediaType=application/json"`
 }
 
-func (o *UpdateValidationRuleRequest) GetRuleID() string {
-	if o == nil {
+func (u *UpdateValidationRuleRequest) GetRuleID() string {
+	if u == nil {
 		return ""
 	}
-	return o.RuleID
+	return u.RuleID
 }
 
-func (o *UpdateValidationRuleRequest) GetRequestBody() *shared.ValidationRuleBase {
-	if o == nil {
+func (u *UpdateValidationRuleRequest) GetRequestBody() *shared.ValidationRuleBase {
+	if u == nil {
 		return nil
 	}
-	return o.RequestBody
+	return u.RequestBody
 }
 
 // UpdateValidationRuleValidationRulesResponseBody - Internal Server Error
@@ -33,11 +33,11 @@ type UpdateValidationRuleValidationRulesResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *UpdateValidationRuleValidationRulesResponseBody) GetMessage() *string {
-	if o == nil {
+func (u *UpdateValidationRuleValidationRulesResponseBody) GetMessage() *string {
+	if u == nil {
 		return nil
 	}
-	return o.Message
+	return u.Message
 }
 
 // UpdateValidationRuleResponseBody - Bad Request - Invalid request body
@@ -45,11 +45,11 @@ type UpdateValidationRuleResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *UpdateValidationRuleResponseBody) GetMessage() *string {
-	if o == nil {
+func (u *UpdateValidationRuleResponseBody) GetMessage() *string {
+	if u == nil {
 		return nil
 	}
-	return o.Message
+	return u.Message
 }
 
 type UpdateValidationRuleResponse struct {
@@ -67,44 +67,44 @@ type UpdateValidationRuleResponse struct {
 	FiveHundredApplicationJSONObject *UpdateValidationRuleValidationRulesResponseBody
 }
 
-func (o *UpdateValidationRuleResponse) GetContentType() string {
-	if o == nil {
+func (u *UpdateValidationRuleResponse) GetContentType() string {
+	if u == nil {
 		return ""
 	}
-	return o.ContentType
+	return u.ContentType
 }
 
-func (o *UpdateValidationRuleResponse) GetStatusCode() int {
-	if o == nil {
+func (u *UpdateValidationRuleResponse) GetStatusCode() int {
+	if u == nil {
 		return 0
 	}
-	return o.StatusCode
+	return u.StatusCode
 }
 
-func (o *UpdateValidationRuleResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (u *UpdateValidationRuleResponse) GetRawResponse() *http.Response {
+	if u == nil {
 		return nil
 	}
-	return o.RawResponse
+	return u.RawResponse
 }
 
-func (o *UpdateValidationRuleResponse) GetValidationRule() *shared.ValidationRule {
-	if o == nil {
+func (u *UpdateValidationRuleResponse) GetValidationRule() *shared.ValidationRule {
+	if u == nil {
 		return nil
 	}
-	return o.ValidationRule
+	return u.ValidationRule
 }
 
-func (o *UpdateValidationRuleResponse) GetFourHundredApplicationJSONObject() *UpdateValidationRuleResponseBody {
-	if o == nil {
+func (u *UpdateValidationRuleResponse) GetFourHundredApplicationJSONObject() *UpdateValidationRuleResponseBody {
+	if u == nil {
 		return nil
 	}
-	return o.FourHundredApplicationJSONObject
+	return u.FourHundredApplicationJSONObject
 }
 
-func (o *UpdateValidationRuleResponse) GetFiveHundredApplicationJSONObject() *UpdateValidationRuleValidationRulesResponseBody {
-	if o == nil {
+func (u *UpdateValidationRuleResponse) GetFiveHundredApplicationJSONObject() *UpdateValidationRuleValidationRulesResponseBody {
+	if u == nil {
 		return nil
 	}
-	return o.FiveHundredApplicationJSONObject
+	return u.FiveHundredApplicationJSONObject
 }
