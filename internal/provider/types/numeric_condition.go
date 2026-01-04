@@ -3,7 +3,7 @@
 package types
 
 type NumericCondition struct {
-	One   *NumericCondition1 `queryParam:"inline" tfsdk:"one" tfPlanOnly:"true"`
-	Two   *NumericCondition2 `queryParam:"inline" tfsdk:"two" tfPlanOnly:"true"`
-	Three *NumericCondition3 `queryParam:"inline" tfsdk:"three" tfPlanOnly:"true"`
+	One   *NumericCondition1 `queryParam:"inline" tfsdk:"one"`
+	Two   *NumericCondition2 `queryParam:"inline" tfsdk:"two"`
+	Three *NumericCondition3 `queryParam:"inline" tfsdk:"three"`
 }

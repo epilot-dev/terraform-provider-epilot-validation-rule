@@ -3,7 +3,7 @@
 package types
 
 type RegexNestedCondition struct {
-	One   *One   `queryParam:"inline" tfsdk:"one" tfPlanOnly:"true"`
-	Two   *Two   `queryParam:"inline" tfsdk:"two" tfPlanOnly:"true"`
-	Three *Three `queryParam:"inline" tfsdk:"three" tfPlanOnly:"true"`
+	One   *One   `queryParam:"inline" tfsdk:"one"`
+	Two   *Two   `queryParam:"inline" tfsdk:"two"`
+	Three *Three `queryParam:"inline" tfsdk:"three"`
 }
