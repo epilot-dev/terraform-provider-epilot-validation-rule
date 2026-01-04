@@ -3,6 +3,6 @@
 package types
 
 type NumericConditionAll struct {
-	NumericFactCondition   *NumericFactCondition   `queryParam:"inline" tfsdk:"numeric_fact_condition" tfPlanOnly:"true"`
-	NumericNestedCondition *NumericNestedCondition `queryParam:"inline" tfsdk:"numeric_nested_condition" tfPlanOnly:"true"`
+	NumericFactCondition   *NumericFactCondition   `queryParam:"inline" tfsdk:"numeric_fact_condition"`
+	NumericNestedCondition *NumericNestedCondition `queryParam:"inline" tfsdk:"numeric_nested_condition"`
 }

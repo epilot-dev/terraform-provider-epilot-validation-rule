@@ -10,21 +10,22 @@ import (
 type RemoveUsedByReferenceRequest struct {
 	// The unique identifier of the validation rule to update.
 	RuleID string `pathParam:"style=simple,explode=false,name=ruleId"`
+	// The used_by reference to remove
 	UsedBy *shared.UsedBy `request:"mediaType=application/json"`
 }
 
-func (o *RemoveUsedByReferenceRequest) GetRuleID() string {
-	if o == nil {
+func (r *RemoveUsedByReferenceRequest) GetRuleID() string {
+	if r == nil {
 		return ""
 	}
-	return o.RuleID
+	return r.RuleID
 }
 
-func (o *RemoveUsedByReferenceRequest) GetUsedBy() *shared.UsedBy {
-	if o == nil {
+func (r *RemoveUsedByReferenceRequest) GetUsedBy() *shared.UsedBy {
+	if r == nil {
 		return nil
 	}
-	return o.UsedBy
+	return r.UsedBy
 }
 
 // RemoveUsedByReferenceValidationRulesResponseResponseBody - Internal Server Error
@@ -32,11 +33,11 @@ type RemoveUsedByReferenceValidationRulesResponseResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *RemoveUsedByReferenceValidationRulesResponseResponseBody) GetMessage() *string {
-	if o == nil {
+func (r *RemoveUsedByReferenceValidationRulesResponseResponseBody) GetMessage() *string {
+	if r == nil {
 		return nil
 	}
-	return o.Message
+	return r.Message
 }
 
 // RemoveUsedByReferenceValidationRulesResponseBody - Validation rule not found
@@ -44,11 +45,11 @@ type RemoveUsedByReferenceValidationRulesResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *RemoveUsedByReferenceValidationRulesResponseBody) GetMessage() *string {
-	if o == nil {
+func (r *RemoveUsedByReferenceValidationRulesResponseBody) GetMessage() *string {
+	if r == nil {
 		return nil
 	}
-	return o.Message
+	return r.Message
 }
 
 // RemoveUsedByReferenceResponseBody - Bad Request - Invalid request body
@@ -56,11 +57,11 @@ type RemoveUsedByReferenceResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *RemoveUsedByReferenceResponseBody) GetMessage() *string {
-	if o == nil {
+func (r *RemoveUsedByReferenceResponseBody) GetMessage() *string {
+	if r == nil {
 		return nil
 	}
-	return o.Message
+	return r.Message
 }
 
 type RemoveUsedByReferenceResponse struct {
@@ -80,51 +81,51 @@ type RemoveUsedByReferenceResponse struct {
 	FiveHundredApplicationJSONObject *RemoveUsedByReferenceValidationRulesResponseResponseBody
 }
 
-func (o *RemoveUsedByReferenceResponse) GetContentType() string {
-	if o == nil {
+func (r *RemoveUsedByReferenceResponse) GetContentType() string {
+	if r == nil {
 		return ""
 	}
-	return o.ContentType
+	return r.ContentType
 }
 
-func (o *RemoveUsedByReferenceResponse) GetStatusCode() int {
-	if o == nil {
+func (r *RemoveUsedByReferenceResponse) GetStatusCode() int {
+	if r == nil {
 		return 0
 	}
-	return o.StatusCode
+	return r.StatusCode
 }
 
-func (o *RemoveUsedByReferenceResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (r *RemoveUsedByReferenceResponse) GetRawResponse() *http.Response {
+	if r == nil {
 		return nil
 	}
-	return o.RawResponse
+	return r.RawResponse
 }
 
-func (o *RemoveUsedByReferenceResponse) GetValidationRule() *shared.ValidationRule {
-	if o == nil {
+func (r *RemoveUsedByReferenceResponse) GetValidationRule() *shared.ValidationRule {
+	if r == nil {
 		return nil
 	}
-	return o.ValidationRule
+	return r.ValidationRule
 }
 
-func (o *RemoveUsedByReferenceResponse) GetFourHundredApplicationJSONObject() *RemoveUsedByReferenceResponseBody {
-	if o == nil {
+func (r *RemoveUsedByReferenceResponse) GetFourHundredApplicationJSONObject() *RemoveUsedByReferenceResponseBody {
+	if r == nil {
 		return nil
 	}
-	return o.FourHundredApplicationJSONObject
+	return r.FourHundredApplicationJSONObject
 }
 
-func (o *RemoveUsedByReferenceResponse) GetFourHundredAndFourApplicationJSONObject() *RemoveUsedByReferenceValidationRulesResponseBody {
-	if o == nil {
+func (r *RemoveUsedByReferenceResponse) GetFourHundredAndFourApplicationJSONObject() *RemoveUsedByReferenceValidationRulesResponseBody {
+	if r == nil {
 		return nil
 	}
-	return o.FourHundredAndFourApplicationJSONObject
+	return r.FourHundredAndFourApplicationJSONObject
 }
 
-func (o *RemoveUsedByReferenceResponse) GetFiveHundredApplicationJSONObject() *RemoveUsedByReferenceValidationRulesResponseResponseBody {
-	if o == nil {
+func (r *RemoveUsedByReferenceResponse) GetFiveHundredApplicationJSONObject() *RemoveUsedByReferenceValidationRulesResponseResponseBody {
+	if r == nil {
 		return nil
 	}
-	return o.FiveHundredApplicationJSONObject
+	return r.FiveHundredApplicationJSONObject
 }
