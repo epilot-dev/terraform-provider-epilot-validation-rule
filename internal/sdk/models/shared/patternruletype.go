@@ -45,22 +45,22 @@ func (p PatternRuleType) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PatternRuleType) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"type", "conditions"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *PatternRuleType) GetType() PatternRuleTypeType {
-	if o == nil {
+func (p *PatternRuleType) GetType() PatternRuleTypeType {
+	if p == nil {
 		return PatternRuleTypeType("")
 	}
-	return o.Type
+	return p.Type
 }
 
-func (o *PatternRuleType) GetConditions() PatternCondition {
-	if o == nil {
+func (p *PatternRuleType) GetConditions() PatternCondition {
+	if p == nil {
 		return PatternCondition{}
 	}
-	return o.Conditions
+	return p.Conditions
 }

@@ -1869,18 +1869,15 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 		var regexCondition1 *shared.RegexCondition1
 		if r.Rule.RegexRuleType.Conditions.One != nil {
 			all := make([]shared.All, 0, len(r.Rule.RegexRuleType.Conditions.One.All))
-			for _, allItem := range r.Rule.RegexRuleType.Conditions.One.All {
-				if allItem.RegexFactCondition != nil {
-					fact := shared.Fact(allItem.RegexFactCondition.Fact.ValueString())
-					operator := shared.Operator(allItem.RegexFactCondition.Operator.ValueString())
-					var value string
-					value = allItem.RegexFactCondition.Value.ValueString()
-
+			for allItem := range r.Rule.RegexRuleType.Conditions.One.All {
+				if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition != nil {
+					fact := shared.Fact(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Fact.ValueString())
+					operator := shared.Operator(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Operator.ValueString())
 					var params *shared.Params
-					if allItem.RegexFactCondition.Params != nil {
+					if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Params != nil {
 						errorMessage := new(string)
-						if !allItem.RegexFactCondition.Params.ErrorMessage.IsUnknown() && !allItem.RegexFactCondition.Params.ErrorMessage.IsNull() {
-							*errorMessage = allItem.RegexFactCondition.Params.ErrorMessage.ValueString()
+						if !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Params.ErrorMessage.IsNull() {
+							*errorMessage = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Params.ErrorMessage.ValueString()
 						} else {
 							errorMessage = nil
 						}
@@ -1888,32 +1885,32 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							ErrorMessage: errorMessage,
 						}
 					}
+					var value string
+					value = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Value.ValueString()
+
 					regexFactCondition := shared.RegexFactCondition{
 						Fact:     fact,
 						Operator: operator,
-						Value:    value,
 						Params:   params,
+						Value:    value,
 					}
 					all = append(all, shared.All{
 						RegexFactCondition: &regexFactCondition,
 					})
 				}
-				if allItem.RegexNestedCondition != nil {
+				if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition != nil {
 					var regexNestedCondition shared.RegexNestedCondition
 					var one *shared.One
-					if allItem.RegexNestedCondition.One != nil {
-						all1 := make([]shared.RegexFactCondition, 0, len(allItem.RegexNestedCondition.One.All))
-						for _, allItem1 := range allItem.RegexNestedCondition.One.All {
-							fact1 := shared.Fact(allItem1.Fact.ValueString())
-							operator1 := shared.Operator(allItem1.Operator.ValueString())
-							var value1 string
-							value1 = allItem1.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One != nil {
+						all1 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All))
+						for allIndex := range r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All {
+							fact1 := shared.Fact(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Fact.ValueString())
+							operator1 := shared.Operator(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Operator.ValueString())
 							var params1 *shared.Params
-							if allItem1.Params != nil {
+							if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Params != nil {
 								errorMessage1 := new(string)
-								if !allItem1.Params.ErrorMessage.IsUnknown() && !allItem1.Params.ErrorMessage.IsNull() {
-									*errorMessage1 = allItem1.Params.ErrorMessage.ValueString()
+								if !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Params.ErrorMessage.IsNull() {
+									*errorMessage1 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage1 = nil
 								}
@@ -1921,11 +1918,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage1,
 								}
 							}
+							var value1 string
+							value1 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Value.ValueString()
+
 							all1 = append(all1, shared.RegexFactCondition{
 								Fact:     fact1,
 								Operator: operator1,
-								Value:    value1,
 								Params:   params1,
+								Value:    value1,
 							})
 						}
 						one = &shared.One{
@@ -1938,19 +1938,16 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var two *shared.Two
-					if allItem.RegexNestedCondition.Two != nil {
-						anyVar := make([]shared.RegexFactCondition, 0, len(allItem.RegexNestedCondition.Two.Any))
-						for _, anyItem := range allItem.RegexNestedCondition.Two.Any {
-							fact2 := shared.Fact(anyItem.Fact.ValueString())
-							operator2 := shared.Operator(anyItem.Operator.ValueString())
-							var value2 string
-							value2 = anyItem.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two != nil {
+						anyVar := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any))
+						for anyIndex := range r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any {
+							fact2 := shared.Fact(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Fact.ValueString())
+							operator2 := shared.Operator(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Operator.ValueString())
 							var params2 *shared.Params
-							if anyItem.Params != nil {
+							if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Params != nil {
 								errorMessage2 := new(string)
-								if !anyItem.Params.ErrorMessage.IsUnknown() && !anyItem.Params.ErrorMessage.IsNull() {
-									*errorMessage2 = anyItem.Params.ErrorMessage.ValueString()
+								if !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Params.ErrorMessage.IsNull() {
+									*errorMessage2 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage2 = nil
 								}
@@ -1958,11 +1955,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage2,
 								}
 							}
+							var value2 string
+							value2 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Value.ValueString()
+
 							anyVar = append(anyVar, shared.RegexFactCondition{
 								Fact:     fact2,
 								Operator: operator2,
-								Value:    value2,
 								Params:   params2,
+								Value:    value2,
 							})
 						}
 						two = &shared.Two{
@@ -1975,17 +1975,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var three *shared.Three
-					if allItem.RegexNestedCondition.Three != nil {
-						fact3 := shared.Fact(allItem.RegexNestedCondition.Three.Not.Fact.ValueString())
-						operator3 := shared.Operator(allItem.RegexNestedCondition.Three.Not.Operator.ValueString())
-						var value3 string
-						value3 = allItem.RegexNestedCondition.Three.Not.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three != nil {
+						fact3 := shared.Fact(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Fact.ValueString())
+						operator3 := shared.Operator(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Operator.ValueString())
 						var params3 *shared.Params
-						if allItem.RegexNestedCondition.Three.Not.Params != nil {
+						if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Params != nil {
 							errorMessage3 := new(string)
-							if !allItem.RegexNestedCondition.Three.Not.Params.ErrorMessage.IsUnknown() && !allItem.RegexNestedCondition.Three.Not.Params.ErrorMessage.IsNull() {
-								*errorMessage3 = allItem.RegexNestedCondition.Three.Not.Params.ErrorMessage.ValueString()
+							if !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.IsNull() {
+								*errorMessage3 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage3 = nil
 							}
@@ -1993,11 +1990,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage3,
 							}
 						}
+						var value3 string
+						value3 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Value.ValueString()
+
 						not := shared.RegexFactCondition{
 							Fact:     fact3,
 							Operator: operator3,
-							Value:    value3,
 							Params:   params3,
+							Value:    value3,
 						}
 						three = &shared.Three{
 							Not: not,
@@ -2025,18 +2025,15 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 		var regexCondition2 *shared.RegexCondition2
 		if r.Rule.RegexRuleType.Conditions.Two != nil {
 			anyVar1 := make([]shared.Any, 0, len(r.Rule.RegexRuleType.Conditions.Two.Any))
-			for _, anyItem1 := range r.Rule.RegexRuleType.Conditions.Two.Any {
-				if anyItem1.RegexFactCondition != nil {
-					fact4 := shared.Fact(anyItem1.RegexFactCondition.Fact.ValueString())
-					operator4 := shared.Operator(anyItem1.RegexFactCondition.Operator.ValueString())
-					var value4 string
-					value4 = anyItem1.RegexFactCondition.Value.ValueString()
-
+			for anyItem := range r.Rule.RegexRuleType.Conditions.Two.Any {
+				if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition != nil {
+					fact4 := shared.Fact(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Fact.ValueString())
+					operator4 := shared.Operator(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Operator.ValueString())
 					var params4 *shared.Params
-					if anyItem1.RegexFactCondition.Params != nil {
+					if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Params != nil {
 						errorMessage4 := new(string)
-						if !anyItem1.RegexFactCondition.Params.ErrorMessage.IsUnknown() && !anyItem1.RegexFactCondition.Params.ErrorMessage.IsNull() {
-							*errorMessage4 = anyItem1.RegexFactCondition.Params.ErrorMessage.ValueString()
+						if !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Params.ErrorMessage.IsNull() {
+							*errorMessage4 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Params.ErrorMessage.ValueString()
 						} else {
 							errorMessage4 = nil
 						}
@@ -2044,32 +2041,32 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							ErrorMessage: errorMessage4,
 						}
 					}
+					var value4 string
+					value4 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Value.ValueString()
+
 					regexFactCondition1 := shared.RegexFactCondition{
 						Fact:     fact4,
 						Operator: operator4,
-						Value:    value4,
 						Params:   params4,
+						Value:    value4,
 					}
 					anyVar1 = append(anyVar1, shared.Any{
 						RegexFactCondition: &regexFactCondition1,
 					})
 				}
-				if anyItem1.RegexNestedCondition != nil {
+				if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition != nil {
 					var regexNestedCondition1 shared.RegexNestedCondition
 					var eleven *shared.One
-					if anyItem1.RegexNestedCondition.One != nil {
-						all2 := make([]shared.RegexFactCondition, 0, len(anyItem1.RegexNestedCondition.One.All))
-						for _, allItem2 := range anyItem1.RegexNestedCondition.One.All {
-							fact5 := shared.Fact(allItem2.Fact.ValueString())
-							operator5 := shared.Operator(allItem2.Operator.ValueString())
-							var value5 string
-							value5 = allItem2.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One != nil {
+						all2 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All))
+						for allIndex1 := range r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All {
+							fact5 := shared.Fact(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Fact.ValueString())
+							operator5 := shared.Operator(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Operator.ValueString())
 							var params5 *shared.Params
-							if allItem2.Params != nil {
+							if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Params != nil {
 								errorMessage5 := new(string)
-								if !allItem2.Params.ErrorMessage.IsUnknown() && !allItem2.Params.ErrorMessage.IsNull() {
-									*errorMessage5 = allItem2.Params.ErrorMessage.ValueString()
+								if !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Params.ErrorMessage.IsNull() {
+									*errorMessage5 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage5 = nil
 								}
@@ -2077,11 +2074,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage5,
 								}
 							}
+							var value5 string
+							value5 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Value.ValueString()
+
 							all2 = append(all2, shared.RegexFactCondition{
 								Fact:     fact5,
 								Operator: operator5,
-								Value:    value5,
 								Params:   params5,
+								Value:    value5,
 							})
 						}
 						eleven = &shared.One{
@@ -2094,19 +2094,16 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var twentyOne *shared.Two
-					if anyItem1.RegexNestedCondition.Two != nil {
-						anyVar2 := make([]shared.RegexFactCondition, 0, len(anyItem1.RegexNestedCondition.Two.Any))
-						for _, anyItem2 := range anyItem1.RegexNestedCondition.Two.Any {
-							fact6 := shared.Fact(anyItem2.Fact.ValueString())
-							operator6 := shared.Operator(anyItem2.Operator.ValueString())
-							var value6 string
-							value6 = anyItem2.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two != nil {
+						anyVar2 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any))
+						for anyIndex1 := range r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any {
+							fact6 := shared.Fact(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Fact.ValueString())
+							operator6 := shared.Operator(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Operator.ValueString())
 							var params6 *shared.Params
-							if anyItem2.Params != nil {
+							if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Params != nil {
 								errorMessage6 := new(string)
-								if !anyItem2.Params.ErrorMessage.IsUnknown() && !anyItem2.Params.ErrorMessage.IsNull() {
-									*errorMessage6 = anyItem2.Params.ErrorMessage.ValueString()
+								if !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Params.ErrorMessage.IsNull() {
+									*errorMessage6 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage6 = nil
 								}
@@ -2114,11 +2111,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage6,
 								}
 							}
+							var value6 string
+							value6 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Value.ValueString()
+
 							anyVar2 = append(anyVar2, shared.RegexFactCondition{
 								Fact:     fact6,
 								Operator: operator6,
-								Value:    value6,
 								Params:   params6,
+								Value:    value6,
 							})
 						}
 						twentyOne = &shared.Two{
@@ -2131,17 +2131,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var thirtyOne *shared.Three
-					if anyItem1.RegexNestedCondition.Three != nil {
-						fact7 := shared.Fact(anyItem1.RegexNestedCondition.Three.Not.Fact.ValueString())
-						operator7 := shared.Operator(anyItem1.RegexNestedCondition.Three.Not.Operator.ValueString())
-						var value7 string
-						value7 = anyItem1.RegexNestedCondition.Three.Not.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three != nil {
+						fact7 := shared.Fact(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Fact.ValueString())
+						operator7 := shared.Operator(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Operator.ValueString())
 						var params7 *shared.Params
-						if anyItem1.RegexNestedCondition.Three.Not.Params != nil {
+						if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Params != nil {
 							errorMessage7 := new(string)
-							if !anyItem1.RegexNestedCondition.Three.Not.Params.ErrorMessage.IsUnknown() && !anyItem1.RegexNestedCondition.Three.Not.Params.ErrorMessage.IsNull() {
-								*errorMessage7 = anyItem1.RegexNestedCondition.Three.Not.Params.ErrorMessage.ValueString()
+							if !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.IsNull() {
+								*errorMessage7 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage7 = nil
 							}
@@ -2149,11 +2146,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage7,
 							}
 						}
+						var value7 string
+						value7 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Value.ValueString()
+
 						not1 := shared.RegexFactCondition{
 							Fact:     fact7,
 							Operator: operator7,
-							Value:    value7,
 							Params:   params7,
+							Value:    value7,
 						}
 						thirtyOne = &shared.Three{
 							Not: not1,
@@ -2185,9 +2185,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 			if r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition != nil {
 				fact8 := shared.Fact(r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Fact.ValueString())
 				operator8 := shared.Operator(r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Operator.ValueString())
-				var value8 string
-				value8 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Value.ValueString()
-
 				var params8 *shared.Params
 				if r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Params != nil {
 					errorMessage8 := new(string)
@@ -2200,11 +2197,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						ErrorMessage: errorMessage8,
 					}
 				}
+				var value8 string
+				value8 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Value.ValueString()
+
 				regexFactCondition2 = &shared.RegexFactCondition{
 					Fact:     fact8,
 					Operator: operator8,
-					Value:    value8,
 					Params:   params8,
+					Value:    value8,
 				}
 			}
 			if regexFactCondition2 != nil {
@@ -2217,17 +2217,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				var twelve *shared.One
 				if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One != nil {
 					all3 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All))
-					for _, allItem3 := range r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All {
-						fact9 := shared.Fact(allItem3.Fact.ValueString())
-						operator9 := shared.Operator(allItem3.Operator.ValueString())
-						var value9 string
-						value9 = allItem3.Value.ValueString()
-
+					for allIndex2 := range r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All {
+						fact9 := shared.Fact(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Fact.ValueString())
+						operator9 := shared.Operator(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Operator.ValueString())
 						var params9 *shared.Params
-						if allItem3.Params != nil {
+						if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Params != nil {
 							errorMessage9 := new(string)
-							if !allItem3.Params.ErrorMessage.IsUnknown() && !allItem3.Params.ErrorMessage.IsNull() {
-								*errorMessage9 = allItem3.Params.ErrorMessage.ValueString()
+							if !r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Params.ErrorMessage.IsNull() {
+								*errorMessage9 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage9 = nil
 							}
@@ -2235,11 +2232,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage9,
 							}
 						}
+						var value9 string
+						value9 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Value.ValueString()
+
 						all3 = append(all3, shared.RegexFactCondition{
 							Fact:     fact9,
 							Operator: operator9,
-							Value:    value9,
 							Params:   params9,
+							Value:    value9,
 						})
 					}
 					twelve = &shared.One{
@@ -2254,17 +2254,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				var twentyTwo *shared.Two
 				if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two != nil {
 					anyVar3 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any))
-					for _, anyItem3 := range r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any {
-						fact10 := shared.Fact(anyItem3.Fact.ValueString())
-						operator10 := shared.Operator(anyItem3.Operator.ValueString())
-						var value10 string
-						value10 = anyItem3.Value.ValueString()
-
+					for anyIndex2 := range r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any {
+						fact10 := shared.Fact(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Fact.ValueString())
+						operator10 := shared.Operator(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Operator.ValueString())
 						var params10 *shared.Params
-						if anyItem3.Params != nil {
+						if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Params != nil {
 							errorMessage10 := new(string)
-							if !anyItem3.Params.ErrorMessage.IsUnknown() && !anyItem3.Params.ErrorMessage.IsNull() {
-								*errorMessage10 = anyItem3.Params.ErrorMessage.ValueString()
+							if !r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Params.ErrorMessage.IsNull() {
+								*errorMessage10 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage10 = nil
 							}
@@ -2272,11 +2269,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage10,
 							}
 						}
+						var value10 string
+						value10 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Value.ValueString()
+
 						anyVar3 = append(anyVar3, shared.RegexFactCondition{
 							Fact:     fact10,
 							Operator: operator10,
-							Value:    value10,
 							Params:   params10,
+							Value:    value10,
 						})
 					}
 					twentyTwo = &shared.Two{
@@ -2292,9 +2292,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three != nil {
 					fact11 := shared.Fact(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Fact.ValueString())
 					operator11 := shared.Operator(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Operator.ValueString())
-					var value11 string
-					value11 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Value.ValueString()
-
 					var params11 *shared.Params
 					if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Params != nil {
 						errorMessage11 := new(string)
@@ -2307,11 +2304,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							ErrorMessage: errorMessage11,
 						}
 					}
+					var value11 string
+					value11 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Value.ValueString()
+
 					not3 := shared.RegexFactCondition{
 						Fact:     fact11,
 						Operator: operator11,
-						Value:    value11,
 						Params:   params11,
+						Value:    value11,
 					}
 					thirtyTwo = &shared.Three{
 						Not: not3,
@@ -2354,47 +2354,47 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 		var patternCondition1 *shared.PatternCondition1
 		if r.Rule.PatternRuleType.Conditions.One != nil {
 			all4 := make([]shared.PatternConditionAll, 0, len(r.Rule.PatternRuleType.Conditions.One.All))
-			for _, allItem4 := range r.Rule.PatternRuleType.Conditions.One.All {
-				if allItem4.PatternFactCondition != nil {
+			for allItem1 := range r.Rule.PatternRuleType.Conditions.One.All {
+				if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition != nil {
 					var patternFactCondition shared.PatternFactCondition
 					var patternFactCondition1 *shared.PatternFactCondition1
-					if allItem4.PatternFactCondition.One != nil {
-						fact12 := shared.PatternFactConditionFact(allItem4.PatternFactCondition.One.Fact.ValueString())
-						operator12 := shared.PatternFactConditionOperator(allItem4.PatternFactCondition.One.Operator.ValueString())
-						var value12 float64
-						value12 = allItem4.PatternFactCondition.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One != nil {
+						fact12 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Fact.ValueString())
+						operator12 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Operator.ValueString())
 						var params12 *shared.PatternFactConditionParams
-						if allItem4.PatternFactCondition.One.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params != nil {
+							end := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.End.IsNull() {
+								*end = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.End.ValueFloat64()
+							} else {
+								end = nil
+							}
 							errorMessage12 := new(string)
-							if !allItem4.PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !allItem4.PatternFactCondition.One.Params.ErrorMessage.IsNull() {
-								*errorMessage12 = allItem4.PatternFactCondition.One.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.ErrorMessage.IsNull() {
+								*errorMessage12 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage12 = nil
 							}
 							start := new(float64)
-							if !allItem4.PatternFactCondition.One.Params.Start.IsUnknown() && !allItem4.PatternFactCondition.One.Params.Start.IsNull() {
-								*start = allItem4.PatternFactCondition.One.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.Start.IsNull() {
+								*start = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.Start.ValueFloat64()
 							} else {
 								start = nil
 							}
-							end := new(float64)
-							if !allItem4.PatternFactCondition.One.Params.End.IsUnknown() && !allItem4.PatternFactCondition.One.Params.End.IsNull() {
-								*end = allItem4.PatternFactCondition.One.Params.End.ValueFloat64()
-							} else {
-								end = nil
-							}
 							params12 = &shared.PatternFactConditionParams{
+								End:          end,
 								ErrorMessage: errorMessage12,
 								Start:        start,
-								End:          end,
 							}
 						}
+						var value12 float64
+						value12 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Value.ValueFloat64()
+
 						patternFactCondition1 = &shared.PatternFactCondition1{
 							Fact:     fact12,
 							Operator: operator12,
-							Value:    value12,
 							Params:   params12,
+							Value:    value12,
 						}
 					}
 					if patternFactCondition1 != nil {
@@ -2403,43 +2403,43 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var patternFactCondition2 *shared.PatternFactCondition2
-					if allItem4.PatternFactCondition.Two != nil {
-						fact13 := shared.PatternFactConditionSchemasFact(allItem4.PatternFactCondition.Two.Fact.ValueString())
-						operator13 := shared.PatternFactConditionSchemasOperator(allItem4.PatternFactCondition.Two.Operator.ValueString())
-						var value13 float64
-						value13 = allItem4.PatternFactCondition.Two.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two != nil {
+						fact13 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Fact.ValueString())
+						operator13 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Operator.ValueString())
 						var params13 *shared.PatternFactConditionSchemasParams
-						if allItem4.PatternFactCondition.Two.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params != nil {
+							end1 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.End.IsNull() {
+								*end1 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.End.ValueFloat64()
+							} else {
+								end1 = nil
+							}
 							errorMessage13 := new(string)
-							if !allItem4.PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !allItem4.PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage13 = allItem4.PatternFactCondition.Two.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage13 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage13 = nil
 							}
 							start1 := new(float64)
-							if !allItem4.PatternFactCondition.Two.Params.Start.IsUnknown() && !allItem4.PatternFactCondition.Two.Params.Start.IsNull() {
-								*start1 = allItem4.PatternFactCondition.Two.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.Start.IsNull() {
+								*start1 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.Start.ValueFloat64()
 							} else {
 								start1 = nil
 							}
-							end1 := new(float64)
-							if !allItem4.PatternFactCondition.Two.Params.End.IsUnknown() && !allItem4.PatternFactCondition.Two.Params.End.IsNull() {
-								*end1 = allItem4.PatternFactCondition.Two.Params.End.ValueFloat64()
-							} else {
-								end1 = nil
-							}
 							params13 = &shared.PatternFactConditionSchemasParams{
+								End:          end1,
 								ErrorMessage: errorMessage13,
 								Start:        start1,
-								End:          end1,
 							}
 						}
+						var value13 float64
+						value13 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Value.ValueFloat64()
+
 						patternFactCondition2 = &shared.PatternFactCondition2{
 							Fact:     fact13,
 							Operator: operator13,
-							Value:    value13,
 							Params:   params13,
+							Value:    value13,
 						}
 					}
 					if patternFactCondition2 != nil {
@@ -2448,44 +2448,44 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var patternFactCondition3 *shared.PatternFactCondition3
-					if allItem4.PatternFactCondition.Three != nil {
-						fact14 := shared.PatternFactConditionSchemasTrueFact(allItem4.PatternFactCondition.Three.Fact.ValueString())
-						operator14 := shared.PatternFactConditionSchemasTrueOperator(allItem4.PatternFactCondition.Three.Operator.ValueString())
-						value14 := make([]string, 0, len(allItem4.PatternFactCondition.Three.Value))
-						for _, valueItem := range allItem4.PatternFactCondition.Three.Value {
-							value14 = append(value14, valueItem.ValueString())
-						}
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three != nil {
+						fact14 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Fact.ValueString())
+						operator14 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Operator.ValueString())
 						var params14 *shared.PatternFactConditionSchemasTrueParams
-						if allItem4.PatternFactCondition.Three.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params != nil {
+							end2 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.End.IsNull() {
+								*end2 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.End.ValueFloat64()
+							} else {
+								end2 = nil
+							}
 							errorMessage14 := new(string)
-							if !allItem4.PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !allItem4.PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
-								*errorMessage14 = allItem4.PatternFactCondition.Three.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
+								*errorMessage14 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage14 = nil
 							}
 							start2 := new(float64)
-							if !allItem4.PatternFactCondition.Three.Params.Start.IsUnknown() && !allItem4.PatternFactCondition.Three.Params.Start.IsNull() {
-								*start2 = allItem4.PatternFactCondition.Three.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.Start.IsNull() {
+								*start2 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.Start.ValueFloat64()
 							} else {
 								start2 = nil
 							}
-							end2 := new(float64)
-							if !allItem4.PatternFactCondition.Three.Params.End.IsUnknown() && !allItem4.PatternFactCondition.Three.Params.End.IsNull() {
-								*end2 = allItem4.PatternFactCondition.Three.Params.End.ValueFloat64()
-							} else {
-								end2 = nil
-							}
 							params14 = &shared.PatternFactConditionSchemasTrueParams{
+								End:          end2,
 								ErrorMessage: errorMessage14,
 								Start:        start2,
-								End:          end2,
 							}
+						}
+						value14 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Value))
+						for valueIndex := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Value {
+							value14 = append(value14, r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Value[valueIndex].ValueString())
 						}
 						patternFactCondition3 = &shared.PatternFactCondition3{
 							Fact:     fact14,
 							Operator: operator14,
-							Value:    value14,
 							Params:   params14,
+							Value:    value14,
 						}
 					}
 					if patternFactCondition3 != nil {
@@ -2494,43 +2494,43 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var four *shared.Four
-					if allItem4.PatternFactCondition.Four != nil {
-						fact15 := shared.PatternFactConditionSchemasTrue4Fact(allItem4.PatternFactCondition.Four.Fact.ValueString())
-						operator15 := shared.PatternFactConditionSchemasTrue4Operator(allItem4.PatternFactCondition.Four.Operator.ValueString())
-						var value15 string
-						value15 = allItem4.PatternFactCondition.Four.Value.ValueString()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four != nil {
+						fact15 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Fact.ValueString())
+						operator15 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Operator.ValueString())
 						var params15 *shared.PatternFactConditionSchemasTrue4Params
-						if allItem4.PatternFactCondition.Four.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params != nil {
+							end3 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.End.IsNull() {
+								*end3 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.End.ValueFloat64()
+							} else {
+								end3 = nil
+							}
 							errorMessage15 := new(string)
-							if !allItem4.PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !allItem4.PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
-								*errorMessage15 = allItem4.PatternFactCondition.Four.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
+								*errorMessage15 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage15 = nil
 							}
 							start3 := new(float64)
-							if !allItem4.PatternFactCondition.Four.Params.Start.IsUnknown() && !allItem4.PatternFactCondition.Four.Params.Start.IsNull() {
-								*start3 = allItem4.PatternFactCondition.Four.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.Start.IsNull() {
+								*start3 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.Start.ValueFloat64()
 							} else {
 								start3 = nil
 							}
-							end3 := new(float64)
-							if !allItem4.PatternFactCondition.Four.Params.End.IsUnknown() && !allItem4.PatternFactCondition.Four.Params.End.IsNull() {
-								*end3 = allItem4.PatternFactCondition.Four.Params.End.ValueFloat64()
-							} else {
-								end3 = nil
-							}
 							params15 = &shared.PatternFactConditionSchemasTrue4Params{
+								End:          end3,
 								ErrorMessage: errorMessage15,
 								Start:        start3,
-								End:          end3,
 							}
 						}
+						var value15 string
+						value15 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Value.ValueString()
+
 						four = &shared.Four{
 							Fact:     fact15,
 							Operator: operator15,
-							Value:    value15,
 							Params:   params15,
+							Value:    value15,
 						}
 					}
 					if four != nil {
@@ -2542,176 +2542,176 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						PatternFactCondition: &patternFactCondition,
 					})
 				}
-				if allItem4.PatternNestedCondition != nil {
+				if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition != nil {
 					var patternNestedCondition shared.PatternNestedCondition
 					var patternNestedCondition1 *shared.PatternNestedCondition1
-					if allItem4.PatternNestedCondition.One != nil {
-						all5 := make([]shared.PatternFactCondition, 0, len(allItem4.PatternNestedCondition.One.All))
-						for _, allItem5 := range allItem4.PatternNestedCondition.One.All {
-							if allItem5.One != nil {
-								fact16 := shared.PatternFactConditionFact(allItem5.One.Fact.ValueString())
-								operator16 := shared.PatternFactConditionOperator(allItem5.One.Operator.ValueString())
-								var value16 float64
-								value16 = allItem5.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One != nil {
+						all5 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All))
+						for allItem2 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One != nil {
+								fact16 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Fact.ValueString())
+								operator16 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Operator.ValueString())
 								var params16 *shared.PatternFactConditionParams
-								if allItem5.One.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params != nil {
+									end4 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.End.IsNull() {
+										*end4 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.End.ValueFloat64()
+									} else {
+										end4 = nil
+									}
 									errorMessage16 := new(string)
-									if !allItem5.One.Params.ErrorMessage.IsUnknown() && !allItem5.One.Params.ErrorMessage.IsNull() {
-										*errorMessage16 = allItem5.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.ErrorMessage.IsNull() {
+										*errorMessage16 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage16 = nil
 									}
 									start4 := new(float64)
-									if !allItem5.One.Params.Start.IsUnknown() && !allItem5.One.Params.Start.IsNull() {
-										*start4 = allItem5.One.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.Start.IsNull() {
+										*start4 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.Start.ValueFloat64()
 									} else {
 										start4 = nil
 									}
-									end4 := new(float64)
-									if !allItem5.One.Params.End.IsUnknown() && !allItem5.One.Params.End.IsNull() {
-										*end4 = allItem5.One.Params.End.ValueFloat64()
-									} else {
-										end4 = nil
-									}
 									params16 = &shared.PatternFactConditionParams{
+										End:          end4,
 										ErrorMessage: errorMessage16,
 										Start:        start4,
-										End:          end4,
 									}
 								}
+								var value16 float64
+								value16 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Value.ValueFloat64()
+
 								patternFactCondition11 := shared.PatternFactCondition1{
 									Fact:     fact16,
 									Operator: operator16,
-									Value:    value16,
 									Params:   params16,
+									Value:    value16,
 								}
 								all5 = append(all5, shared.PatternFactCondition{
 									PatternFactCondition1: &patternFactCondition11,
 								})
 							}
-							if allItem5.Two != nil {
-								fact17 := shared.PatternFactConditionSchemasFact(allItem5.Two.Fact.ValueString())
-								operator17 := shared.PatternFactConditionSchemasOperator(allItem5.Two.Operator.ValueString())
-								var value17 float64
-								value17 = allItem5.Two.Value.ValueFloat64()
-
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two != nil {
+								fact17 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Fact.ValueString())
+								operator17 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Operator.ValueString())
 								var params17 *shared.PatternFactConditionSchemasParams
-								if allItem5.Two.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params != nil {
+									end5 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.End.IsNull() {
+										*end5 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.End.ValueFloat64()
+									} else {
+										end5 = nil
+									}
 									errorMessage17 := new(string)
-									if !allItem5.Two.Params.ErrorMessage.IsUnknown() && !allItem5.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage17 = allItem5.Two.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage17 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage17 = nil
 									}
 									start5 := new(float64)
-									if !allItem5.Two.Params.Start.IsUnknown() && !allItem5.Two.Params.Start.IsNull() {
-										*start5 = allItem5.Two.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.Start.IsNull() {
+										*start5 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.Start.ValueFloat64()
 									} else {
 										start5 = nil
 									}
-									end5 := new(float64)
-									if !allItem5.Two.Params.End.IsUnknown() && !allItem5.Two.Params.End.IsNull() {
-										*end5 = allItem5.Two.Params.End.ValueFloat64()
-									} else {
-										end5 = nil
-									}
 									params17 = &shared.PatternFactConditionSchemasParams{
+										End:          end5,
 										ErrorMessage: errorMessage17,
 										Start:        start5,
-										End:          end5,
 									}
 								}
+								var value17 float64
+								value17 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Value.ValueFloat64()
+
 								patternFactCondition21 := shared.PatternFactCondition2{
 									Fact:     fact17,
 									Operator: operator17,
-									Value:    value17,
 									Params:   params17,
+									Value:    value17,
 								}
 								all5 = append(all5, shared.PatternFactCondition{
 									PatternFactCondition2: &patternFactCondition21,
 								})
 							}
-							if allItem5.Three != nil {
-								fact18 := shared.PatternFactConditionSchemasTrueFact(allItem5.Three.Fact.ValueString())
-								operator18 := shared.PatternFactConditionSchemasTrueOperator(allItem5.Three.Operator.ValueString())
-								value18 := make([]string, 0, len(allItem5.Three.Value))
-								for _, valueItem1 := range allItem5.Three.Value {
-									value18 = append(value18, valueItem1.ValueString())
-								}
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three != nil {
+								fact18 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Fact.ValueString())
+								operator18 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Operator.ValueString())
 								var params18 *shared.PatternFactConditionSchemasTrueParams
-								if allItem5.Three.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params != nil {
+									end6 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.End.IsNull() {
+										*end6 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.End.ValueFloat64()
+									} else {
+										end6 = nil
+									}
 									errorMessage18 := new(string)
-									if !allItem5.Three.Params.ErrorMessage.IsUnknown() && !allItem5.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage18 = allItem5.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage18 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage18 = nil
 									}
 									start6 := new(float64)
-									if !allItem5.Three.Params.Start.IsUnknown() && !allItem5.Three.Params.Start.IsNull() {
-										*start6 = allItem5.Three.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.Start.IsNull() {
+										*start6 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.Start.ValueFloat64()
 									} else {
 										start6 = nil
 									}
-									end6 := new(float64)
-									if !allItem5.Three.Params.End.IsUnknown() && !allItem5.Three.Params.End.IsNull() {
-										*end6 = allItem5.Three.Params.End.ValueFloat64()
-									} else {
-										end6 = nil
-									}
 									params18 = &shared.PatternFactConditionSchemasTrueParams{
+										End:          end6,
 										ErrorMessage: errorMessage18,
 										Start:        start6,
-										End:          end6,
 									}
+								}
+								value18 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Value))
+								for valueIndex1 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Value {
+									value18 = append(value18, r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Value[valueIndex1].ValueString())
 								}
 								patternFactCondition31 := shared.PatternFactCondition3{
 									Fact:     fact18,
 									Operator: operator18,
-									Value:    value18,
 									Params:   params18,
+									Value:    value18,
 								}
 								all5 = append(all5, shared.PatternFactCondition{
 									PatternFactCondition3: &patternFactCondition31,
 								})
 							}
-							if allItem5.Four != nil {
-								fact19 := shared.PatternFactConditionSchemasTrue4Fact(allItem5.Four.Fact.ValueString())
-								operator19 := shared.PatternFactConditionSchemasTrue4Operator(allItem5.Four.Operator.ValueString())
-								var value19 string
-								value19 = allItem5.Four.Value.ValueString()
-
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four != nil {
+								fact19 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Fact.ValueString())
+								operator19 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Operator.ValueString())
 								var params19 *shared.PatternFactConditionSchemasTrue4Params
-								if allItem5.Four.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params != nil {
+									end7 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.End.IsNull() {
+										*end7 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.End.ValueFloat64()
+									} else {
+										end7 = nil
+									}
 									errorMessage19 := new(string)
-									if !allItem5.Four.Params.ErrorMessage.IsUnknown() && !allItem5.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage19 = allItem5.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage19 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage19 = nil
 									}
 									start7 := new(float64)
-									if !allItem5.Four.Params.Start.IsUnknown() && !allItem5.Four.Params.Start.IsNull() {
-										*start7 = allItem5.Four.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.Start.IsNull() {
+										*start7 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.Start.ValueFloat64()
 									} else {
 										start7 = nil
 									}
-									end7 := new(float64)
-									if !allItem5.Four.Params.End.IsUnknown() && !allItem5.Four.Params.End.IsNull() {
-										*end7 = allItem5.Four.Params.End.ValueFloat64()
-									} else {
-										end7 = nil
-									}
 									params19 = &shared.PatternFactConditionSchemasTrue4Params{
+										End:          end7,
 										ErrorMessage: errorMessage19,
 										Start:        start7,
-										End:          end7,
 									}
 								}
+								var value19 string
+								value19 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Value.ValueString()
+
 								fortyOne := shared.Four{
 									Fact:     fact19,
 									Operator: operator19,
-									Value:    value19,
 									Params:   params19,
+									Value:    value19,
 								}
 								all5 = append(all5, shared.PatternFactCondition{
 									Four: &fortyOne,
@@ -2728,173 +2728,173 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var patternNestedCondition2 *shared.PatternNestedCondition2
-					if allItem4.PatternNestedCondition.Two != nil {
-						anyVar4 := make([]shared.PatternFactCondition, 0, len(allItem4.PatternNestedCondition.Two.Any))
-						for _, anyItem4 := range allItem4.PatternNestedCondition.Two.Any {
-							if anyItem4.One != nil {
-								fact20 := shared.PatternFactConditionFact(anyItem4.One.Fact.ValueString())
-								operator20 := shared.PatternFactConditionOperator(anyItem4.One.Operator.ValueString())
-								var value20 float64
-								value20 = anyItem4.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two != nil {
+						anyVar4 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any))
+						for anyItem1 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One != nil {
+								fact20 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Fact.ValueString())
+								operator20 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Operator.ValueString())
 								var params20 *shared.PatternFactConditionParams
-								if anyItem4.One.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params != nil {
+									end8 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.End.IsNull() {
+										*end8 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.End.ValueFloat64()
+									} else {
+										end8 = nil
+									}
 									errorMessage20 := new(string)
-									if !anyItem4.One.Params.ErrorMessage.IsUnknown() && !anyItem4.One.Params.ErrorMessage.IsNull() {
-										*errorMessage20 = anyItem4.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.ErrorMessage.IsNull() {
+										*errorMessage20 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage20 = nil
 									}
 									start8 := new(float64)
-									if !anyItem4.One.Params.Start.IsUnknown() && !anyItem4.One.Params.Start.IsNull() {
-										*start8 = anyItem4.One.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.Start.IsNull() {
+										*start8 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.Start.ValueFloat64()
 									} else {
 										start8 = nil
 									}
-									end8 := new(float64)
-									if !anyItem4.One.Params.End.IsUnknown() && !anyItem4.One.Params.End.IsNull() {
-										*end8 = anyItem4.One.Params.End.ValueFloat64()
-									} else {
-										end8 = nil
-									}
 									params20 = &shared.PatternFactConditionParams{
+										End:          end8,
 										ErrorMessage: errorMessage20,
 										Start:        start8,
-										End:          end8,
 									}
 								}
+								var value20 float64
+								value20 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Value.ValueFloat64()
+
 								patternFactCondition12 := shared.PatternFactCondition1{
 									Fact:     fact20,
 									Operator: operator20,
-									Value:    value20,
 									Params:   params20,
+									Value:    value20,
 								}
 								anyVar4 = append(anyVar4, shared.PatternFactCondition{
 									PatternFactCondition1: &patternFactCondition12,
 								})
 							}
-							if anyItem4.Two != nil {
-								fact21 := shared.PatternFactConditionSchemasFact(anyItem4.Two.Fact.ValueString())
-								operator21 := shared.PatternFactConditionSchemasOperator(anyItem4.Two.Operator.ValueString())
-								var value21 float64
-								value21 = anyItem4.Two.Value.ValueFloat64()
-
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two != nil {
+								fact21 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Fact.ValueString())
+								operator21 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Operator.ValueString())
 								var params21 *shared.PatternFactConditionSchemasParams
-								if anyItem4.Two.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params != nil {
+									end9 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.End.IsNull() {
+										*end9 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.End.ValueFloat64()
+									} else {
+										end9 = nil
+									}
 									errorMessage21 := new(string)
-									if !anyItem4.Two.Params.ErrorMessage.IsUnknown() && !anyItem4.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage21 = anyItem4.Two.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage21 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage21 = nil
 									}
 									start9 := new(float64)
-									if !anyItem4.Two.Params.Start.IsUnknown() && !anyItem4.Two.Params.Start.IsNull() {
-										*start9 = anyItem4.Two.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.Start.IsNull() {
+										*start9 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.Start.ValueFloat64()
 									} else {
 										start9 = nil
 									}
-									end9 := new(float64)
-									if !anyItem4.Two.Params.End.IsUnknown() && !anyItem4.Two.Params.End.IsNull() {
-										*end9 = anyItem4.Two.Params.End.ValueFloat64()
-									} else {
-										end9 = nil
-									}
 									params21 = &shared.PatternFactConditionSchemasParams{
+										End:          end9,
 										ErrorMessage: errorMessage21,
 										Start:        start9,
-										End:          end9,
 									}
 								}
+								var value21 float64
+								value21 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Value.ValueFloat64()
+
 								patternFactCondition22 := shared.PatternFactCondition2{
 									Fact:     fact21,
 									Operator: operator21,
-									Value:    value21,
 									Params:   params21,
+									Value:    value21,
 								}
 								anyVar4 = append(anyVar4, shared.PatternFactCondition{
 									PatternFactCondition2: &patternFactCondition22,
 								})
 							}
-							if anyItem4.Three != nil {
-								fact22 := shared.PatternFactConditionSchemasTrueFact(anyItem4.Three.Fact.ValueString())
-								operator22 := shared.PatternFactConditionSchemasTrueOperator(anyItem4.Three.Operator.ValueString())
-								value22 := make([]string, 0, len(anyItem4.Three.Value))
-								for _, valueItem2 := range anyItem4.Three.Value {
-									value22 = append(value22, valueItem2.ValueString())
-								}
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three != nil {
+								fact22 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Fact.ValueString())
+								operator22 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Operator.ValueString())
 								var params22 *shared.PatternFactConditionSchemasTrueParams
-								if anyItem4.Three.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params != nil {
+									end10 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.End.IsNull() {
+										*end10 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.End.ValueFloat64()
+									} else {
+										end10 = nil
+									}
 									errorMessage22 := new(string)
-									if !anyItem4.Three.Params.ErrorMessage.IsUnknown() && !anyItem4.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage22 = anyItem4.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage22 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage22 = nil
 									}
 									start10 := new(float64)
-									if !anyItem4.Three.Params.Start.IsUnknown() && !anyItem4.Three.Params.Start.IsNull() {
-										*start10 = anyItem4.Three.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.Start.IsNull() {
+										*start10 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.Start.ValueFloat64()
 									} else {
 										start10 = nil
 									}
-									end10 := new(float64)
-									if !anyItem4.Three.Params.End.IsUnknown() && !anyItem4.Three.Params.End.IsNull() {
-										*end10 = anyItem4.Three.Params.End.ValueFloat64()
-									} else {
-										end10 = nil
-									}
 									params22 = &shared.PatternFactConditionSchemasTrueParams{
+										End:          end10,
 										ErrorMessage: errorMessage22,
 										Start:        start10,
-										End:          end10,
 									}
+								}
+								value22 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Value))
+								for valueIndex2 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Value {
+									value22 = append(value22, r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Value[valueIndex2].ValueString())
 								}
 								patternFactCondition32 := shared.PatternFactCondition3{
 									Fact:     fact22,
 									Operator: operator22,
-									Value:    value22,
 									Params:   params22,
+									Value:    value22,
 								}
 								anyVar4 = append(anyVar4, shared.PatternFactCondition{
 									PatternFactCondition3: &patternFactCondition32,
 								})
 							}
-							if anyItem4.Four != nil {
-								fact23 := shared.PatternFactConditionSchemasTrue4Fact(anyItem4.Four.Fact.ValueString())
-								operator23 := shared.PatternFactConditionSchemasTrue4Operator(anyItem4.Four.Operator.ValueString())
-								var value23 string
-								value23 = anyItem4.Four.Value.ValueString()
-
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four != nil {
+								fact23 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Fact.ValueString())
+								operator23 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Operator.ValueString())
 								var params23 *shared.PatternFactConditionSchemasTrue4Params
-								if anyItem4.Four.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params != nil {
+									end11 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.End.IsNull() {
+										*end11 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.End.ValueFloat64()
+									} else {
+										end11 = nil
+									}
 									errorMessage23 := new(string)
-									if !anyItem4.Four.Params.ErrorMessage.IsUnknown() && !anyItem4.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage23 = anyItem4.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage23 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage23 = nil
 									}
 									start11 := new(float64)
-									if !anyItem4.Four.Params.Start.IsUnknown() && !anyItem4.Four.Params.Start.IsNull() {
-										*start11 = anyItem4.Four.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.Start.IsNull() {
+										*start11 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.Start.ValueFloat64()
 									} else {
 										start11 = nil
 									}
-									end11 := new(float64)
-									if !anyItem4.Four.Params.End.IsUnknown() && !anyItem4.Four.Params.End.IsNull() {
-										*end11 = anyItem4.Four.Params.End.ValueFloat64()
-									} else {
-										end11 = nil
-									}
 									params23 = &shared.PatternFactConditionSchemasTrue4Params{
+										End:          end11,
 										ErrorMessage: errorMessage23,
 										Start:        start11,
-										End:          end11,
 									}
 								}
+								var value23 string
+								value23 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Value.ValueString()
+
 								fortyTwo := shared.Four{
 									Fact:     fact23,
 									Operator: operator23,
-									Value:    value23,
 									Params:   params23,
+									Value:    value23,
 								}
 								anyVar4 = append(anyVar4, shared.PatternFactCondition{
 									Four: &fortyTwo,
@@ -2911,46 +2911,46 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var patternNestedCondition3 *shared.PatternNestedCondition3
-					if allItem4.PatternNestedCondition.Three != nil {
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three != nil {
 						var not4 shared.PatternFactCondition
 						var patternFactCondition13 *shared.PatternFactCondition1
-						if allItem4.PatternNestedCondition.Three.Not.One != nil {
-							fact24 := shared.PatternFactConditionFact(allItem4.PatternNestedCondition.Three.Not.One.Fact.ValueString())
-							operator24 := shared.PatternFactConditionOperator(allItem4.PatternNestedCondition.Three.Not.One.Operator.ValueString())
-							var value24 float64
-							value24 = allItem4.PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One != nil {
+							fact24 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Fact.ValueString())
+							operator24 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Operator.ValueString())
 							var params24 *shared.PatternFactConditionParams
-							if allItem4.PatternNestedCondition.Three.Not.One.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params != nil {
+								end12 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
+									*end12 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
+								} else {
+									end12 = nil
+								}
 								errorMessage24 := new(string)
-								if !allItem4.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
-									*errorMessage24 = allItem4.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
+									*errorMessage24 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage24 = nil
 								}
 								start12 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.One.Params.Start.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.One.Params.Start.IsNull() {
-									*start12 = allItem4.PatternNestedCondition.Three.Not.One.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.Start.IsNull() {
+									*start12 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.Start.ValueFloat64()
 								} else {
 									start12 = nil
 								}
-								end12 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
-									*end12 = allItem4.PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
-								} else {
-									end12 = nil
-								}
 								params24 = &shared.PatternFactConditionParams{
+									End:          end12,
 									ErrorMessage: errorMessage24,
 									Start:        start12,
-									End:          end12,
 								}
 							}
+							var value24 float64
+							value24 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 							patternFactCondition13 = &shared.PatternFactCondition1{
 								Fact:     fact24,
 								Operator: operator24,
-								Value:    value24,
 								Params:   params24,
+								Value:    value24,
 							}
 						}
 						if patternFactCondition13 != nil {
@@ -2959,43 +2959,43 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var patternFactCondition23 *shared.PatternFactCondition2
-						if allItem4.PatternNestedCondition.Three.Not.Two != nil {
-							fact25 := shared.PatternFactConditionSchemasFact(allItem4.PatternNestedCondition.Three.Not.Two.Fact.ValueString())
-							operator25 := shared.PatternFactConditionSchemasOperator(allItem4.PatternNestedCondition.Three.Not.Two.Operator.ValueString())
-							var value25 float64
-							value25 = allItem4.PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two != nil {
+							fact25 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Fact.ValueString())
+							operator25 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Operator.ValueString())
 							var params25 *shared.PatternFactConditionSchemasParams
-							if allItem4.PatternNestedCondition.Three.Not.Two.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params != nil {
+								end13 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
+									*end13 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
+								} else {
+									end13 = nil
+								}
 								errorMessage25 := new(string)
-								if !allItem4.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage25 = allItem4.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+									*errorMessage25 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage25 = nil
 								}
 								start13 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Two.Params.Start.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Two.Params.Start.IsNull() {
-									*start13 = allItem4.PatternNestedCondition.Three.Not.Two.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.Start.IsNull() {
+									*start13 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.Start.ValueFloat64()
 								} else {
 									start13 = nil
 								}
-								end13 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
-									*end13 = allItem4.PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
-								} else {
-									end13 = nil
-								}
 								params25 = &shared.PatternFactConditionSchemasParams{
+									End:          end13,
 									ErrorMessage: errorMessage25,
 									Start:        start13,
-									End:          end13,
 								}
 							}
+							var value25 float64
+							value25 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 							patternFactCondition23 = &shared.PatternFactCondition2{
 								Fact:     fact25,
 								Operator: operator25,
-								Value:    value25,
 								Params:   params25,
+								Value:    value25,
 							}
 						}
 						if patternFactCondition23 != nil {
@@ -3004,44 +3004,44 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var patternFactCondition33 *shared.PatternFactCondition3
-						if allItem4.PatternNestedCondition.Three.Not.Three != nil {
-							fact26 := shared.PatternFactConditionSchemasTrueFact(allItem4.PatternNestedCondition.Three.Not.Three.Fact.ValueString())
-							operator26 := shared.PatternFactConditionSchemasTrueOperator(allItem4.PatternNestedCondition.Three.Not.Three.Operator.ValueString())
-							value26 := make([]string, 0, len(allItem4.PatternNestedCondition.Three.Not.Three.Value))
-							for _, valueItem3 := range allItem4.PatternNestedCondition.Three.Not.Three.Value {
-								value26 = append(value26, valueItem3.ValueString())
-							}
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three != nil {
+							fact26 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Fact.ValueString())
+							operator26 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Operator.ValueString())
 							var params26 *shared.PatternFactConditionSchemasTrueParams
-							if allItem4.PatternNestedCondition.Three.Not.Three.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params != nil {
+								end14 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
+									*end14 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
+								} else {
+									end14 = nil
+								}
 								errorMessage26 := new(string)
-								if !allItem4.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage26 = allItem4.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
+									*errorMessage26 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage26 = nil
 								}
 								start14 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Three.Params.Start.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Three.Params.Start.IsNull() {
-									*start14 = allItem4.PatternNestedCondition.Three.Not.Three.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.Start.IsNull() {
+									*start14 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.Start.ValueFloat64()
 								} else {
 									start14 = nil
 								}
-								end14 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
-									*end14 = allItem4.PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
-								} else {
-									end14 = nil
-								}
 								params26 = &shared.PatternFactConditionSchemasTrueParams{
+									End:          end14,
 									ErrorMessage: errorMessage26,
 									Start:        start14,
-									End:          end14,
 								}
+							}
+							value26 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Value))
+							for valueIndex3 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Value {
+								value26 = append(value26, r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Value[valueIndex3].ValueString())
 							}
 							patternFactCondition33 = &shared.PatternFactCondition3{
 								Fact:     fact26,
 								Operator: operator26,
-								Value:    value26,
 								Params:   params26,
+								Value:    value26,
 							}
 						}
 						if patternFactCondition33 != nil {
@@ -3050,43 +3050,43 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var fortyThree *shared.Four
-						if allItem4.PatternNestedCondition.Three.Not.Four != nil {
-							fact27 := shared.PatternFactConditionSchemasTrue4Fact(allItem4.PatternNestedCondition.Three.Not.Four.Fact.ValueString())
-							operator27 := shared.PatternFactConditionSchemasTrue4Operator(allItem4.PatternNestedCondition.Three.Not.Four.Operator.ValueString())
-							var value27 string
-							value27 = allItem4.PatternNestedCondition.Three.Not.Four.Value.ValueString()
-
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four != nil {
+							fact27 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Fact.ValueString())
+							operator27 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Operator.ValueString())
 							var params27 *shared.PatternFactConditionSchemasTrue4Params
-							if allItem4.PatternNestedCondition.Three.Not.Four.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params != nil {
+								end15 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
+									*end15 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
+								} else {
+									end15 = nil
+								}
 								errorMessage27 := new(string)
-								if !allItem4.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage27 = allItem4.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
+									*errorMessage27 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage27 = nil
 								}
 								start15 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Four.Params.Start.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Four.Params.Start.IsNull() {
-									*start15 = allItem4.PatternNestedCondition.Three.Not.Four.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.Start.IsNull() {
+									*start15 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.Start.ValueFloat64()
 								} else {
 									start15 = nil
 								}
-								end15 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
-									*end15 = allItem4.PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
-								} else {
-									end15 = nil
-								}
 								params27 = &shared.PatternFactConditionSchemasTrue4Params{
+									End:          end15,
 									ErrorMessage: errorMessage27,
 									Start:        start15,
-									End:          end15,
 								}
 							}
+							var value27 string
+							value27 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Value.ValueString()
+
 							fortyThree = &shared.Four{
 								Fact:     fact27,
 								Operator: operator27,
-								Value:    value27,
 								Params:   params27,
+								Value:    value27,
 							}
 						}
 						if fortyThree != nil {
@@ -3120,47 +3120,47 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 		var patternCondition2 *shared.PatternCondition2
 		if r.Rule.PatternRuleType.Conditions.Two != nil {
 			anyVar5 := make([]shared.PatternConditionAny, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any))
-			for _, anyItem5 := range r.Rule.PatternRuleType.Conditions.Two.Any {
-				if anyItem5.PatternFactCondition != nil {
+			for anyItem2 := range r.Rule.PatternRuleType.Conditions.Two.Any {
+				if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition != nil {
 					var patternFactCondition4 shared.PatternFactCondition
 					var patternFactCondition14 *shared.PatternFactCondition1
-					if anyItem5.PatternFactCondition.One != nil {
-						fact28 := shared.PatternFactConditionFact(anyItem5.PatternFactCondition.One.Fact.ValueString())
-						operator28 := shared.PatternFactConditionOperator(anyItem5.PatternFactCondition.One.Operator.ValueString())
-						var value28 float64
-						value28 = anyItem5.PatternFactCondition.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One != nil {
+						fact28 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Fact.ValueString())
+						operator28 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Operator.ValueString())
 						var params28 *shared.PatternFactConditionParams
-						if anyItem5.PatternFactCondition.One.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params != nil {
+							end16 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.End.IsNull() {
+								*end16 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.End.ValueFloat64()
+							} else {
+								end16 = nil
+							}
 							errorMessage28 := new(string)
-							if !anyItem5.PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternFactCondition.One.Params.ErrorMessage.IsNull() {
-								*errorMessage28 = anyItem5.PatternFactCondition.One.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.ErrorMessage.IsNull() {
+								*errorMessage28 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage28 = nil
 							}
 							start16 := new(float64)
-							if !anyItem5.PatternFactCondition.One.Params.Start.IsUnknown() && !anyItem5.PatternFactCondition.One.Params.Start.IsNull() {
-								*start16 = anyItem5.PatternFactCondition.One.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.Start.IsNull() {
+								*start16 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.Start.ValueFloat64()
 							} else {
 								start16 = nil
 							}
-							end16 := new(float64)
-							if !anyItem5.PatternFactCondition.One.Params.End.IsUnknown() && !anyItem5.PatternFactCondition.One.Params.End.IsNull() {
-								*end16 = anyItem5.PatternFactCondition.One.Params.End.ValueFloat64()
-							} else {
-								end16 = nil
-							}
 							params28 = &shared.PatternFactConditionParams{
+								End:          end16,
 								ErrorMessage: errorMessage28,
 								Start:        start16,
-								End:          end16,
 							}
 						}
+						var value28 float64
+						value28 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Value.ValueFloat64()
+
 						patternFactCondition14 = &shared.PatternFactCondition1{
 							Fact:     fact28,
 							Operator: operator28,
-							Value:    value28,
 							Params:   params28,
+							Value:    value28,
 						}
 					}
 					if patternFactCondition14 != nil {
@@ -3169,43 +3169,43 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var patternFactCondition24 *shared.PatternFactCondition2
-					if anyItem5.PatternFactCondition.Two != nil {
-						fact29 := shared.PatternFactConditionSchemasFact(anyItem5.PatternFactCondition.Two.Fact.ValueString())
-						operator29 := shared.PatternFactConditionSchemasOperator(anyItem5.PatternFactCondition.Two.Operator.ValueString())
-						var value29 float64
-						value29 = anyItem5.PatternFactCondition.Two.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two != nil {
+						fact29 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Fact.ValueString())
+						operator29 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Operator.ValueString())
 						var params29 *shared.PatternFactConditionSchemasParams
-						if anyItem5.PatternFactCondition.Two.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params != nil {
+							end17 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.End.IsNull() {
+								*end17 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.End.ValueFloat64()
+							} else {
+								end17 = nil
+							}
 							errorMessage29 := new(string)
-							if !anyItem5.PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage29 = anyItem5.PatternFactCondition.Two.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage29 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage29 = nil
 							}
 							start17 := new(float64)
-							if !anyItem5.PatternFactCondition.Two.Params.Start.IsUnknown() && !anyItem5.PatternFactCondition.Two.Params.Start.IsNull() {
-								*start17 = anyItem5.PatternFactCondition.Two.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.Start.IsNull() {
+								*start17 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.Start.ValueFloat64()
 							} else {
 								start17 = nil
 							}
-							end17 := new(float64)
-							if !anyItem5.PatternFactCondition.Two.Params.End.IsUnknown() && !anyItem5.PatternFactCondition.Two.Params.End.IsNull() {
-								*end17 = anyItem5.PatternFactCondition.Two.Params.End.ValueFloat64()
-							} else {
-								end17 = nil
-							}
 							params29 = &shared.PatternFactConditionSchemasParams{
+								End:          end17,
 								ErrorMessage: errorMessage29,
 								Start:        start17,
-								End:          end17,
 							}
 						}
+						var value29 float64
+						value29 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Value.ValueFloat64()
+
 						patternFactCondition24 = &shared.PatternFactCondition2{
 							Fact:     fact29,
 							Operator: operator29,
-							Value:    value29,
 							Params:   params29,
+							Value:    value29,
 						}
 					}
 					if patternFactCondition24 != nil {
@@ -3214,44 +3214,44 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var patternFactCondition34 *shared.PatternFactCondition3
-					if anyItem5.PatternFactCondition.Three != nil {
-						fact30 := shared.PatternFactConditionSchemasTrueFact(anyItem5.PatternFactCondition.Three.Fact.ValueString())
-						operator30 := shared.PatternFactConditionSchemasTrueOperator(anyItem5.PatternFactCondition.Three.Operator.ValueString())
-						value30 := make([]string, 0, len(anyItem5.PatternFactCondition.Three.Value))
-						for _, valueItem4 := range anyItem5.PatternFactCondition.Three.Value {
-							value30 = append(value30, valueItem4.ValueString())
-						}
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three != nil {
+						fact30 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Fact.ValueString())
+						operator30 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Operator.ValueString())
 						var params30 *shared.PatternFactConditionSchemasTrueParams
-						if anyItem5.PatternFactCondition.Three.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params != nil {
+							end18 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.End.IsNull() {
+								*end18 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.End.ValueFloat64()
+							} else {
+								end18 = nil
+							}
 							errorMessage30 := new(string)
-							if !anyItem5.PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
-								*errorMessage30 = anyItem5.PatternFactCondition.Three.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
+								*errorMessage30 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage30 = nil
 							}
 							start18 := new(float64)
-							if !anyItem5.PatternFactCondition.Three.Params.Start.IsUnknown() && !anyItem5.PatternFactCondition.Three.Params.Start.IsNull() {
-								*start18 = anyItem5.PatternFactCondition.Three.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.Start.IsNull() {
+								*start18 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.Start.ValueFloat64()
 							} else {
 								start18 = nil
 							}
-							end18 := new(float64)
-							if !anyItem5.PatternFactCondition.Three.Params.End.IsUnknown() && !anyItem5.PatternFactCondition.Three.Params.End.IsNull() {
-								*end18 = anyItem5.PatternFactCondition.Three.Params.End.ValueFloat64()
-							} else {
-								end18 = nil
-							}
 							params30 = &shared.PatternFactConditionSchemasTrueParams{
+								End:          end18,
 								ErrorMessage: errorMessage30,
 								Start:        start18,
-								End:          end18,
 							}
+						}
+						value30 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Value))
+						for valueIndex4 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Value {
+							value30 = append(value30, r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Value[valueIndex4].ValueString())
 						}
 						patternFactCondition34 = &shared.PatternFactCondition3{
 							Fact:     fact30,
 							Operator: operator30,
-							Value:    value30,
 							Params:   params30,
+							Value:    value30,
 						}
 					}
 					if patternFactCondition34 != nil {
@@ -3260,43 +3260,43 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var fortyFour *shared.Four
-					if anyItem5.PatternFactCondition.Four != nil {
-						fact31 := shared.PatternFactConditionSchemasTrue4Fact(anyItem5.PatternFactCondition.Four.Fact.ValueString())
-						operator31 := shared.PatternFactConditionSchemasTrue4Operator(anyItem5.PatternFactCondition.Four.Operator.ValueString())
-						var value31 string
-						value31 = anyItem5.PatternFactCondition.Four.Value.ValueString()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four != nil {
+						fact31 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Fact.ValueString())
+						operator31 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Operator.ValueString())
 						var params31 *shared.PatternFactConditionSchemasTrue4Params
-						if anyItem5.PatternFactCondition.Four.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params != nil {
+							end19 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.End.IsNull() {
+								*end19 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.End.ValueFloat64()
+							} else {
+								end19 = nil
+							}
 							errorMessage31 := new(string)
-							if !anyItem5.PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
-								*errorMessage31 = anyItem5.PatternFactCondition.Four.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
+								*errorMessage31 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage31 = nil
 							}
 							start19 := new(float64)
-							if !anyItem5.PatternFactCondition.Four.Params.Start.IsUnknown() && !anyItem5.PatternFactCondition.Four.Params.Start.IsNull() {
-								*start19 = anyItem5.PatternFactCondition.Four.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.Start.IsNull() {
+								*start19 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.Start.ValueFloat64()
 							} else {
 								start19 = nil
 							}
-							end19 := new(float64)
-							if !anyItem5.PatternFactCondition.Four.Params.End.IsUnknown() && !anyItem5.PatternFactCondition.Four.Params.End.IsNull() {
-								*end19 = anyItem5.PatternFactCondition.Four.Params.End.ValueFloat64()
-							} else {
-								end19 = nil
-							}
 							params31 = &shared.PatternFactConditionSchemasTrue4Params{
+								End:          end19,
 								ErrorMessage: errorMessage31,
 								Start:        start19,
-								End:          end19,
 							}
 						}
+						var value31 string
+						value31 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Value.ValueString()
+
 						fortyFour = &shared.Four{
 							Fact:     fact31,
 							Operator: operator31,
-							Value:    value31,
 							Params:   params31,
+							Value:    value31,
 						}
 					}
 					if fortyFour != nil {
@@ -3308,176 +3308,176 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						PatternFactCondition: &patternFactCondition4,
 					})
 				}
-				if anyItem5.PatternNestedCondition != nil {
+				if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition != nil {
 					var patternNestedCondition4 shared.PatternNestedCondition
 					var patternNestedCondition11 *shared.PatternNestedCondition1
-					if anyItem5.PatternNestedCondition.One != nil {
-						all6 := make([]shared.PatternFactCondition, 0, len(anyItem5.PatternNestedCondition.One.All))
-						for _, allItem6 := range anyItem5.PatternNestedCondition.One.All {
-							if allItem6.One != nil {
-								fact32 := shared.PatternFactConditionFact(allItem6.One.Fact.ValueString())
-								operator32 := shared.PatternFactConditionOperator(allItem6.One.Operator.ValueString())
-								var value32 float64
-								value32 = allItem6.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One != nil {
+						all6 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All))
+						for allItem3 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One != nil {
+								fact32 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Fact.ValueString())
+								operator32 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Operator.ValueString())
 								var params32 *shared.PatternFactConditionParams
-								if allItem6.One.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params != nil {
+									end20 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.End.IsNull() {
+										*end20 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.End.ValueFloat64()
+									} else {
+										end20 = nil
+									}
 									errorMessage32 := new(string)
-									if !allItem6.One.Params.ErrorMessage.IsUnknown() && !allItem6.One.Params.ErrorMessage.IsNull() {
-										*errorMessage32 = allItem6.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.ErrorMessage.IsNull() {
+										*errorMessage32 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage32 = nil
 									}
 									start20 := new(float64)
-									if !allItem6.One.Params.Start.IsUnknown() && !allItem6.One.Params.Start.IsNull() {
-										*start20 = allItem6.One.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.Start.IsNull() {
+										*start20 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.Start.ValueFloat64()
 									} else {
 										start20 = nil
 									}
-									end20 := new(float64)
-									if !allItem6.One.Params.End.IsUnknown() && !allItem6.One.Params.End.IsNull() {
-										*end20 = allItem6.One.Params.End.ValueFloat64()
-									} else {
-										end20 = nil
-									}
 									params32 = &shared.PatternFactConditionParams{
+										End:          end20,
 										ErrorMessage: errorMessage32,
 										Start:        start20,
-										End:          end20,
 									}
 								}
+								var value32 float64
+								value32 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Value.ValueFloat64()
+
 								patternFactCondition15 := shared.PatternFactCondition1{
 									Fact:     fact32,
 									Operator: operator32,
-									Value:    value32,
 									Params:   params32,
+									Value:    value32,
 								}
 								all6 = append(all6, shared.PatternFactCondition{
 									PatternFactCondition1: &patternFactCondition15,
 								})
 							}
-							if allItem6.Two != nil {
-								fact33 := shared.PatternFactConditionSchemasFact(allItem6.Two.Fact.ValueString())
-								operator33 := shared.PatternFactConditionSchemasOperator(allItem6.Two.Operator.ValueString())
-								var value33 float64
-								value33 = allItem6.Two.Value.ValueFloat64()
-
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two != nil {
+								fact33 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Fact.ValueString())
+								operator33 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Operator.ValueString())
 								var params33 *shared.PatternFactConditionSchemasParams
-								if allItem6.Two.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params != nil {
+									end21 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.End.IsNull() {
+										*end21 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.End.ValueFloat64()
+									} else {
+										end21 = nil
+									}
 									errorMessage33 := new(string)
-									if !allItem6.Two.Params.ErrorMessage.IsUnknown() && !allItem6.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage33 = allItem6.Two.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage33 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage33 = nil
 									}
 									start21 := new(float64)
-									if !allItem6.Two.Params.Start.IsUnknown() && !allItem6.Two.Params.Start.IsNull() {
-										*start21 = allItem6.Two.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.Start.IsNull() {
+										*start21 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.Start.ValueFloat64()
 									} else {
 										start21 = nil
 									}
-									end21 := new(float64)
-									if !allItem6.Two.Params.End.IsUnknown() && !allItem6.Two.Params.End.IsNull() {
-										*end21 = allItem6.Two.Params.End.ValueFloat64()
-									} else {
-										end21 = nil
-									}
 									params33 = &shared.PatternFactConditionSchemasParams{
+										End:          end21,
 										ErrorMessage: errorMessage33,
 										Start:        start21,
-										End:          end21,
 									}
 								}
+								var value33 float64
+								value33 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Value.ValueFloat64()
+
 								patternFactCondition25 := shared.PatternFactCondition2{
 									Fact:     fact33,
 									Operator: operator33,
-									Value:    value33,
 									Params:   params33,
+									Value:    value33,
 								}
 								all6 = append(all6, shared.PatternFactCondition{
 									PatternFactCondition2: &patternFactCondition25,
 								})
 							}
-							if allItem6.Three != nil {
-								fact34 := shared.PatternFactConditionSchemasTrueFact(allItem6.Three.Fact.ValueString())
-								operator34 := shared.PatternFactConditionSchemasTrueOperator(allItem6.Three.Operator.ValueString())
-								value34 := make([]string, 0, len(allItem6.Three.Value))
-								for _, valueItem5 := range allItem6.Three.Value {
-									value34 = append(value34, valueItem5.ValueString())
-								}
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three != nil {
+								fact34 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Fact.ValueString())
+								operator34 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Operator.ValueString())
 								var params34 *shared.PatternFactConditionSchemasTrueParams
-								if allItem6.Three.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params != nil {
+									end22 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.End.IsNull() {
+										*end22 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.End.ValueFloat64()
+									} else {
+										end22 = nil
+									}
 									errorMessage34 := new(string)
-									if !allItem6.Three.Params.ErrorMessage.IsUnknown() && !allItem6.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage34 = allItem6.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage34 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage34 = nil
 									}
 									start22 := new(float64)
-									if !allItem6.Three.Params.Start.IsUnknown() && !allItem6.Three.Params.Start.IsNull() {
-										*start22 = allItem6.Three.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.Start.IsNull() {
+										*start22 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.Start.ValueFloat64()
 									} else {
 										start22 = nil
 									}
-									end22 := new(float64)
-									if !allItem6.Three.Params.End.IsUnknown() && !allItem6.Three.Params.End.IsNull() {
-										*end22 = allItem6.Three.Params.End.ValueFloat64()
-									} else {
-										end22 = nil
-									}
 									params34 = &shared.PatternFactConditionSchemasTrueParams{
+										End:          end22,
 										ErrorMessage: errorMessage34,
 										Start:        start22,
-										End:          end22,
 									}
+								}
+								value34 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Value))
+								for valueIndex5 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Value {
+									value34 = append(value34, r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Value[valueIndex5].ValueString())
 								}
 								patternFactCondition35 := shared.PatternFactCondition3{
 									Fact:     fact34,
 									Operator: operator34,
-									Value:    value34,
 									Params:   params34,
+									Value:    value34,
 								}
 								all6 = append(all6, shared.PatternFactCondition{
 									PatternFactCondition3: &patternFactCondition35,
 								})
 							}
-							if allItem6.Four != nil {
-								fact35 := shared.PatternFactConditionSchemasTrue4Fact(allItem6.Four.Fact.ValueString())
-								operator35 := shared.PatternFactConditionSchemasTrue4Operator(allItem6.Four.Operator.ValueString())
-								var value35 string
-								value35 = allItem6.Four.Value.ValueString()
-
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four != nil {
+								fact35 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Fact.ValueString())
+								operator35 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Operator.ValueString())
 								var params35 *shared.PatternFactConditionSchemasTrue4Params
-								if allItem6.Four.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params != nil {
+									end23 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.End.IsNull() {
+										*end23 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.End.ValueFloat64()
+									} else {
+										end23 = nil
+									}
 									errorMessage35 := new(string)
-									if !allItem6.Four.Params.ErrorMessage.IsUnknown() && !allItem6.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage35 = allItem6.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage35 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage35 = nil
 									}
 									start23 := new(float64)
-									if !allItem6.Four.Params.Start.IsUnknown() && !allItem6.Four.Params.Start.IsNull() {
-										*start23 = allItem6.Four.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.Start.IsNull() {
+										*start23 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.Start.ValueFloat64()
 									} else {
 										start23 = nil
 									}
-									end23 := new(float64)
-									if !allItem6.Four.Params.End.IsUnknown() && !allItem6.Four.Params.End.IsNull() {
-										*end23 = allItem6.Four.Params.End.ValueFloat64()
-									} else {
-										end23 = nil
-									}
 									params35 = &shared.PatternFactConditionSchemasTrue4Params{
+										End:          end23,
 										ErrorMessage: errorMessage35,
 										Start:        start23,
-										End:          end23,
 									}
 								}
+								var value35 string
+								value35 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Value.ValueString()
+
 								fortyFive := shared.Four{
 									Fact:     fact35,
 									Operator: operator35,
-									Value:    value35,
 									Params:   params35,
+									Value:    value35,
 								}
 								all6 = append(all6, shared.PatternFactCondition{
 									Four: &fortyFive,
@@ -3494,173 +3494,173 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var patternNestedCondition21 *shared.PatternNestedCondition2
-					if anyItem5.PatternNestedCondition.Two != nil {
-						anyVar6 := make([]shared.PatternFactCondition, 0, len(anyItem5.PatternNestedCondition.Two.Any))
-						for _, anyItem6 := range anyItem5.PatternNestedCondition.Two.Any {
-							if anyItem6.One != nil {
-								fact36 := shared.PatternFactConditionFact(anyItem6.One.Fact.ValueString())
-								operator36 := shared.PatternFactConditionOperator(anyItem6.One.Operator.ValueString())
-								var value36 float64
-								value36 = anyItem6.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two != nil {
+						anyVar6 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any))
+						for anyItem3 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One != nil {
+								fact36 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Fact.ValueString())
+								operator36 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Operator.ValueString())
 								var params36 *shared.PatternFactConditionParams
-								if anyItem6.One.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params != nil {
+									end24 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.End.IsNull() {
+										*end24 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.End.ValueFloat64()
+									} else {
+										end24 = nil
+									}
 									errorMessage36 := new(string)
-									if !anyItem6.One.Params.ErrorMessage.IsUnknown() && !anyItem6.One.Params.ErrorMessage.IsNull() {
-										*errorMessage36 = anyItem6.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.ErrorMessage.IsNull() {
+										*errorMessage36 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage36 = nil
 									}
 									start24 := new(float64)
-									if !anyItem6.One.Params.Start.IsUnknown() && !anyItem6.One.Params.Start.IsNull() {
-										*start24 = anyItem6.One.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.Start.IsNull() {
+										*start24 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.Start.ValueFloat64()
 									} else {
 										start24 = nil
 									}
-									end24 := new(float64)
-									if !anyItem6.One.Params.End.IsUnknown() && !anyItem6.One.Params.End.IsNull() {
-										*end24 = anyItem6.One.Params.End.ValueFloat64()
-									} else {
-										end24 = nil
-									}
 									params36 = &shared.PatternFactConditionParams{
+										End:          end24,
 										ErrorMessage: errorMessage36,
 										Start:        start24,
-										End:          end24,
 									}
 								}
+								var value36 float64
+								value36 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Value.ValueFloat64()
+
 								patternFactCondition16 := shared.PatternFactCondition1{
 									Fact:     fact36,
 									Operator: operator36,
-									Value:    value36,
 									Params:   params36,
+									Value:    value36,
 								}
 								anyVar6 = append(anyVar6, shared.PatternFactCondition{
 									PatternFactCondition1: &patternFactCondition16,
 								})
 							}
-							if anyItem6.Two != nil {
-								fact37 := shared.PatternFactConditionSchemasFact(anyItem6.Two.Fact.ValueString())
-								operator37 := shared.PatternFactConditionSchemasOperator(anyItem6.Two.Operator.ValueString())
-								var value37 float64
-								value37 = anyItem6.Two.Value.ValueFloat64()
-
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two != nil {
+								fact37 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Fact.ValueString())
+								operator37 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Operator.ValueString())
 								var params37 *shared.PatternFactConditionSchemasParams
-								if anyItem6.Two.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params != nil {
+									end25 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.End.IsNull() {
+										*end25 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.End.ValueFloat64()
+									} else {
+										end25 = nil
+									}
 									errorMessage37 := new(string)
-									if !anyItem6.Two.Params.ErrorMessage.IsUnknown() && !anyItem6.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage37 = anyItem6.Two.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage37 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage37 = nil
 									}
 									start25 := new(float64)
-									if !anyItem6.Two.Params.Start.IsUnknown() && !anyItem6.Two.Params.Start.IsNull() {
-										*start25 = anyItem6.Two.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.Start.IsNull() {
+										*start25 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.Start.ValueFloat64()
 									} else {
 										start25 = nil
 									}
-									end25 := new(float64)
-									if !anyItem6.Two.Params.End.IsUnknown() && !anyItem6.Two.Params.End.IsNull() {
-										*end25 = anyItem6.Two.Params.End.ValueFloat64()
-									} else {
-										end25 = nil
-									}
 									params37 = &shared.PatternFactConditionSchemasParams{
+										End:          end25,
 										ErrorMessage: errorMessage37,
 										Start:        start25,
-										End:          end25,
 									}
 								}
+								var value37 float64
+								value37 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Value.ValueFloat64()
+
 								patternFactCondition26 := shared.PatternFactCondition2{
 									Fact:     fact37,
 									Operator: operator37,
-									Value:    value37,
 									Params:   params37,
+									Value:    value37,
 								}
 								anyVar6 = append(anyVar6, shared.PatternFactCondition{
 									PatternFactCondition2: &patternFactCondition26,
 								})
 							}
-							if anyItem6.Three != nil {
-								fact38 := shared.PatternFactConditionSchemasTrueFact(anyItem6.Three.Fact.ValueString())
-								operator38 := shared.PatternFactConditionSchemasTrueOperator(anyItem6.Three.Operator.ValueString())
-								value38 := make([]string, 0, len(anyItem6.Three.Value))
-								for _, valueItem6 := range anyItem6.Three.Value {
-									value38 = append(value38, valueItem6.ValueString())
-								}
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three != nil {
+								fact38 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Fact.ValueString())
+								operator38 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Operator.ValueString())
 								var params38 *shared.PatternFactConditionSchemasTrueParams
-								if anyItem6.Three.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params != nil {
+									end26 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.End.IsNull() {
+										*end26 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.End.ValueFloat64()
+									} else {
+										end26 = nil
+									}
 									errorMessage38 := new(string)
-									if !anyItem6.Three.Params.ErrorMessage.IsUnknown() && !anyItem6.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage38 = anyItem6.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage38 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage38 = nil
 									}
 									start26 := new(float64)
-									if !anyItem6.Three.Params.Start.IsUnknown() && !anyItem6.Three.Params.Start.IsNull() {
-										*start26 = anyItem6.Three.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.Start.IsNull() {
+										*start26 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.Start.ValueFloat64()
 									} else {
 										start26 = nil
 									}
-									end26 := new(float64)
-									if !anyItem6.Three.Params.End.IsUnknown() && !anyItem6.Three.Params.End.IsNull() {
-										*end26 = anyItem6.Three.Params.End.ValueFloat64()
-									} else {
-										end26 = nil
-									}
 									params38 = &shared.PatternFactConditionSchemasTrueParams{
+										End:          end26,
 										ErrorMessage: errorMessage38,
 										Start:        start26,
-										End:          end26,
 									}
+								}
+								value38 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Value))
+								for valueIndex6 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Value {
+									value38 = append(value38, r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Value[valueIndex6].ValueString())
 								}
 								patternFactCondition36 := shared.PatternFactCondition3{
 									Fact:     fact38,
 									Operator: operator38,
-									Value:    value38,
 									Params:   params38,
+									Value:    value38,
 								}
 								anyVar6 = append(anyVar6, shared.PatternFactCondition{
 									PatternFactCondition3: &patternFactCondition36,
 								})
 							}
-							if anyItem6.Four != nil {
-								fact39 := shared.PatternFactConditionSchemasTrue4Fact(anyItem6.Four.Fact.ValueString())
-								operator39 := shared.PatternFactConditionSchemasTrue4Operator(anyItem6.Four.Operator.ValueString())
-								var value39 string
-								value39 = anyItem6.Four.Value.ValueString()
-
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four != nil {
+								fact39 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Fact.ValueString())
+								operator39 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Operator.ValueString())
 								var params39 *shared.PatternFactConditionSchemasTrue4Params
-								if anyItem6.Four.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params != nil {
+									end27 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.End.IsNull() {
+										*end27 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.End.ValueFloat64()
+									} else {
+										end27 = nil
+									}
 									errorMessage39 := new(string)
-									if !anyItem6.Four.Params.ErrorMessage.IsUnknown() && !anyItem6.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage39 = anyItem6.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage39 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage39 = nil
 									}
 									start27 := new(float64)
-									if !anyItem6.Four.Params.Start.IsUnknown() && !anyItem6.Four.Params.Start.IsNull() {
-										*start27 = anyItem6.Four.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.Start.IsNull() {
+										*start27 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.Start.ValueFloat64()
 									} else {
 										start27 = nil
 									}
-									end27 := new(float64)
-									if !anyItem6.Four.Params.End.IsUnknown() && !anyItem6.Four.Params.End.IsNull() {
-										*end27 = anyItem6.Four.Params.End.ValueFloat64()
-									} else {
-										end27 = nil
-									}
 									params39 = &shared.PatternFactConditionSchemasTrue4Params{
+										End:          end27,
 										ErrorMessage: errorMessage39,
 										Start:        start27,
-										End:          end27,
 									}
 								}
+								var value39 string
+								value39 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Value.ValueString()
+
 								fortySix := shared.Four{
 									Fact:     fact39,
 									Operator: operator39,
-									Value:    value39,
 									Params:   params39,
+									Value:    value39,
 								}
 								anyVar6 = append(anyVar6, shared.PatternFactCondition{
 									Four: &fortySix,
@@ -3677,46 +3677,46 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var patternNestedCondition31 *shared.PatternNestedCondition3
-					if anyItem5.PatternNestedCondition.Three != nil {
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three != nil {
 						var not5 shared.PatternFactCondition
 						var patternFactCondition17 *shared.PatternFactCondition1
-						if anyItem5.PatternNestedCondition.Three.Not.One != nil {
-							fact40 := shared.PatternFactConditionFact(anyItem5.PatternNestedCondition.Three.Not.One.Fact.ValueString())
-							operator40 := shared.PatternFactConditionOperator(anyItem5.PatternNestedCondition.Three.Not.One.Operator.ValueString())
-							var value40 float64
-							value40 = anyItem5.PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One != nil {
+							fact40 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Fact.ValueString())
+							operator40 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Operator.ValueString())
 							var params40 *shared.PatternFactConditionParams
-							if anyItem5.PatternNestedCondition.Three.Not.One.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params != nil {
+								end28 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
+									*end28 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
+								} else {
+									end28 = nil
+								}
 								errorMessage40 := new(string)
-								if !anyItem5.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
-									*errorMessage40 = anyItem5.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
+									*errorMessage40 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage40 = nil
 								}
 								start28 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.One.Params.Start.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.One.Params.Start.IsNull() {
-									*start28 = anyItem5.PatternNestedCondition.Three.Not.One.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.Start.IsNull() {
+									*start28 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.Start.ValueFloat64()
 								} else {
 									start28 = nil
 								}
-								end28 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
-									*end28 = anyItem5.PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
-								} else {
-									end28 = nil
-								}
 								params40 = &shared.PatternFactConditionParams{
+									End:          end28,
 									ErrorMessage: errorMessage40,
 									Start:        start28,
-									End:          end28,
 								}
 							}
+							var value40 float64
+							value40 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 							patternFactCondition17 = &shared.PatternFactCondition1{
 								Fact:     fact40,
 								Operator: operator40,
-								Value:    value40,
 								Params:   params40,
+								Value:    value40,
 							}
 						}
 						if patternFactCondition17 != nil {
@@ -3725,43 +3725,43 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var patternFactCondition27 *shared.PatternFactCondition2
-						if anyItem5.PatternNestedCondition.Three.Not.Two != nil {
-							fact41 := shared.PatternFactConditionSchemasFact(anyItem5.PatternNestedCondition.Three.Not.Two.Fact.ValueString())
-							operator41 := shared.PatternFactConditionSchemasOperator(anyItem5.PatternNestedCondition.Three.Not.Two.Operator.ValueString())
-							var value41 float64
-							value41 = anyItem5.PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two != nil {
+							fact41 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Fact.ValueString())
+							operator41 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Operator.ValueString())
 							var params41 *shared.PatternFactConditionSchemasParams
-							if anyItem5.PatternNestedCondition.Three.Not.Two.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params != nil {
+								end29 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
+									*end29 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
+								} else {
+									end29 = nil
+								}
 								errorMessage41 := new(string)
-								if !anyItem5.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage41 = anyItem5.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+									*errorMessage41 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage41 = nil
 								}
 								start29 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Two.Params.Start.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Two.Params.Start.IsNull() {
-									*start29 = anyItem5.PatternNestedCondition.Three.Not.Two.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.Start.IsNull() {
+									*start29 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.Start.ValueFloat64()
 								} else {
 									start29 = nil
 								}
-								end29 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
-									*end29 = anyItem5.PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
-								} else {
-									end29 = nil
-								}
 								params41 = &shared.PatternFactConditionSchemasParams{
+									End:          end29,
 									ErrorMessage: errorMessage41,
 									Start:        start29,
-									End:          end29,
 								}
 							}
+							var value41 float64
+							value41 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 							patternFactCondition27 = &shared.PatternFactCondition2{
 								Fact:     fact41,
 								Operator: operator41,
-								Value:    value41,
 								Params:   params41,
+								Value:    value41,
 							}
 						}
 						if patternFactCondition27 != nil {
@@ -3770,44 +3770,44 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var patternFactCondition37 *shared.PatternFactCondition3
-						if anyItem5.PatternNestedCondition.Three.Not.Three != nil {
-							fact42 := shared.PatternFactConditionSchemasTrueFact(anyItem5.PatternNestedCondition.Three.Not.Three.Fact.ValueString())
-							operator42 := shared.PatternFactConditionSchemasTrueOperator(anyItem5.PatternNestedCondition.Three.Not.Three.Operator.ValueString())
-							value42 := make([]string, 0, len(anyItem5.PatternNestedCondition.Three.Not.Three.Value))
-							for _, valueItem7 := range anyItem5.PatternNestedCondition.Three.Not.Three.Value {
-								value42 = append(value42, valueItem7.ValueString())
-							}
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three != nil {
+							fact42 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Fact.ValueString())
+							operator42 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Operator.ValueString())
 							var params42 *shared.PatternFactConditionSchemasTrueParams
-							if anyItem5.PatternNestedCondition.Three.Not.Three.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params != nil {
+								end30 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
+									*end30 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
+								} else {
+									end30 = nil
+								}
 								errorMessage42 := new(string)
-								if !anyItem5.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage42 = anyItem5.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
+									*errorMessage42 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage42 = nil
 								}
 								start30 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Three.Params.Start.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Three.Params.Start.IsNull() {
-									*start30 = anyItem5.PatternNestedCondition.Three.Not.Three.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.Start.IsNull() {
+									*start30 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.Start.ValueFloat64()
 								} else {
 									start30 = nil
 								}
-								end30 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
-									*end30 = anyItem5.PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
-								} else {
-									end30 = nil
-								}
 								params42 = &shared.PatternFactConditionSchemasTrueParams{
+									End:          end30,
 									ErrorMessage: errorMessage42,
 									Start:        start30,
-									End:          end30,
 								}
+							}
+							value42 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Value))
+							for valueIndex7 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Value {
+								value42 = append(value42, r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Value[valueIndex7].ValueString())
 							}
 							patternFactCondition37 = &shared.PatternFactCondition3{
 								Fact:     fact42,
 								Operator: operator42,
-								Value:    value42,
 								Params:   params42,
+								Value:    value42,
 							}
 						}
 						if patternFactCondition37 != nil {
@@ -3816,43 +3816,43 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var fortySeven *shared.Four
-						if anyItem5.PatternNestedCondition.Three.Not.Four != nil {
-							fact43 := shared.PatternFactConditionSchemasTrue4Fact(anyItem5.PatternNestedCondition.Three.Not.Four.Fact.ValueString())
-							operator43 := shared.PatternFactConditionSchemasTrue4Operator(anyItem5.PatternNestedCondition.Three.Not.Four.Operator.ValueString())
-							var value43 string
-							value43 = anyItem5.PatternNestedCondition.Three.Not.Four.Value.ValueString()
-
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four != nil {
+							fact43 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Fact.ValueString())
+							operator43 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Operator.ValueString())
 							var params43 *shared.PatternFactConditionSchemasTrue4Params
-							if anyItem5.PatternNestedCondition.Three.Not.Four.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params != nil {
+								end31 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
+									*end31 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
+								} else {
+									end31 = nil
+								}
 								errorMessage43 := new(string)
-								if !anyItem5.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage43 = anyItem5.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
+									*errorMessage43 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage43 = nil
 								}
 								start31 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Four.Params.Start.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Four.Params.Start.IsNull() {
-									*start31 = anyItem5.PatternNestedCondition.Three.Not.Four.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.Start.IsNull() {
+									*start31 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.Start.ValueFloat64()
 								} else {
 									start31 = nil
 								}
-								end31 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
-									*end31 = anyItem5.PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
-								} else {
-									end31 = nil
-								}
 								params43 = &shared.PatternFactConditionSchemasTrue4Params{
+									End:          end31,
 									ErrorMessage: errorMessage43,
 									Start:        start31,
-									End:          end31,
 								}
 							}
+							var value43 string
+							value43 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Value.ValueString()
+
 							fortySeven = &shared.Four{
 								Fact:     fact43,
 								Operator: operator43,
-								Value:    value43,
 								Params:   params43,
+								Value:    value43,
 							}
 						}
 						if fortySeven != nil {
@@ -3892,11 +3892,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One != nil {
 					fact44 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Fact.ValueString())
 					operator44 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Operator.ValueString())
-					var value44 float64
-					value44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Value.ValueFloat64()
-
 					var params44 *shared.PatternFactConditionParams
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params != nil {
+						end32 := new(float64)
+						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.IsNull() {
+							*end32 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.ValueFloat64()
+						} else {
+							end32 = nil
+						}
 						errorMessage44 := new(string)
 						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.ErrorMessage.IsNull() {
 							*errorMessage44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.ErrorMessage.ValueString()
@@ -3909,23 +3912,20 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						} else {
 							start32 = nil
 						}
-						end32 := new(float64)
-						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.IsNull() {
-							*end32 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.ValueFloat64()
-						} else {
-							end32 = nil
-						}
 						params44 = &shared.PatternFactConditionParams{
+							End:          end32,
 							ErrorMessage: errorMessage44,
 							Start:        start32,
-							End:          end32,
 						}
 					}
+					var value44 float64
+					value44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Value.ValueFloat64()
+
 					patternFactCondition18 = &shared.PatternFactCondition1{
 						Fact:     fact44,
 						Operator: operator44,
-						Value:    value44,
 						Params:   params44,
+						Value:    value44,
 					}
 				}
 				if patternFactCondition18 != nil {
@@ -3937,11 +3937,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two != nil {
 					fact45 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Fact.ValueString())
 					operator45 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Operator.ValueString())
-					var value45 float64
-					value45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Value.ValueFloat64()
-
 					var params45 *shared.PatternFactConditionSchemasParams
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params != nil {
+						end33 := new(float64)
+						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.IsNull() {
+							*end33 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.ValueFloat64()
+						} else {
+							end33 = nil
+						}
 						errorMessage45 := new(string)
 						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
 							*errorMessage45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.ErrorMessage.ValueString()
@@ -3954,23 +3957,20 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						} else {
 							start33 = nil
 						}
-						end33 := new(float64)
-						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.IsNull() {
-							*end33 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.ValueFloat64()
-						} else {
-							end33 = nil
-						}
 						params45 = &shared.PatternFactConditionSchemasParams{
+							End:          end33,
 							ErrorMessage: errorMessage45,
 							Start:        start33,
-							End:          end33,
 						}
 					}
+					var value45 float64
+					value45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Value.ValueFloat64()
+
 					patternFactCondition28 = &shared.PatternFactCondition2{
 						Fact:     fact45,
 						Operator: operator45,
-						Value:    value45,
 						Params:   params45,
+						Value:    value45,
 					}
 				}
 				if patternFactCondition28 != nil {
@@ -3982,12 +3982,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three != nil {
 					fact46 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Fact.ValueString())
 					operator46 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Operator.ValueString())
-					value46 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value))
-					for _, valueItem8 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value {
-						value46 = append(value46, valueItem8.ValueString())
-					}
 					var params46 *shared.PatternFactConditionSchemasTrueParams
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params != nil {
+						end34 := new(float64)
+						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.IsNull() {
+							*end34 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.ValueFloat64()
+						} else {
+							end34 = nil
+						}
 						errorMessage46 := new(string)
 						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
 							*errorMessage46 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.ErrorMessage.ValueString()
@@ -4000,23 +4002,21 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						} else {
 							start34 = nil
 						}
-						end34 := new(float64)
-						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.IsNull() {
-							*end34 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.ValueFloat64()
-						} else {
-							end34 = nil
-						}
 						params46 = &shared.PatternFactConditionSchemasTrueParams{
+							End:          end34,
 							ErrorMessage: errorMessage46,
 							Start:        start34,
-							End:          end34,
 						}
+					}
+					value46 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value))
+					for valueIndex8 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value {
+						value46 = append(value46, r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value[valueIndex8].ValueString())
 					}
 					patternFactCondition38 = &shared.PatternFactCondition3{
 						Fact:     fact46,
 						Operator: operator46,
-						Value:    value46,
 						Params:   params46,
+						Value:    value46,
 					}
 				}
 				if patternFactCondition38 != nil {
@@ -4028,11 +4028,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four != nil {
 					fact47 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Fact.ValueString())
 					operator47 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Operator.ValueString())
-					var value47 string
-					value47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Value.ValueString()
-
 					var params47 *shared.PatternFactConditionSchemasTrue4Params
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params != nil {
+						end35 := new(float64)
+						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.IsNull() {
+							*end35 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.ValueFloat64()
+						} else {
+							end35 = nil
+						}
 						errorMessage47 := new(string)
 						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
 							*errorMessage47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.ErrorMessage.ValueString()
@@ -4045,23 +4048,20 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						} else {
 							start35 = nil
 						}
-						end35 := new(float64)
-						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.IsNull() {
-							*end35 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.ValueFloat64()
-						} else {
-							end35 = nil
-						}
 						params47 = &shared.PatternFactConditionSchemasTrue4Params{
+							End:          end35,
 							ErrorMessage: errorMessage47,
 							Start:        start35,
-							End:          end35,
 						}
 					}
+					var value47 string
+					value47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Value.ValueString()
+
 					fortyEight = &shared.Four{
 						Fact:     fact47,
 						Operator: operator47,
-						Value:    value47,
 						Params:   params47,
+						Value:    value47,
 					}
 				}
 				if fortyEight != nil {
@@ -4080,171 +4080,171 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				var patternNestedCondition12 *shared.PatternNestedCondition1
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One != nil {
 					all7 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All))
-					for _, allItem7 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All {
-						if allItem7.One != nil {
-							fact48 := shared.PatternFactConditionFact(allItem7.One.Fact.ValueString())
-							operator48 := shared.PatternFactConditionOperator(allItem7.One.Operator.ValueString())
-							var value48 float64
-							value48 = allItem7.One.Value.ValueFloat64()
-
+					for allItem4 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All {
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One != nil {
+							fact48 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Fact.ValueString())
+							operator48 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Operator.ValueString())
 							var params48 *shared.PatternFactConditionParams
-							if allItem7.One.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params != nil {
+								end36 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.End.IsNull() {
+									*end36 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.End.ValueFloat64()
+								} else {
+									end36 = nil
+								}
 								errorMessage48 := new(string)
-								if !allItem7.One.Params.ErrorMessage.IsUnknown() && !allItem7.One.Params.ErrorMessage.IsNull() {
-									*errorMessage48 = allItem7.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.ErrorMessage.IsNull() {
+									*errorMessage48 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage48 = nil
 								}
 								start36 := new(float64)
-								if !allItem7.One.Params.Start.IsUnknown() && !allItem7.One.Params.Start.IsNull() {
-									*start36 = allItem7.One.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.Start.IsNull() {
+									*start36 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.Start.ValueFloat64()
 								} else {
 									start36 = nil
 								}
-								end36 := new(float64)
-								if !allItem7.One.Params.End.IsUnknown() && !allItem7.One.Params.End.IsNull() {
-									*end36 = allItem7.One.Params.End.ValueFloat64()
-								} else {
-									end36 = nil
-								}
 								params48 = &shared.PatternFactConditionParams{
+									End:          end36,
 									ErrorMessage: errorMessage48,
 									Start:        start36,
-									End:          end36,
 								}
 							}
+							var value48 float64
+							value48 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Value.ValueFloat64()
+
 							patternFactCondition19 := shared.PatternFactCondition1{
 								Fact:     fact48,
 								Operator: operator48,
-								Value:    value48,
 								Params:   params48,
+								Value:    value48,
 							}
 							all7 = append(all7, shared.PatternFactCondition{
 								PatternFactCondition1: &patternFactCondition19,
 							})
 						}
-						if allItem7.Two != nil {
-							fact49 := shared.PatternFactConditionSchemasFact(allItem7.Two.Fact.ValueString())
-							operator49 := shared.PatternFactConditionSchemasOperator(allItem7.Two.Operator.ValueString())
-							var value49 float64
-							value49 = allItem7.Two.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two != nil {
+							fact49 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Fact.ValueString())
+							operator49 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Operator.ValueString())
 							var params49 *shared.PatternFactConditionSchemasParams
-							if allItem7.Two.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params != nil {
+								end37 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.End.IsNull() {
+									*end37 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.End.ValueFloat64()
+								} else {
+									end37 = nil
+								}
 								errorMessage49 := new(string)
-								if !allItem7.Two.Params.ErrorMessage.IsUnknown() && !allItem7.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage49 = allItem7.Two.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.ErrorMessage.IsNull() {
+									*errorMessage49 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage49 = nil
 								}
 								start37 := new(float64)
-								if !allItem7.Two.Params.Start.IsUnknown() && !allItem7.Two.Params.Start.IsNull() {
-									*start37 = allItem7.Two.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.Start.IsNull() {
+									*start37 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.Start.ValueFloat64()
 								} else {
 									start37 = nil
 								}
-								end37 := new(float64)
-								if !allItem7.Two.Params.End.IsUnknown() && !allItem7.Two.Params.End.IsNull() {
-									*end37 = allItem7.Two.Params.End.ValueFloat64()
-								} else {
-									end37 = nil
-								}
 								params49 = &shared.PatternFactConditionSchemasParams{
+									End:          end37,
 									ErrorMessage: errorMessage49,
 									Start:        start37,
-									End:          end37,
 								}
 							}
+							var value49 float64
+							value49 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Value.ValueFloat64()
+
 							patternFactCondition29 := shared.PatternFactCondition2{
 								Fact:     fact49,
 								Operator: operator49,
-								Value:    value49,
 								Params:   params49,
+								Value:    value49,
 							}
 							all7 = append(all7, shared.PatternFactCondition{
 								PatternFactCondition2: &patternFactCondition29,
 							})
 						}
-						if allItem7.Three != nil {
-							fact50 := shared.PatternFactConditionSchemasTrueFact(allItem7.Three.Fact.ValueString())
-							operator50 := shared.PatternFactConditionSchemasTrueOperator(allItem7.Three.Operator.ValueString())
-							value50 := make([]string, 0, len(allItem7.Three.Value))
-							for _, valueItem9 := range allItem7.Three.Value {
-								value50 = append(value50, valueItem9.ValueString())
-							}
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three != nil {
+							fact50 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Fact.ValueString())
+							operator50 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Operator.ValueString())
 							var params50 *shared.PatternFactConditionSchemasTrueParams
-							if allItem7.Three.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params != nil {
+								end38 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.End.IsNull() {
+									*end38 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.End.ValueFloat64()
+								} else {
+									end38 = nil
+								}
 								errorMessage50 := new(string)
-								if !allItem7.Three.Params.ErrorMessage.IsUnknown() && !allItem7.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage50 = allItem7.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.ErrorMessage.IsNull() {
+									*errorMessage50 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage50 = nil
 								}
 								start38 := new(float64)
-								if !allItem7.Three.Params.Start.IsUnknown() && !allItem7.Three.Params.Start.IsNull() {
-									*start38 = allItem7.Three.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.Start.IsNull() {
+									*start38 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.Start.ValueFloat64()
 								} else {
 									start38 = nil
 								}
-								end38 := new(float64)
-								if !allItem7.Three.Params.End.IsUnknown() && !allItem7.Three.Params.End.IsNull() {
-									*end38 = allItem7.Three.Params.End.ValueFloat64()
-								} else {
-									end38 = nil
-								}
 								params50 = &shared.PatternFactConditionSchemasTrueParams{
+									End:          end38,
 									ErrorMessage: errorMessage50,
 									Start:        start38,
-									End:          end38,
 								}
+							}
+							value50 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Value))
+							for valueIndex9 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Value {
+								value50 = append(value50, r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Value[valueIndex9].ValueString())
 							}
 							patternFactCondition39 := shared.PatternFactCondition3{
 								Fact:     fact50,
 								Operator: operator50,
-								Value:    value50,
 								Params:   params50,
+								Value:    value50,
 							}
 							all7 = append(all7, shared.PatternFactCondition{
 								PatternFactCondition3: &patternFactCondition39,
 							})
 						}
-						if allItem7.Four != nil {
-							fact51 := shared.PatternFactConditionSchemasTrue4Fact(allItem7.Four.Fact.ValueString())
-							operator51 := shared.PatternFactConditionSchemasTrue4Operator(allItem7.Four.Operator.ValueString())
-							var value51 string
-							value51 = allItem7.Four.Value.ValueString()
-
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four != nil {
+							fact51 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Fact.ValueString())
+							operator51 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Operator.ValueString())
 							var params51 *shared.PatternFactConditionSchemasTrue4Params
-							if allItem7.Four.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params != nil {
+								end39 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.End.IsNull() {
+									*end39 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.End.ValueFloat64()
+								} else {
+									end39 = nil
+								}
 								errorMessage51 := new(string)
-								if !allItem7.Four.Params.ErrorMessage.IsUnknown() && !allItem7.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage51 = allItem7.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.ErrorMessage.IsNull() {
+									*errorMessage51 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage51 = nil
 								}
 								start39 := new(float64)
-								if !allItem7.Four.Params.Start.IsUnknown() && !allItem7.Four.Params.Start.IsNull() {
-									*start39 = allItem7.Four.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.Start.IsNull() {
+									*start39 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.Start.ValueFloat64()
 								} else {
 									start39 = nil
 								}
-								end39 := new(float64)
-								if !allItem7.Four.Params.End.IsUnknown() && !allItem7.Four.Params.End.IsNull() {
-									*end39 = allItem7.Four.Params.End.ValueFloat64()
-								} else {
-									end39 = nil
-								}
 								params51 = &shared.PatternFactConditionSchemasTrue4Params{
+									End:          end39,
 									ErrorMessage: errorMessage51,
 									Start:        start39,
-									End:          end39,
 								}
 							}
+							var value51 string
+							value51 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Value.ValueString()
+
 							fortyNine := shared.Four{
 								Fact:     fact51,
 								Operator: operator51,
-								Value:    value51,
 								Params:   params51,
+								Value:    value51,
 							}
 							all7 = append(all7, shared.PatternFactCondition{
 								Four: &fortyNine,
@@ -4263,171 +4263,171 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				var patternNestedCondition22 *shared.PatternNestedCondition2
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two != nil {
 					anyVar7 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any))
-					for _, anyItem7 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any {
-						if anyItem7.One != nil {
-							fact52 := shared.PatternFactConditionFact(anyItem7.One.Fact.ValueString())
-							operator52 := shared.PatternFactConditionOperator(anyItem7.One.Operator.ValueString())
-							var value52 float64
-							value52 = anyItem7.One.Value.ValueFloat64()
-
+					for anyItem4 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any {
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One != nil {
+							fact52 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Fact.ValueString())
+							operator52 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Operator.ValueString())
 							var params52 *shared.PatternFactConditionParams
-							if anyItem7.One.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params != nil {
+								end40 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.End.IsNull() {
+									*end40 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.End.ValueFloat64()
+								} else {
+									end40 = nil
+								}
 								errorMessage52 := new(string)
-								if !anyItem7.One.Params.ErrorMessage.IsUnknown() && !anyItem7.One.Params.ErrorMessage.IsNull() {
-									*errorMessage52 = anyItem7.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.ErrorMessage.IsNull() {
+									*errorMessage52 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage52 = nil
 								}
 								start40 := new(float64)
-								if !anyItem7.One.Params.Start.IsUnknown() && !anyItem7.One.Params.Start.IsNull() {
-									*start40 = anyItem7.One.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.Start.IsNull() {
+									*start40 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.Start.ValueFloat64()
 								} else {
 									start40 = nil
 								}
-								end40 := new(float64)
-								if !anyItem7.One.Params.End.IsUnknown() && !anyItem7.One.Params.End.IsNull() {
-									*end40 = anyItem7.One.Params.End.ValueFloat64()
-								} else {
-									end40 = nil
-								}
 								params52 = &shared.PatternFactConditionParams{
+									End:          end40,
 									ErrorMessage: errorMessage52,
 									Start:        start40,
-									End:          end40,
 								}
 							}
+							var value52 float64
+							value52 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Value.ValueFloat64()
+
 							patternFactCondition110 := shared.PatternFactCondition1{
 								Fact:     fact52,
 								Operator: operator52,
-								Value:    value52,
 								Params:   params52,
+								Value:    value52,
 							}
 							anyVar7 = append(anyVar7, shared.PatternFactCondition{
 								PatternFactCondition1: &patternFactCondition110,
 							})
 						}
-						if anyItem7.Two != nil {
-							fact53 := shared.PatternFactConditionSchemasFact(anyItem7.Two.Fact.ValueString())
-							operator53 := shared.PatternFactConditionSchemasOperator(anyItem7.Two.Operator.ValueString())
-							var value53 float64
-							value53 = anyItem7.Two.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two != nil {
+							fact53 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Fact.ValueString())
+							operator53 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Operator.ValueString())
 							var params53 *shared.PatternFactConditionSchemasParams
-							if anyItem7.Two.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params != nil {
+								end41 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.End.IsNull() {
+									*end41 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.End.ValueFloat64()
+								} else {
+									end41 = nil
+								}
 								errorMessage53 := new(string)
-								if !anyItem7.Two.Params.ErrorMessage.IsUnknown() && !anyItem7.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage53 = anyItem7.Two.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.ErrorMessage.IsNull() {
+									*errorMessage53 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage53 = nil
 								}
 								start41 := new(float64)
-								if !anyItem7.Two.Params.Start.IsUnknown() && !anyItem7.Two.Params.Start.IsNull() {
-									*start41 = anyItem7.Two.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.Start.IsNull() {
+									*start41 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.Start.ValueFloat64()
 								} else {
 									start41 = nil
 								}
-								end41 := new(float64)
-								if !anyItem7.Two.Params.End.IsUnknown() && !anyItem7.Two.Params.End.IsNull() {
-									*end41 = anyItem7.Two.Params.End.ValueFloat64()
-								} else {
-									end41 = nil
-								}
 								params53 = &shared.PatternFactConditionSchemasParams{
+									End:          end41,
 									ErrorMessage: errorMessage53,
 									Start:        start41,
-									End:          end41,
 								}
 							}
+							var value53 float64
+							value53 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Value.ValueFloat64()
+
 							patternFactCondition210 := shared.PatternFactCondition2{
 								Fact:     fact53,
 								Operator: operator53,
-								Value:    value53,
 								Params:   params53,
+								Value:    value53,
 							}
 							anyVar7 = append(anyVar7, shared.PatternFactCondition{
 								PatternFactCondition2: &patternFactCondition210,
 							})
 						}
-						if anyItem7.Three != nil {
-							fact54 := shared.PatternFactConditionSchemasTrueFact(anyItem7.Three.Fact.ValueString())
-							operator54 := shared.PatternFactConditionSchemasTrueOperator(anyItem7.Three.Operator.ValueString())
-							value54 := make([]string, 0, len(anyItem7.Three.Value))
-							for _, valueItem10 := range anyItem7.Three.Value {
-								value54 = append(value54, valueItem10.ValueString())
-							}
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three != nil {
+							fact54 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Fact.ValueString())
+							operator54 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Operator.ValueString())
 							var params54 *shared.PatternFactConditionSchemasTrueParams
-							if anyItem7.Three.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params != nil {
+								end42 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.End.IsNull() {
+									*end42 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.End.ValueFloat64()
+								} else {
+									end42 = nil
+								}
 								errorMessage54 := new(string)
-								if !anyItem7.Three.Params.ErrorMessage.IsUnknown() && !anyItem7.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage54 = anyItem7.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.ErrorMessage.IsNull() {
+									*errorMessage54 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage54 = nil
 								}
 								start42 := new(float64)
-								if !anyItem7.Three.Params.Start.IsUnknown() && !anyItem7.Three.Params.Start.IsNull() {
-									*start42 = anyItem7.Three.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.Start.IsNull() {
+									*start42 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.Start.ValueFloat64()
 								} else {
 									start42 = nil
 								}
-								end42 := new(float64)
-								if !anyItem7.Three.Params.End.IsUnknown() && !anyItem7.Three.Params.End.IsNull() {
-									*end42 = anyItem7.Three.Params.End.ValueFloat64()
-								} else {
-									end42 = nil
-								}
 								params54 = &shared.PatternFactConditionSchemasTrueParams{
+									End:          end42,
 									ErrorMessage: errorMessage54,
 									Start:        start42,
-									End:          end42,
 								}
+							}
+							value54 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Value))
+							for valueIndex10 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Value {
+								value54 = append(value54, r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Value[valueIndex10].ValueString())
 							}
 							patternFactCondition310 := shared.PatternFactCondition3{
 								Fact:     fact54,
 								Operator: operator54,
-								Value:    value54,
 								Params:   params54,
+								Value:    value54,
 							}
 							anyVar7 = append(anyVar7, shared.PatternFactCondition{
 								PatternFactCondition3: &patternFactCondition310,
 							})
 						}
-						if anyItem7.Four != nil {
-							fact55 := shared.PatternFactConditionSchemasTrue4Fact(anyItem7.Four.Fact.ValueString())
-							operator55 := shared.PatternFactConditionSchemasTrue4Operator(anyItem7.Four.Operator.ValueString())
-							var value55 string
-							value55 = anyItem7.Four.Value.ValueString()
-
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four != nil {
+							fact55 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Fact.ValueString())
+							operator55 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Operator.ValueString())
 							var params55 *shared.PatternFactConditionSchemasTrue4Params
-							if anyItem7.Four.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params != nil {
+								end43 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.End.IsNull() {
+									*end43 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.End.ValueFloat64()
+								} else {
+									end43 = nil
+								}
 								errorMessage55 := new(string)
-								if !anyItem7.Four.Params.ErrorMessage.IsUnknown() && !anyItem7.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage55 = anyItem7.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.ErrorMessage.IsNull() {
+									*errorMessage55 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage55 = nil
 								}
 								start43 := new(float64)
-								if !anyItem7.Four.Params.Start.IsUnknown() && !anyItem7.Four.Params.Start.IsNull() {
-									*start43 = anyItem7.Four.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.Start.IsNull() {
+									*start43 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.Start.ValueFloat64()
 								} else {
 									start43 = nil
 								}
-								end43 := new(float64)
-								if !anyItem7.Four.Params.End.IsUnknown() && !anyItem7.Four.Params.End.IsNull() {
-									*end43 = anyItem7.Four.Params.End.ValueFloat64()
-								} else {
-									end43 = nil
-								}
 								params55 = &shared.PatternFactConditionSchemasTrue4Params{
+									End:          end43,
 									ErrorMessage: errorMessage55,
 									Start:        start43,
-									End:          end43,
 								}
 							}
+							var value55 string
+							value55 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Value.ValueString()
+
 							fourHundredAndTen := shared.Four{
 								Fact:     fact55,
 								Operator: operator55,
-								Value:    value55,
 								Params:   params55,
+								Value:    value55,
 							}
 							anyVar7 = append(anyVar7, shared.PatternFactCondition{
 								Four: &fourHundredAndTen,
@@ -4450,11 +4450,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One != nil {
 						fact56 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Fact.ValueString())
 						operator56 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Operator.ValueString())
-						var value56 float64
-						value56 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
-
 						var params56 *shared.PatternFactConditionParams
 						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params != nil {
+							end44 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
+								*end44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
+							} else {
+								end44 = nil
+							}
 							errorMessage56 := new(string)
 							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
 								*errorMessage56 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
@@ -4467,23 +4470,20 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							} else {
 								start44 = nil
 							}
-							end44 := new(float64)
-							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
-								*end44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
-							} else {
-								end44 = nil
-							}
 							params56 = &shared.PatternFactConditionParams{
+								End:          end44,
 								ErrorMessage: errorMessage56,
 								Start:        start44,
-								End:          end44,
 							}
 						}
+						var value56 float64
+						value56 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 						patternFactCondition111 = &shared.PatternFactCondition1{
 							Fact:     fact56,
 							Operator: operator56,
-							Value:    value56,
 							Params:   params56,
+							Value:    value56,
 						}
 					}
 					if patternFactCondition111 != nil {
@@ -4495,11 +4495,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two != nil {
 						fact57 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Fact.ValueString())
 						operator57 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Operator.ValueString())
-						var value57 float64
-						value57 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
 						var params57 *shared.PatternFactConditionSchemasParams
 						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params != nil {
+							end45 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
+								*end45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
+							} else {
+								end45 = nil
+							}
 							errorMessage57 := new(string)
 							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
 								*errorMessage57 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
@@ -4512,23 +4515,20 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							} else {
 								start45 = nil
 							}
-							end45 := new(float64)
-							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
-								*end45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
-							} else {
-								end45 = nil
-							}
 							params57 = &shared.PatternFactConditionSchemasParams{
+								End:          end45,
 								ErrorMessage: errorMessage57,
 								Start:        start45,
-								End:          end45,
 							}
 						}
+						var value57 float64
+						value57 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 						patternFactCondition211 = &shared.PatternFactCondition2{
 							Fact:     fact57,
 							Operator: operator57,
-							Value:    value57,
 							Params:   params57,
+							Value:    value57,
 						}
 					}
 					if patternFactCondition211 != nil {
@@ -4540,12 +4540,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three != nil {
 						fact58 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Fact.ValueString())
 						operator58 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Operator.ValueString())
-						value58 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value))
-						for _, valueItem11 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value {
-							value58 = append(value58, valueItem11.ValueString())
-						}
 						var params58 *shared.PatternFactConditionSchemasTrueParams
 						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params != nil {
+							end46 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
+								*end46 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
+							} else {
+								end46 = nil
+							}
 							errorMessage58 := new(string)
 							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
 								*errorMessage58 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
@@ -4558,23 +4560,21 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							} else {
 								start46 = nil
 							}
-							end46 := new(float64)
-							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
-								*end46 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
-							} else {
-								end46 = nil
-							}
 							params58 = &shared.PatternFactConditionSchemasTrueParams{
+								End:          end46,
 								ErrorMessage: errorMessage58,
 								Start:        start46,
-								End:          end46,
 							}
+						}
+						value58 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value))
+						for valueIndex11 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value {
+							value58 = append(value58, r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value[valueIndex11].ValueString())
 						}
 						patternFactCondition311 = &shared.PatternFactCondition3{
 							Fact:     fact58,
 							Operator: operator58,
-							Value:    value58,
 							Params:   params58,
+							Value:    value58,
 						}
 					}
 					if patternFactCondition311 != nil {
@@ -4586,11 +4586,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four != nil {
 						fact59 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Fact.ValueString())
 						operator59 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Operator.ValueString())
-						var value59 string
-						value59 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Value.ValueString()
-
 						var params59 *shared.PatternFactConditionSchemasTrue4Params
 						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params != nil {
+							end47 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
+								*end47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
+							} else {
+								end47 = nil
+							}
 							errorMessage59 := new(string)
 							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
 								*errorMessage59 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
@@ -4603,23 +4606,20 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							} else {
 								start47 = nil
 							}
-							end47 := new(float64)
-							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
-								*end47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
-							} else {
-								end47 = nil
-							}
 							params59 = &shared.PatternFactConditionSchemasTrue4Params{
+								End:          end47,
 								ErrorMessage: errorMessage59,
 								Start:        start47,
-								End:          end47,
 							}
 						}
+						var value59 string
+						value59 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Value.ValueString()
+
 						fourHundredAndEleven = &shared.Four{
 							Fact:     fact59,
 							Operator: operator59,
-							Value:    value59,
 							Params:   params59,
+							Value:    value59,
 						}
 					}
 					if fourHundredAndEleven != nil {
@@ -4668,21 +4668,18 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 		var numericCondition1 *shared.NumericCondition1
 		if r.Rule.NumericRuleType.Conditions.One != nil {
 			all8 := make([]shared.NumericConditionAll, 0, len(r.Rule.NumericRuleType.Conditions.One.All))
-			for _, allItem8 := range r.Rule.NumericRuleType.Conditions.One.All {
-				if allItem8.NumericFactCondition != nil {
+			for allItem5 := range r.Rule.NumericRuleType.Conditions.One.All {
+				if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition != nil {
 					var numericFactCondition shared.NumericFactCondition
 					var numericFactCondition1 *shared.NumericFactCondition1
-					if allItem8.NumericFactCondition.One != nil {
-						fact60 := shared.NumericFactConditionFact(allItem8.NumericFactCondition.One.Fact.ValueString())
-						operator60 := shared.NumericFactConditionOperator(allItem8.NumericFactCondition.One.Operator.ValueString())
-						var value60 float64
-						value60 = allItem8.NumericFactCondition.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One != nil {
+						fact60 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Fact.ValueString())
+						operator60 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Operator.ValueString())
 						var params60 *shared.NumericFactConditionParams
-						if allItem8.NumericFactCondition.One.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Params != nil {
 							errorMessage60 := new(string)
-							if !allItem8.NumericFactCondition.One.Params.ErrorMessage.IsUnknown() && !allItem8.NumericFactCondition.One.Params.ErrorMessage.IsNull() {
-								*errorMessage60 = allItem8.NumericFactCondition.One.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Params.ErrorMessage.IsNull() {
+								*errorMessage60 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage60 = nil
 							}
@@ -4690,11 +4687,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage60,
 							}
 						}
+						var value60 float64
+						value60 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Value.ValueFloat64()
+
 						numericFactCondition1 = &shared.NumericFactCondition1{
 							Fact:     fact60,
 							Operator: operator60,
-							Value:    value60,
 							Params:   params60,
+							Value:    value60,
 						}
 					}
 					if numericFactCondition1 != nil {
@@ -4703,36 +4703,36 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericFactCondition2 *shared.NumericFactCondition2
-					if allItem8.NumericFactCondition.Two != nil {
-						fact61 := shared.NumericFactConditionSchemasFact(allItem8.NumericFactCondition.Two.Fact.ValueString())
-						operator61 := shared.NumericFactConditionSchemasOperator(allItem8.NumericFactCondition.Two.Operator.ValueString())
-						var value61 float64
-						value61 = allItem8.NumericFactCondition.Two.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two != nil {
+						fact61 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Fact.ValueString())
+						operator61 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Operator.ValueString())
 						var params61 *shared.NumericFactConditionSchemasParams
-						if allItem8.NumericFactCondition.Two.Params != nil {
-							errorMessage61 := new(string)
-							if !allItem8.NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !allItem8.NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage61 = allItem8.NumericFactCondition.Two.Params.ErrorMessage.ValueString()
-							} else {
-								errorMessage61 = nil
-							}
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params != nil {
 							allowLeadingZeroes := new(bool)
-							if !allItem8.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem8.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
-								*allowLeadingZeroes = allItem8.NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
+								*allowLeadingZeroes = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
 							} else {
 								allowLeadingZeroes = nil
 							}
+							errorMessage61 := new(string)
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage61 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.ErrorMessage.ValueString()
+							} else {
+								errorMessage61 = nil
+							}
 							params61 = &shared.NumericFactConditionSchemasParams{
-								ErrorMessage:       errorMessage61,
 								AllowLeadingZeroes: allowLeadingZeroes,
+								ErrorMessage:       errorMessage61,
 							}
 						}
+						var value61 float64
+						value61 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Value.ValueFloat64()
+
 						numericFactCondition2 = &shared.NumericFactCondition2{
 							Fact:     fact61,
 							Operator: operator61,
-							Value:    value61,
 							Params:   params61,
+							Value:    value61,
 						}
 					}
 					if numericFactCondition2 != nil {
@@ -4741,17 +4741,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericFactCondition3 *shared.NumericFactCondition3
-					if allItem8.NumericFactCondition.Three != nil {
-						fact62 := shared.NumericFactConditionSchemasTrueFact(allItem8.NumericFactCondition.Three.Fact.ValueString())
-						operator62 := shared.NumericFactConditionSchemasTrueOperator(allItem8.NumericFactCondition.Three.Operator.ValueString())
-						var value62 float64
-						value62 = allItem8.NumericFactCondition.Three.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three != nil {
+						fact62 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Fact.ValueString())
+						operator62 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Operator.ValueString())
 						var params62 *shared.NumericFactConditionSchemasTrueParams
-						if allItem8.NumericFactCondition.Three.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Params != nil {
 							errorMessage62 := new(string)
-							if !allItem8.NumericFactCondition.Three.Params.ErrorMessage.IsUnknown() && !allItem8.NumericFactCondition.Three.Params.ErrorMessage.IsNull() {
-								*errorMessage62 = allItem8.NumericFactCondition.Three.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Params.ErrorMessage.IsNull() {
+								*errorMessage62 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage62 = nil
 							}
@@ -4759,11 +4756,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage62,
 							}
 						}
+						var value62 float64
+						value62 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Value.ValueFloat64()
+
 						numericFactCondition3 = &shared.NumericFactCondition3{
 							Fact:     fact62,
 							Operator: operator62,
-							Value:    value62,
 							Params:   params62,
+							Value:    value62,
 						}
 					}
 					if numericFactCondition3 != nil {
@@ -4772,17 +4772,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericFactCondition4 *shared.NumericFactCondition4
-					if allItem8.NumericFactCondition.Four != nil {
-						fact63 := shared.NumericFactConditionSchemasTrue4Fact(allItem8.NumericFactCondition.Four.Fact.ValueString())
-						operator63 := shared.NumericFactConditionSchemasTrue4Operator(allItem8.NumericFactCondition.Four.Operator.ValueString())
-						var value63 bool
-						value63 = allItem8.NumericFactCondition.Four.Value.ValueBool()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four != nil {
+						fact63 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Fact.ValueString())
+						operator63 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Operator.ValueString())
 						var params63 *shared.NumericFactConditionSchemasTrue4Params
-						if allItem8.NumericFactCondition.Four.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Params != nil {
 							errorMessage63 := new(string)
-							if !allItem8.NumericFactCondition.Four.Params.ErrorMessage.IsUnknown() && !allItem8.NumericFactCondition.Four.Params.ErrorMessage.IsNull() {
-								*errorMessage63 = allItem8.NumericFactCondition.Four.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Params.ErrorMessage.IsNull() {
+								*errorMessage63 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage63 = nil
 							}
@@ -4790,11 +4787,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage63,
 							}
 						}
+						var value63 bool
+						value63 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Value.ValueBool()
+
 						numericFactCondition4 = &shared.NumericFactCondition4{
 							Fact:     fact63,
 							Operator: operator63,
-							Value:    value63,
 							Params:   params63,
+							Value:    value63,
 						}
 					}
 					if numericFactCondition4 != nil {
@@ -4806,23 +4806,20 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						NumericFactCondition: &numericFactCondition,
 					})
 				}
-				if allItem8.NumericNestedCondition != nil {
+				if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition != nil {
 					var numericNestedCondition shared.NumericNestedCondition
 					var numericNestedCondition1 *shared.NumericNestedCondition1
-					if allItem8.NumericNestedCondition.One != nil {
-						all9 := make([]shared.NumericFactCondition, 0, len(allItem8.NumericNestedCondition.One.All))
-						for _, allItem9 := range allItem8.NumericNestedCondition.One.All {
-							if allItem9.One != nil {
-								fact64 := shared.NumericFactConditionFact(allItem9.One.Fact.ValueString())
-								operator64 := shared.NumericFactConditionOperator(allItem9.One.Operator.ValueString())
-								var value64 float64
-								value64 = allItem9.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One != nil {
+						all9 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All))
+						for allItem6 := range r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One != nil {
+								fact64 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Fact.ValueString())
+								operator64 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Operator.ValueString())
 								var params64 *shared.NumericFactConditionParams
-								if allItem9.One.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Params != nil {
 									errorMessage64 := new(string)
-									if !allItem9.One.Params.ErrorMessage.IsUnknown() && !allItem9.One.Params.ErrorMessage.IsNull() {
-										*errorMessage64 = allItem9.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Params.ErrorMessage.IsNull() {
+										*errorMessage64 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage64 = nil
 									}
@@ -4830,62 +4827,62 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage64,
 									}
 								}
+								var value64 float64
+								value64 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Value.ValueFloat64()
+
 								numericFactCondition11 := shared.NumericFactCondition1{
 									Fact:     fact64,
 									Operator: operator64,
-									Value:    value64,
 									Params:   params64,
+									Value:    value64,
 								}
 								all9 = append(all9, shared.NumericFactCondition{
 									NumericFactCondition1: &numericFactCondition11,
 								})
 							}
-							if allItem9.Two != nil {
-								fact65 := shared.NumericFactConditionSchemasFact(allItem9.Two.Fact.ValueString())
-								operator65 := shared.NumericFactConditionSchemasOperator(allItem9.Two.Operator.ValueString())
-								var value65 float64
-								value65 = allItem9.Two.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two != nil {
+								fact65 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Fact.ValueString())
+								operator65 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Operator.ValueString())
 								var params65 *shared.NumericFactConditionSchemasParams
-								if allItem9.Two.Params != nil {
-									errorMessage65 := new(string)
-									if !allItem9.Two.Params.ErrorMessage.IsUnknown() && !allItem9.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage65 = allItem9.Two.Params.ErrorMessage.ValueString()
-									} else {
-										errorMessage65 = nil
-									}
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params != nil {
 									allowLeadingZeroes1 := new(bool)
-									if !allItem9.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem9.Two.Params.AllowLeadingZeroes.IsNull() {
-										*allowLeadingZeroes1 = allItem9.Two.Params.AllowLeadingZeroes.ValueBool()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.AllowLeadingZeroes.IsNull() {
+										*allowLeadingZeroes1 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.AllowLeadingZeroes.ValueBool()
 									} else {
 										allowLeadingZeroes1 = nil
 									}
+									errorMessage65 := new(string)
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage65 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.ErrorMessage.ValueString()
+									} else {
+										errorMessage65 = nil
+									}
 									params65 = &shared.NumericFactConditionSchemasParams{
-										ErrorMessage:       errorMessage65,
 										AllowLeadingZeroes: allowLeadingZeroes1,
+										ErrorMessage:       errorMessage65,
 									}
 								}
+								var value65 float64
+								value65 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Value.ValueFloat64()
+
 								numericFactCondition21 := shared.NumericFactCondition2{
 									Fact:     fact65,
 									Operator: operator65,
-									Value:    value65,
 									Params:   params65,
+									Value:    value65,
 								}
 								all9 = append(all9, shared.NumericFactCondition{
 									NumericFactCondition2: &numericFactCondition21,
 								})
 							}
-							if allItem9.Three != nil {
-								fact66 := shared.NumericFactConditionSchemasTrueFact(allItem9.Three.Fact.ValueString())
-								operator66 := shared.NumericFactConditionSchemasTrueOperator(allItem9.Three.Operator.ValueString())
-								var value66 float64
-								value66 = allItem9.Three.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three != nil {
+								fact66 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Fact.ValueString())
+								operator66 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Operator.ValueString())
 								var params66 *shared.NumericFactConditionSchemasTrueParams
-								if allItem9.Three.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Params != nil {
 									errorMessage66 := new(string)
-									if !allItem9.Three.Params.ErrorMessage.IsUnknown() && !allItem9.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage66 = allItem9.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage66 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage66 = nil
 									}
@@ -4893,27 +4890,27 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage66,
 									}
 								}
+								var value66 float64
+								value66 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Value.ValueFloat64()
+
 								numericFactCondition31 := shared.NumericFactCondition3{
 									Fact:     fact66,
 									Operator: operator66,
-									Value:    value66,
 									Params:   params66,
+									Value:    value66,
 								}
 								all9 = append(all9, shared.NumericFactCondition{
 									NumericFactCondition3: &numericFactCondition31,
 								})
 							}
-							if allItem9.Four != nil {
-								fact67 := shared.NumericFactConditionSchemasTrue4Fact(allItem9.Four.Fact.ValueString())
-								operator67 := shared.NumericFactConditionSchemasTrue4Operator(allItem9.Four.Operator.ValueString())
-								var value67 bool
-								value67 = allItem9.Four.Value.ValueBool()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four != nil {
+								fact67 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Fact.ValueString())
+								operator67 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Operator.ValueString())
 								var params67 *shared.NumericFactConditionSchemasTrue4Params
-								if allItem9.Four.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Params != nil {
 									errorMessage67 := new(string)
-									if !allItem9.Four.Params.ErrorMessage.IsUnknown() && !allItem9.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage67 = allItem9.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage67 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage67 = nil
 									}
@@ -4921,11 +4918,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage67,
 									}
 								}
+								var value67 bool
+								value67 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Value.ValueBool()
+
 								numericFactCondition41 := shared.NumericFactCondition4{
 									Fact:     fact67,
 									Operator: operator67,
-									Value:    value67,
 									Params:   params67,
+									Value:    value67,
 								}
 								all9 = append(all9, shared.NumericFactCondition{
 									NumericFactCondition4: &numericFactCondition41,
@@ -4942,20 +4942,17 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericNestedCondition2 *shared.NumericNestedCondition2
-					if allItem8.NumericNestedCondition.Two != nil {
-						anyVar8 := make([]shared.NumericFactCondition, 0, len(allItem8.NumericNestedCondition.Two.Any))
-						for _, anyItem8 := range allItem8.NumericNestedCondition.Two.Any {
-							if anyItem8.One != nil {
-								fact68 := shared.NumericFactConditionFact(anyItem8.One.Fact.ValueString())
-								operator68 := shared.NumericFactConditionOperator(anyItem8.One.Operator.ValueString())
-								var value68 float64
-								value68 = anyItem8.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two != nil {
+						anyVar8 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any))
+						for anyItem5 := range r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One != nil {
+								fact68 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Fact.ValueString())
+								operator68 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Operator.ValueString())
 								var params68 *shared.NumericFactConditionParams
-								if anyItem8.One.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Params != nil {
 									errorMessage68 := new(string)
-									if !anyItem8.One.Params.ErrorMessage.IsUnknown() && !anyItem8.One.Params.ErrorMessage.IsNull() {
-										*errorMessage68 = anyItem8.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Params.ErrorMessage.IsNull() {
+										*errorMessage68 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage68 = nil
 									}
@@ -4963,62 +4960,62 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage68,
 									}
 								}
+								var value68 float64
+								value68 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Value.ValueFloat64()
+
 								numericFactCondition12 := shared.NumericFactCondition1{
 									Fact:     fact68,
 									Operator: operator68,
-									Value:    value68,
 									Params:   params68,
+									Value:    value68,
 								}
 								anyVar8 = append(anyVar8, shared.NumericFactCondition{
 									NumericFactCondition1: &numericFactCondition12,
 								})
 							}
-							if anyItem8.Two != nil {
-								fact69 := shared.NumericFactConditionSchemasFact(anyItem8.Two.Fact.ValueString())
-								operator69 := shared.NumericFactConditionSchemasOperator(anyItem8.Two.Operator.ValueString())
-								var value69 float64
-								value69 = anyItem8.Two.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two != nil {
+								fact69 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Fact.ValueString())
+								operator69 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Operator.ValueString())
 								var params69 *shared.NumericFactConditionSchemasParams
-								if anyItem8.Two.Params != nil {
-									errorMessage69 := new(string)
-									if !anyItem8.Two.Params.ErrorMessage.IsUnknown() && !anyItem8.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage69 = anyItem8.Two.Params.ErrorMessage.ValueString()
-									} else {
-										errorMessage69 = nil
-									}
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params != nil {
 									allowLeadingZeroes2 := new(bool)
-									if !anyItem8.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem8.Two.Params.AllowLeadingZeroes.IsNull() {
-										*allowLeadingZeroes2 = anyItem8.Two.Params.AllowLeadingZeroes.ValueBool()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.AllowLeadingZeroes.IsNull() {
+										*allowLeadingZeroes2 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.AllowLeadingZeroes.ValueBool()
 									} else {
 										allowLeadingZeroes2 = nil
 									}
+									errorMessage69 := new(string)
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage69 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.ErrorMessage.ValueString()
+									} else {
+										errorMessage69 = nil
+									}
 									params69 = &shared.NumericFactConditionSchemasParams{
-										ErrorMessage:       errorMessage69,
 										AllowLeadingZeroes: allowLeadingZeroes2,
+										ErrorMessage:       errorMessage69,
 									}
 								}
+								var value69 float64
+								value69 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Value.ValueFloat64()
+
 								numericFactCondition22 := shared.NumericFactCondition2{
 									Fact:     fact69,
 									Operator: operator69,
-									Value:    value69,
 									Params:   params69,
+									Value:    value69,
 								}
 								anyVar8 = append(anyVar8, shared.NumericFactCondition{
 									NumericFactCondition2: &numericFactCondition22,
 								})
 							}
-							if anyItem8.Three != nil {
-								fact70 := shared.NumericFactConditionSchemasTrueFact(anyItem8.Three.Fact.ValueString())
-								operator70 := shared.NumericFactConditionSchemasTrueOperator(anyItem8.Three.Operator.ValueString())
-								var value70 float64
-								value70 = anyItem8.Three.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three != nil {
+								fact70 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Fact.ValueString())
+								operator70 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Operator.ValueString())
 								var params70 *shared.NumericFactConditionSchemasTrueParams
-								if anyItem8.Three.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Params != nil {
 									errorMessage70 := new(string)
-									if !anyItem8.Three.Params.ErrorMessage.IsUnknown() && !anyItem8.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage70 = anyItem8.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage70 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage70 = nil
 									}
@@ -5026,27 +5023,27 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage70,
 									}
 								}
+								var value70 float64
+								value70 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Value.ValueFloat64()
+
 								numericFactCondition32 := shared.NumericFactCondition3{
 									Fact:     fact70,
 									Operator: operator70,
-									Value:    value70,
 									Params:   params70,
+									Value:    value70,
 								}
 								anyVar8 = append(anyVar8, shared.NumericFactCondition{
 									NumericFactCondition3: &numericFactCondition32,
 								})
 							}
-							if anyItem8.Four != nil {
-								fact71 := shared.NumericFactConditionSchemasTrue4Fact(anyItem8.Four.Fact.ValueString())
-								operator71 := shared.NumericFactConditionSchemasTrue4Operator(anyItem8.Four.Operator.ValueString())
-								var value71 bool
-								value71 = anyItem8.Four.Value.ValueBool()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four != nil {
+								fact71 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Fact.ValueString())
+								operator71 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Operator.ValueString())
 								var params71 *shared.NumericFactConditionSchemasTrue4Params
-								if anyItem8.Four.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Params != nil {
 									errorMessage71 := new(string)
-									if !anyItem8.Four.Params.ErrorMessage.IsUnknown() && !anyItem8.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage71 = anyItem8.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage71 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage71 = nil
 									}
@@ -5054,11 +5051,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage71,
 									}
 								}
+								var value71 bool
+								value71 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Value.ValueBool()
+
 								numericFactCondition42 := shared.NumericFactCondition4{
 									Fact:     fact71,
 									Operator: operator71,
-									Value:    value71,
 									Params:   params71,
+									Value:    value71,
 								}
 								anyVar8 = append(anyVar8, shared.NumericFactCondition{
 									NumericFactCondition4: &numericFactCondition42,
@@ -5075,20 +5075,17 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericNestedCondition3 *shared.NumericNestedCondition3
-					if allItem8.NumericNestedCondition.Three != nil {
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three != nil {
 						var not8 shared.NumericFactCondition
 						var numericFactCondition13 *shared.NumericFactCondition1
-						if allItem8.NumericNestedCondition.Three.Not.One != nil {
-							fact72 := shared.NumericFactConditionFact(allItem8.NumericNestedCondition.Three.Not.One.Fact.ValueString())
-							operator72 := shared.NumericFactConditionOperator(allItem8.NumericNestedCondition.Three.Not.One.Operator.ValueString())
-							var value72 float64
-							value72 = allItem8.NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One != nil {
+							fact72 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Fact.ValueString())
+							operator72 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Operator.ValueString())
 							var params72 *shared.NumericFactConditionParams
-							if allItem8.NumericNestedCondition.Three.Not.One.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Params != nil {
 								errorMessage72 := new(string)
-								if !allItem8.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
-									*errorMessage72 = allItem8.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
+									*errorMessage72 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage72 = nil
 								}
@@ -5096,11 +5093,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage72,
 								}
 							}
+							var value72 float64
+							value72 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 							numericFactCondition13 = &shared.NumericFactCondition1{
 								Fact:     fact72,
 								Operator: operator72,
-								Value:    value72,
 								Params:   params72,
+								Value:    value72,
 							}
 						}
 						if numericFactCondition13 != nil {
@@ -5109,36 +5109,36 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var numericFactCondition23 *shared.NumericFactCondition2
-						if allItem8.NumericNestedCondition.Three.Not.Two != nil {
-							fact73 := shared.NumericFactConditionSchemasFact(allItem8.NumericNestedCondition.Three.Not.Two.Fact.ValueString())
-							operator73 := shared.NumericFactConditionSchemasOperator(allItem8.NumericNestedCondition.Three.Not.Two.Operator.ValueString())
-							var value73 float64
-							value73 = allItem8.NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two != nil {
+							fact73 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Fact.ValueString())
+							operator73 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Operator.ValueString())
 							var params73 *shared.NumericFactConditionSchemasParams
-							if allItem8.NumericNestedCondition.Three.Not.Two.Params != nil {
-								errorMessage73 := new(string)
-								if !allItem8.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage73 = allItem8.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
-								} else {
-									errorMessage73 = nil
-								}
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params != nil {
 								allowLeadingZeroes3 := new(bool)
-								if !allItem8.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
-									*allowLeadingZeroes3 = allItem8.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
+									*allowLeadingZeroes3 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
 								} else {
 									allowLeadingZeroes3 = nil
 								}
+								errorMessage73 := new(string)
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+									*errorMessage73 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+								} else {
+									errorMessage73 = nil
+								}
 								params73 = &shared.NumericFactConditionSchemasParams{
-									ErrorMessage:       errorMessage73,
 									AllowLeadingZeroes: allowLeadingZeroes3,
+									ErrorMessage:       errorMessage73,
 								}
 							}
+							var value73 float64
+							value73 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 							numericFactCondition23 = &shared.NumericFactCondition2{
 								Fact:     fact73,
 								Operator: operator73,
-								Value:    value73,
 								Params:   params73,
+								Value:    value73,
 							}
 						}
 						if numericFactCondition23 != nil {
@@ -5147,17 +5147,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var numericFactCondition33 *shared.NumericFactCondition3
-						if allItem8.NumericNestedCondition.Three.Not.Three != nil {
-							fact74 := shared.NumericFactConditionSchemasTrueFact(allItem8.NumericNestedCondition.Three.Not.Three.Fact.ValueString())
-							operator74 := shared.NumericFactConditionSchemasTrueOperator(allItem8.NumericNestedCondition.Three.Not.Three.Operator.ValueString())
-							var value74 float64
-							value74 = allItem8.NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three != nil {
+							fact74 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Fact.ValueString())
+							operator74 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Operator.ValueString())
 							var params74 *shared.NumericFactConditionSchemasTrueParams
-							if allItem8.NumericNestedCondition.Three.Not.Three.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Params != nil {
 								errorMessage74 := new(string)
-								if !allItem8.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage74 = allItem8.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
+									*errorMessage74 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage74 = nil
 								}
@@ -5165,11 +5162,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage74,
 								}
 							}
+							var value74 float64
+							value74 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
+
 							numericFactCondition33 = &shared.NumericFactCondition3{
 								Fact:     fact74,
 								Operator: operator74,
-								Value:    value74,
 								Params:   params74,
+								Value:    value74,
 							}
 						}
 						if numericFactCondition33 != nil {
@@ -5178,17 +5178,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var numericFactCondition43 *shared.NumericFactCondition4
-						if allItem8.NumericNestedCondition.Three.Not.Four != nil {
-							fact75 := shared.NumericFactConditionSchemasTrue4Fact(allItem8.NumericNestedCondition.Three.Not.Four.Fact.ValueString())
-							operator75 := shared.NumericFactConditionSchemasTrue4Operator(allItem8.NumericNestedCondition.Three.Not.Four.Operator.ValueString())
-							var value75 bool
-							value75 = allItem8.NumericNestedCondition.Three.Not.Four.Value.ValueBool()
-
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four != nil {
+							fact75 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Fact.ValueString())
+							operator75 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Operator.ValueString())
 							var params75 *shared.NumericFactConditionSchemasTrue4Params
-							if allItem8.NumericNestedCondition.Three.Not.Four.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Params != nil {
 								errorMessage75 := new(string)
-								if !allItem8.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage75 = allItem8.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
+									*errorMessage75 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage75 = nil
 								}
@@ -5196,11 +5193,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage75,
 								}
 							}
+							var value75 bool
+							value75 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Value.ValueBool()
+
 							numericFactCondition43 = &shared.NumericFactCondition4{
 								Fact:     fact75,
 								Operator: operator75,
-								Value:    value75,
 								Params:   params75,
+								Value:    value75,
 							}
 						}
 						if numericFactCondition43 != nil {
@@ -5234,21 +5234,18 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 		var numericCondition2 *shared.NumericCondition2
 		if r.Rule.NumericRuleType.Conditions.Two != nil {
 			anyVar9 := make([]shared.NumericConditionAny, 0, len(r.Rule.NumericRuleType.Conditions.Two.Any))
-			for _, anyItem9 := range r.Rule.NumericRuleType.Conditions.Two.Any {
-				if anyItem9.NumericFactCondition != nil {
+			for anyItem6 := range r.Rule.NumericRuleType.Conditions.Two.Any {
+				if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition != nil {
 					var numericFactCondition5 shared.NumericFactCondition
 					var numericFactCondition14 *shared.NumericFactCondition1
-					if anyItem9.NumericFactCondition.One != nil {
-						fact76 := shared.NumericFactConditionFact(anyItem9.NumericFactCondition.One.Fact.ValueString())
-						operator76 := shared.NumericFactConditionOperator(anyItem9.NumericFactCondition.One.Operator.ValueString())
-						var value76 float64
-						value76 = anyItem9.NumericFactCondition.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One != nil {
+						fact76 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Fact.ValueString())
+						operator76 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Operator.ValueString())
 						var params76 *shared.NumericFactConditionParams
-						if anyItem9.NumericFactCondition.One.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Params != nil {
 							errorMessage76 := new(string)
-							if !anyItem9.NumericFactCondition.One.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericFactCondition.One.Params.ErrorMessage.IsNull() {
-								*errorMessage76 = anyItem9.NumericFactCondition.One.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Params.ErrorMessage.IsNull() {
+								*errorMessage76 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage76 = nil
 							}
@@ -5256,11 +5253,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage76,
 							}
 						}
+						var value76 float64
+						value76 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Value.ValueFloat64()
+
 						numericFactCondition14 = &shared.NumericFactCondition1{
 							Fact:     fact76,
 							Operator: operator76,
-							Value:    value76,
 							Params:   params76,
+							Value:    value76,
 						}
 					}
 					if numericFactCondition14 != nil {
@@ -5269,36 +5269,36 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericFactCondition24 *shared.NumericFactCondition2
-					if anyItem9.NumericFactCondition.Two != nil {
-						fact77 := shared.NumericFactConditionSchemasFact(anyItem9.NumericFactCondition.Two.Fact.ValueString())
-						operator77 := shared.NumericFactConditionSchemasOperator(anyItem9.NumericFactCondition.Two.Operator.ValueString())
-						var value77 float64
-						value77 = anyItem9.NumericFactCondition.Two.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two != nil {
+						fact77 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Fact.ValueString())
+						operator77 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Operator.ValueString())
 						var params77 *shared.NumericFactConditionSchemasParams
-						if anyItem9.NumericFactCondition.Two.Params != nil {
-							errorMessage77 := new(string)
-							if !anyItem9.NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage77 = anyItem9.NumericFactCondition.Two.Params.ErrorMessage.ValueString()
-							} else {
-								errorMessage77 = nil
-							}
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params != nil {
 							allowLeadingZeroes4 := new(bool)
-							if !anyItem9.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem9.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
-								*allowLeadingZeroes4 = anyItem9.NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
+								*allowLeadingZeroes4 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
 							} else {
 								allowLeadingZeroes4 = nil
 							}
+							errorMessage77 := new(string)
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage77 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.ErrorMessage.ValueString()
+							} else {
+								errorMessage77 = nil
+							}
 							params77 = &shared.NumericFactConditionSchemasParams{
-								ErrorMessage:       errorMessage77,
 								AllowLeadingZeroes: allowLeadingZeroes4,
+								ErrorMessage:       errorMessage77,
 							}
 						}
+						var value77 float64
+						value77 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Value.ValueFloat64()
+
 						numericFactCondition24 = &shared.NumericFactCondition2{
 							Fact:     fact77,
 							Operator: operator77,
-							Value:    value77,
 							Params:   params77,
+							Value:    value77,
 						}
 					}
 					if numericFactCondition24 != nil {
@@ -5307,17 +5307,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericFactCondition34 *shared.NumericFactCondition3
-					if anyItem9.NumericFactCondition.Three != nil {
-						fact78 := shared.NumericFactConditionSchemasTrueFact(anyItem9.NumericFactCondition.Three.Fact.ValueString())
-						operator78 := shared.NumericFactConditionSchemasTrueOperator(anyItem9.NumericFactCondition.Three.Operator.ValueString())
-						var value78 float64
-						value78 = anyItem9.NumericFactCondition.Three.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three != nil {
+						fact78 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Fact.ValueString())
+						operator78 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Operator.ValueString())
 						var params78 *shared.NumericFactConditionSchemasTrueParams
-						if anyItem9.NumericFactCondition.Three.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Params != nil {
 							errorMessage78 := new(string)
-							if !anyItem9.NumericFactCondition.Three.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericFactCondition.Three.Params.ErrorMessage.IsNull() {
-								*errorMessage78 = anyItem9.NumericFactCondition.Three.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Params.ErrorMessage.IsNull() {
+								*errorMessage78 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage78 = nil
 							}
@@ -5325,11 +5322,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage78,
 							}
 						}
+						var value78 float64
+						value78 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Value.ValueFloat64()
+
 						numericFactCondition34 = &shared.NumericFactCondition3{
 							Fact:     fact78,
 							Operator: operator78,
-							Value:    value78,
 							Params:   params78,
+							Value:    value78,
 						}
 					}
 					if numericFactCondition34 != nil {
@@ -5338,17 +5338,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericFactCondition44 *shared.NumericFactCondition4
-					if anyItem9.NumericFactCondition.Four != nil {
-						fact79 := shared.NumericFactConditionSchemasTrue4Fact(anyItem9.NumericFactCondition.Four.Fact.ValueString())
-						operator79 := shared.NumericFactConditionSchemasTrue4Operator(anyItem9.NumericFactCondition.Four.Operator.ValueString())
-						var value79 bool
-						value79 = anyItem9.NumericFactCondition.Four.Value.ValueBool()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four != nil {
+						fact79 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Fact.ValueString())
+						operator79 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Operator.ValueString())
 						var params79 *shared.NumericFactConditionSchemasTrue4Params
-						if anyItem9.NumericFactCondition.Four.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Params != nil {
 							errorMessage79 := new(string)
-							if !anyItem9.NumericFactCondition.Four.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericFactCondition.Four.Params.ErrorMessage.IsNull() {
-								*errorMessage79 = anyItem9.NumericFactCondition.Four.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Params.ErrorMessage.IsNull() {
+								*errorMessage79 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage79 = nil
 							}
@@ -5356,11 +5353,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage79,
 							}
 						}
+						var value79 bool
+						value79 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Value.ValueBool()
+
 						numericFactCondition44 = &shared.NumericFactCondition4{
 							Fact:     fact79,
 							Operator: operator79,
-							Value:    value79,
 							Params:   params79,
+							Value:    value79,
 						}
 					}
 					if numericFactCondition44 != nil {
@@ -5372,23 +5372,20 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						NumericFactCondition: &numericFactCondition5,
 					})
 				}
-				if anyItem9.NumericNestedCondition != nil {
+				if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition != nil {
 					var numericNestedCondition4 shared.NumericNestedCondition
 					var numericNestedCondition11 *shared.NumericNestedCondition1
-					if anyItem9.NumericNestedCondition.One != nil {
-						all10 := make([]shared.NumericFactCondition, 0, len(anyItem9.NumericNestedCondition.One.All))
-						for _, allItem10 := range anyItem9.NumericNestedCondition.One.All {
-							if allItem10.One != nil {
-								fact80 := shared.NumericFactConditionFact(allItem10.One.Fact.ValueString())
-								operator80 := shared.NumericFactConditionOperator(allItem10.One.Operator.ValueString())
-								var value80 float64
-								value80 = allItem10.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One != nil {
+						all10 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All))
+						for allItem7 := range r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One != nil {
+								fact80 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Fact.ValueString())
+								operator80 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Operator.ValueString())
 								var params80 *shared.NumericFactConditionParams
-								if allItem10.One.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Params != nil {
 									errorMessage80 := new(string)
-									if !allItem10.One.Params.ErrorMessage.IsUnknown() && !allItem10.One.Params.ErrorMessage.IsNull() {
-										*errorMessage80 = allItem10.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Params.ErrorMessage.IsNull() {
+										*errorMessage80 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage80 = nil
 									}
@@ -5396,62 +5393,62 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage80,
 									}
 								}
+								var value80 float64
+								value80 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Value.ValueFloat64()
+
 								numericFactCondition15 := shared.NumericFactCondition1{
 									Fact:     fact80,
 									Operator: operator80,
-									Value:    value80,
 									Params:   params80,
+									Value:    value80,
 								}
 								all10 = append(all10, shared.NumericFactCondition{
 									NumericFactCondition1: &numericFactCondition15,
 								})
 							}
-							if allItem10.Two != nil {
-								fact81 := shared.NumericFactConditionSchemasFact(allItem10.Two.Fact.ValueString())
-								operator81 := shared.NumericFactConditionSchemasOperator(allItem10.Two.Operator.ValueString())
-								var value81 float64
-								value81 = allItem10.Two.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two != nil {
+								fact81 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Fact.ValueString())
+								operator81 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Operator.ValueString())
 								var params81 *shared.NumericFactConditionSchemasParams
-								if allItem10.Two.Params != nil {
-									errorMessage81 := new(string)
-									if !allItem10.Two.Params.ErrorMessage.IsUnknown() && !allItem10.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage81 = allItem10.Two.Params.ErrorMessage.ValueString()
-									} else {
-										errorMessage81 = nil
-									}
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params != nil {
 									allowLeadingZeroes5 := new(bool)
-									if !allItem10.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem10.Two.Params.AllowLeadingZeroes.IsNull() {
-										*allowLeadingZeroes5 = allItem10.Two.Params.AllowLeadingZeroes.ValueBool()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.AllowLeadingZeroes.IsNull() {
+										*allowLeadingZeroes5 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.AllowLeadingZeroes.ValueBool()
 									} else {
 										allowLeadingZeroes5 = nil
 									}
+									errorMessage81 := new(string)
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage81 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.ErrorMessage.ValueString()
+									} else {
+										errorMessage81 = nil
+									}
 									params81 = &shared.NumericFactConditionSchemasParams{
-										ErrorMessage:       errorMessage81,
 										AllowLeadingZeroes: allowLeadingZeroes5,
+										ErrorMessage:       errorMessage81,
 									}
 								}
+								var value81 float64
+								value81 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Value.ValueFloat64()
+
 								numericFactCondition25 := shared.NumericFactCondition2{
 									Fact:     fact81,
 									Operator: operator81,
-									Value:    value81,
 									Params:   params81,
+									Value:    value81,
 								}
 								all10 = append(all10, shared.NumericFactCondition{
 									NumericFactCondition2: &numericFactCondition25,
 								})
 							}
-							if allItem10.Three != nil {
-								fact82 := shared.NumericFactConditionSchemasTrueFact(allItem10.Three.Fact.ValueString())
-								operator82 := shared.NumericFactConditionSchemasTrueOperator(allItem10.Three.Operator.ValueString())
-								var value82 float64
-								value82 = allItem10.Three.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three != nil {
+								fact82 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Fact.ValueString())
+								operator82 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Operator.ValueString())
 								var params82 *shared.NumericFactConditionSchemasTrueParams
-								if allItem10.Three.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Params != nil {
 									errorMessage82 := new(string)
-									if !allItem10.Three.Params.ErrorMessage.IsUnknown() && !allItem10.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage82 = allItem10.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage82 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage82 = nil
 									}
@@ -5459,27 +5456,27 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage82,
 									}
 								}
+								var value82 float64
+								value82 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Value.ValueFloat64()
+
 								numericFactCondition35 := shared.NumericFactCondition3{
 									Fact:     fact82,
 									Operator: operator82,
-									Value:    value82,
 									Params:   params82,
+									Value:    value82,
 								}
 								all10 = append(all10, shared.NumericFactCondition{
 									NumericFactCondition3: &numericFactCondition35,
 								})
 							}
-							if allItem10.Four != nil {
-								fact83 := shared.NumericFactConditionSchemasTrue4Fact(allItem10.Four.Fact.ValueString())
-								operator83 := shared.NumericFactConditionSchemasTrue4Operator(allItem10.Four.Operator.ValueString())
-								var value83 bool
-								value83 = allItem10.Four.Value.ValueBool()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four != nil {
+								fact83 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Fact.ValueString())
+								operator83 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Operator.ValueString())
 								var params83 *shared.NumericFactConditionSchemasTrue4Params
-								if allItem10.Four.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Params != nil {
 									errorMessage83 := new(string)
-									if !allItem10.Four.Params.ErrorMessage.IsUnknown() && !allItem10.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage83 = allItem10.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage83 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage83 = nil
 									}
@@ -5487,11 +5484,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage83,
 									}
 								}
+								var value83 bool
+								value83 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Value.ValueBool()
+
 								numericFactCondition45 := shared.NumericFactCondition4{
 									Fact:     fact83,
 									Operator: operator83,
-									Value:    value83,
 									Params:   params83,
+									Value:    value83,
 								}
 								all10 = append(all10, shared.NumericFactCondition{
 									NumericFactCondition4: &numericFactCondition45,
@@ -5508,20 +5508,17 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericNestedCondition21 *shared.NumericNestedCondition2
-					if anyItem9.NumericNestedCondition.Two != nil {
-						anyVar10 := make([]shared.NumericFactCondition, 0, len(anyItem9.NumericNestedCondition.Two.Any))
-						for _, anyItem10 := range anyItem9.NumericNestedCondition.Two.Any {
-							if anyItem10.One != nil {
-								fact84 := shared.NumericFactConditionFact(anyItem10.One.Fact.ValueString())
-								operator84 := shared.NumericFactConditionOperator(anyItem10.One.Operator.ValueString())
-								var value84 float64
-								value84 = anyItem10.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two != nil {
+						anyVar10 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any))
+						for anyItem7 := range r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One != nil {
+								fact84 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Fact.ValueString())
+								operator84 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Operator.ValueString())
 								var params84 *shared.NumericFactConditionParams
-								if anyItem10.One.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Params != nil {
 									errorMessage84 := new(string)
-									if !anyItem10.One.Params.ErrorMessage.IsUnknown() && !anyItem10.One.Params.ErrorMessage.IsNull() {
-										*errorMessage84 = anyItem10.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Params.ErrorMessage.IsNull() {
+										*errorMessage84 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage84 = nil
 									}
@@ -5529,62 +5526,62 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage84,
 									}
 								}
+								var value84 float64
+								value84 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Value.ValueFloat64()
+
 								numericFactCondition16 := shared.NumericFactCondition1{
 									Fact:     fact84,
 									Operator: operator84,
-									Value:    value84,
 									Params:   params84,
+									Value:    value84,
 								}
 								anyVar10 = append(anyVar10, shared.NumericFactCondition{
 									NumericFactCondition1: &numericFactCondition16,
 								})
 							}
-							if anyItem10.Two != nil {
-								fact85 := shared.NumericFactConditionSchemasFact(anyItem10.Two.Fact.ValueString())
-								operator85 := shared.NumericFactConditionSchemasOperator(anyItem10.Two.Operator.ValueString())
-								var value85 float64
-								value85 = anyItem10.Two.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two != nil {
+								fact85 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Fact.ValueString())
+								operator85 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Operator.ValueString())
 								var params85 *shared.NumericFactConditionSchemasParams
-								if anyItem10.Two.Params != nil {
-									errorMessage85 := new(string)
-									if !anyItem10.Two.Params.ErrorMessage.IsUnknown() && !anyItem10.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage85 = anyItem10.Two.Params.ErrorMessage.ValueString()
-									} else {
-										errorMessage85 = nil
-									}
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params != nil {
 									allowLeadingZeroes6 := new(bool)
-									if !anyItem10.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem10.Two.Params.AllowLeadingZeroes.IsNull() {
-										*allowLeadingZeroes6 = anyItem10.Two.Params.AllowLeadingZeroes.ValueBool()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.AllowLeadingZeroes.IsNull() {
+										*allowLeadingZeroes6 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.AllowLeadingZeroes.ValueBool()
 									} else {
 										allowLeadingZeroes6 = nil
 									}
+									errorMessage85 := new(string)
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage85 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.ErrorMessage.ValueString()
+									} else {
+										errorMessage85 = nil
+									}
 									params85 = &shared.NumericFactConditionSchemasParams{
-										ErrorMessage:       errorMessage85,
 										AllowLeadingZeroes: allowLeadingZeroes6,
+										ErrorMessage:       errorMessage85,
 									}
 								}
+								var value85 float64
+								value85 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Value.ValueFloat64()
+
 								numericFactCondition26 := shared.NumericFactCondition2{
 									Fact:     fact85,
 									Operator: operator85,
-									Value:    value85,
 									Params:   params85,
+									Value:    value85,
 								}
 								anyVar10 = append(anyVar10, shared.NumericFactCondition{
 									NumericFactCondition2: &numericFactCondition26,
 								})
 							}
-							if anyItem10.Three != nil {
-								fact86 := shared.NumericFactConditionSchemasTrueFact(anyItem10.Three.Fact.ValueString())
-								operator86 := shared.NumericFactConditionSchemasTrueOperator(anyItem10.Three.Operator.ValueString())
-								var value86 float64
-								value86 = anyItem10.Three.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three != nil {
+								fact86 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Fact.ValueString())
+								operator86 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Operator.ValueString())
 								var params86 *shared.NumericFactConditionSchemasTrueParams
-								if anyItem10.Three.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Params != nil {
 									errorMessage86 := new(string)
-									if !anyItem10.Three.Params.ErrorMessage.IsUnknown() && !anyItem10.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage86 = anyItem10.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage86 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage86 = nil
 									}
@@ -5592,27 +5589,27 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage86,
 									}
 								}
+								var value86 float64
+								value86 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Value.ValueFloat64()
+
 								numericFactCondition36 := shared.NumericFactCondition3{
 									Fact:     fact86,
 									Operator: operator86,
-									Value:    value86,
 									Params:   params86,
+									Value:    value86,
 								}
 								anyVar10 = append(anyVar10, shared.NumericFactCondition{
 									NumericFactCondition3: &numericFactCondition36,
 								})
 							}
-							if anyItem10.Four != nil {
-								fact87 := shared.NumericFactConditionSchemasTrue4Fact(anyItem10.Four.Fact.ValueString())
-								operator87 := shared.NumericFactConditionSchemasTrue4Operator(anyItem10.Four.Operator.ValueString())
-								var value87 bool
-								value87 = anyItem10.Four.Value.ValueBool()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four != nil {
+								fact87 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Fact.ValueString())
+								operator87 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Operator.ValueString())
 								var params87 *shared.NumericFactConditionSchemasTrue4Params
-								if anyItem10.Four.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Params != nil {
 									errorMessage87 := new(string)
-									if !anyItem10.Four.Params.ErrorMessage.IsUnknown() && !anyItem10.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage87 = anyItem10.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage87 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage87 = nil
 									}
@@ -5620,11 +5617,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 										ErrorMessage: errorMessage87,
 									}
 								}
+								var value87 bool
+								value87 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Value.ValueBool()
+
 								numericFactCondition46 := shared.NumericFactCondition4{
 									Fact:     fact87,
 									Operator: operator87,
-									Value:    value87,
 									Params:   params87,
+									Value:    value87,
 								}
 								anyVar10 = append(anyVar10, shared.NumericFactCondition{
 									NumericFactCondition4: &numericFactCondition46,
@@ -5641,20 +5641,17 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 						}
 					}
 					var numericNestedCondition31 *shared.NumericNestedCondition3
-					if anyItem9.NumericNestedCondition.Three != nil {
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three != nil {
 						var not9 shared.NumericFactCondition
 						var numericFactCondition17 *shared.NumericFactCondition1
-						if anyItem9.NumericNestedCondition.Three.Not.One != nil {
-							fact88 := shared.NumericFactConditionFact(anyItem9.NumericNestedCondition.Three.Not.One.Fact.ValueString())
-							operator88 := shared.NumericFactConditionOperator(anyItem9.NumericNestedCondition.Three.Not.One.Operator.ValueString())
-							var value88 float64
-							value88 = anyItem9.NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One != nil {
+							fact88 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Fact.ValueString())
+							operator88 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Operator.ValueString())
 							var params88 *shared.NumericFactConditionParams
-							if anyItem9.NumericNestedCondition.Three.Not.One.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Params != nil {
 								errorMessage88 := new(string)
-								if !anyItem9.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
-									*errorMessage88 = anyItem9.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
+									*errorMessage88 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage88 = nil
 								}
@@ -5662,11 +5659,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage88,
 								}
 							}
+							var value88 float64
+							value88 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 							numericFactCondition17 = &shared.NumericFactCondition1{
 								Fact:     fact88,
 								Operator: operator88,
-								Value:    value88,
 								Params:   params88,
+								Value:    value88,
 							}
 						}
 						if numericFactCondition17 != nil {
@@ -5675,36 +5675,36 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var numericFactCondition27 *shared.NumericFactCondition2
-						if anyItem9.NumericNestedCondition.Three.Not.Two != nil {
-							fact89 := shared.NumericFactConditionSchemasFact(anyItem9.NumericNestedCondition.Three.Not.Two.Fact.ValueString())
-							operator89 := shared.NumericFactConditionSchemasOperator(anyItem9.NumericNestedCondition.Three.Not.Two.Operator.ValueString())
-							var value89 float64
-							value89 = anyItem9.NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two != nil {
+							fact89 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Fact.ValueString())
+							operator89 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Operator.ValueString())
 							var params89 *shared.NumericFactConditionSchemasParams
-							if anyItem9.NumericNestedCondition.Three.Not.Two.Params != nil {
-								errorMessage89 := new(string)
-								if !anyItem9.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage89 = anyItem9.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
-								} else {
-									errorMessage89 = nil
-								}
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params != nil {
 								allowLeadingZeroes7 := new(bool)
-								if !anyItem9.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
-									*allowLeadingZeroes7 = anyItem9.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
+									*allowLeadingZeroes7 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
 								} else {
 									allowLeadingZeroes7 = nil
 								}
+								errorMessage89 := new(string)
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+									*errorMessage89 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+								} else {
+									errorMessage89 = nil
+								}
 								params89 = &shared.NumericFactConditionSchemasParams{
-									ErrorMessage:       errorMessage89,
 									AllowLeadingZeroes: allowLeadingZeroes7,
+									ErrorMessage:       errorMessage89,
 								}
 							}
+							var value89 float64
+							value89 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 							numericFactCondition27 = &shared.NumericFactCondition2{
 								Fact:     fact89,
 								Operator: operator89,
-								Value:    value89,
 								Params:   params89,
+								Value:    value89,
 							}
 						}
 						if numericFactCondition27 != nil {
@@ -5713,17 +5713,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var numericFactCondition37 *shared.NumericFactCondition3
-						if anyItem9.NumericNestedCondition.Three.Not.Three != nil {
-							fact90 := shared.NumericFactConditionSchemasTrueFact(anyItem9.NumericNestedCondition.Three.Not.Three.Fact.ValueString())
-							operator90 := shared.NumericFactConditionSchemasTrueOperator(anyItem9.NumericNestedCondition.Three.Not.Three.Operator.ValueString())
-							var value90 float64
-							value90 = anyItem9.NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three != nil {
+							fact90 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Fact.ValueString())
+							operator90 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Operator.ValueString())
 							var params90 *shared.NumericFactConditionSchemasTrueParams
-							if anyItem9.NumericNestedCondition.Three.Not.Three.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Params != nil {
 								errorMessage90 := new(string)
-								if !anyItem9.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage90 = anyItem9.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
+									*errorMessage90 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage90 = nil
 								}
@@ -5731,11 +5728,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage90,
 								}
 							}
+							var value90 float64
+							value90 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
+
 							numericFactCondition37 = &shared.NumericFactCondition3{
 								Fact:     fact90,
 								Operator: operator90,
-								Value:    value90,
 								Params:   params90,
+								Value:    value90,
 							}
 						}
 						if numericFactCondition37 != nil {
@@ -5744,17 +5744,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							}
 						}
 						var numericFactCondition47 *shared.NumericFactCondition4
-						if anyItem9.NumericNestedCondition.Three.Not.Four != nil {
-							fact91 := shared.NumericFactConditionSchemasTrue4Fact(anyItem9.NumericNestedCondition.Three.Not.Four.Fact.ValueString())
-							operator91 := shared.NumericFactConditionSchemasTrue4Operator(anyItem9.NumericNestedCondition.Three.Not.Four.Operator.ValueString())
-							var value91 bool
-							value91 = anyItem9.NumericNestedCondition.Three.Not.Four.Value.ValueBool()
-
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four != nil {
+							fact91 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Fact.ValueString())
+							operator91 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Operator.ValueString())
 							var params91 *shared.NumericFactConditionSchemasTrue4Params
-							if anyItem9.NumericNestedCondition.Three.Not.Four.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Params != nil {
 								errorMessage91 := new(string)
-								if !anyItem9.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage91 = anyItem9.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
+									*errorMessage91 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage91 = nil
 								}
@@ -5762,11 +5759,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage91,
 								}
 							}
+							var value91 bool
+							value91 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Value.ValueBool()
+
 							numericFactCondition47 = &shared.NumericFactCondition4{
 								Fact:     fact91,
 								Operator: operator91,
-								Value:    value91,
 								Params:   params91,
+								Value:    value91,
 							}
 						}
 						if numericFactCondition47 != nil {
@@ -5806,9 +5806,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One != nil {
 					fact92 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Fact.ValueString())
 					operator92 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Operator.ValueString())
-					var value92 float64
-					value92 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Value.ValueFloat64()
-
 					var params92 *shared.NumericFactConditionParams
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Params != nil {
 						errorMessage92 := new(string)
@@ -5821,11 +5818,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							ErrorMessage: errorMessage92,
 						}
 					}
+					var value92 float64
+					value92 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Value.ValueFloat64()
+
 					numericFactCondition18 = &shared.NumericFactCondition1{
 						Fact:     fact92,
 						Operator: operator92,
-						Value:    value92,
 						Params:   params92,
+						Value:    value92,
 					}
 				}
 				if numericFactCondition18 != nil {
@@ -5837,33 +5837,33 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two != nil {
 					fact93 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Fact.ValueString())
 					operator93 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Operator.ValueString())
-					var value93 float64
-					value93 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Value.ValueFloat64()
-
 					var params93 *shared.NumericFactConditionSchemasParams
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params != nil {
-						errorMessage93 := new(string)
-						if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
-							*errorMessage93 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.ValueString()
-						} else {
-							errorMessage93 = nil
-						}
 						allowLeadingZeroes8 := new(bool)
 						if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
 							*allowLeadingZeroes8 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
 						} else {
 							allowLeadingZeroes8 = nil
 						}
+						errorMessage93 := new(string)
+						if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
+							*errorMessage93 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.ValueString()
+						} else {
+							errorMessage93 = nil
+						}
 						params93 = &shared.NumericFactConditionSchemasParams{
-							ErrorMessage:       errorMessage93,
 							AllowLeadingZeroes: allowLeadingZeroes8,
+							ErrorMessage:       errorMessage93,
 						}
 					}
+					var value93 float64
+					value93 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Value.ValueFloat64()
+
 					numericFactCondition28 = &shared.NumericFactCondition2{
 						Fact:     fact93,
 						Operator: operator93,
-						Value:    value93,
 						Params:   params93,
+						Value:    value93,
 					}
 				}
 				if numericFactCondition28 != nil {
@@ -5875,9 +5875,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three != nil {
 					fact94 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Fact.ValueString())
 					operator94 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Operator.ValueString())
-					var value94 float64
-					value94 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Value.ValueFloat64()
-
 					var params94 *shared.NumericFactConditionSchemasTrueParams
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Params != nil {
 						errorMessage94 := new(string)
@@ -5890,11 +5887,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							ErrorMessage: errorMessage94,
 						}
 					}
+					var value94 float64
+					value94 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Value.ValueFloat64()
+
 					numericFactCondition38 = &shared.NumericFactCondition3{
 						Fact:     fact94,
 						Operator: operator94,
-						Value:    value94,
 						Params:   params94,
+						Value:    value94,
 					}
 				}
 				if numericFactCondition38 != nil {
@@ -5906,9 +5906,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four != nil {
 					fact95 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Fact.ValueString())
 					operator95 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Operator.ValueString())
-					var value95 bool
-					value95 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Value.ValueBool()
-
 					var params95 *shared.NumericFactConditionSchemasTrue4Params
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Params != nil {
 						errorMessage95 := new(string)
@@ -5921,11 +5918,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 							ErrorMessage: errorMessage95,
 						}
 					}
+					var value95 bool
+					value95 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Value.ValueBool()
+
 					numericFactCondition48 = &shared.NumericFactCondition4{
 						Fact:     fact95,
 						Operator: operator95,
-						Value:    value95,
 						Params:   params95,
+						Value:    value95,
 					}
 				}
 				if numericFactCondition48 != nil {
@@ -5944,18 +5944,15 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				var numericNestedCondition12 *shared.NumericNestedCondition1
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One != nil {
 					all11 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All))
-					for _, allItem11 := range r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All {
-						if allItem11.One != nil {
-							fact96 := shared.NumericFactConditionFact(allItem11.One.Fact.ValueString())
-							operator96 := shared.NumericFactConditionOperator(allItem11.One.Operator.ValueString())
-							var value96 float64
-							value96 = allItem11.One.Value.ValueFloat64()
-
+					for allItem8 := range r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All {
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One != nil {
+							fact96 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Fact.ValueString())
+							operator96 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Operator.ValueString())
 							var params96 *shared.NumericFactConditionParams
-							if allItem11.One.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Params != nil {
 								errorMessage96 := new(string)
-								if !allItem11.One.Params.ErrorMessage.IsUnknown() && !allItem11.One.Params.ErrorMessage.IsNull() {
-									*errorMessage96 = allItem11.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Params.ErrorMessage.IsNull() {
+									*errorMessage96 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage96 = nil
 								}
@@ -5963,62 +5960,62 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage96,
 								}
 							}
+							var value96 float64
+							value96 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Value.ValueFloat64()
+
 							numericFactCondition19 := shared.NumericFactCondition1{
 								Fact:     fact96,
 								Operator: operator96,
-								Value:    value96,
 								Params:   params96,
+								Value:    value96,
 							}
 							all11 = append(all11, shared.NumericFactCondition{
 								NumericFactCondition1: &numericFactCondition19,
 							})
 						}
-						if allItem11.Two != nil {
-							fact97 := shared.NumericFactConditionSchemasFact(allItem11.Two.Fact.ValueString())
-							operator97 := shared.NumericFactConditionSchemasOperator(allItem11.Two.Operator.ValueString())
-							var value97 float64
-							value97 = allItem11.Two.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two != nil {
+							fact97 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Fact.ValueString())
+							operator97 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Operator.ValueString())
 							var params97 *shared.NumericFactConditionSchemasParams
-							if allItem11.Two.Params != nil {
-								errorMessage97 := new(string)
-								if !allItem11.Two.Params.ErrorMessage.IsUnknown() && !allItem11.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage97 = allItem11.Two.Params.ErrorMessage.ValueString()
-								} else {
-									errorMessage97 = nil
-								}
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params != nil {
 								allowLeadingZeroes9 := new(bool)
-								if !allItem11.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem11.Two.Params.AllowLeadingZeroes.IsNull() {
-									*allowLeadingZeroes9 = allItem11.Two.Params.AllowLeadingZeroes.ValueBool()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.AllowLeadingZeroes.IsNull() {
+									*allowLeadingZeroes9 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.AllowLeadingZeroes.ValueBool()
 								} else {
 									allowLeadingZeroes9 = nil
 								}
+								errorMessage97 := new(string)
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.ErrorMessage.IsNull() {
+									*errorMessage97 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.ErrorMessage.ValueString()
+								} else {
+									errorMessage97 = nil
+								}
 								params97 = &shared.NumericFactConditionSchemasParams{
-									ErrorMessage:       errorMessage97,
 									AllowLeadingZeroes: allowLeadingZeroes9,
+									ErrorMessage:       errorMessage97,
 								}
 							}
+							var value97 float64
+							value97 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Value.ValueFloat64()
+
 							numericFactCondition29 := shared.NumericFactCondition2{
 								Fact:     fact97,
 								Operator: operator97,
-								Value:    value97,
 								Params:   params97,
+								Value:    value97,
 							}
 							all11 = append(all11, shared.NumericFactCondition{
 								NumericFactCondition2: &numericFactCondition29,
 							})
 						}
-						if allItem11.Three != nil {
-							fact98 := shared.NumericFactConditionSchemasTrueFact(allItem11.Three.Fact.ValueString())
-							operator98 := shared.NumericFactConditionSchemasTrueOperator(allItem11.Three.Operator.ValueString())
-							var value98 float64
-							value98 = allItem11.Three.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three != nil {
+							fact98 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Fact.ValueString())
+							operator98 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Operator.ValueString())
 							var params98 *shared.NumericFactConditionSchemasTrueParams
-							if allItem11.Three.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Params != nil {
 								errorMessage98 := new(string)
-								if !allItem11.Three.Params.ErrorMessage.IsUnknown() && !allItem11.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage98 = allItem11.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Params.ErrorMessage.IsNull() {
+									*errorMessage98 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage98 = nil
 								}
@@ -6026,27 +6023,27 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage98,
 								}
 							}
+							var value98 float64
+							value98 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Value.ValueFloat64()
+
 							numericFactCondition39 := shared.NumericFactCondition3{
 								Fact:     fact98,
 								Operator: operator98,
-								Value:    value98,
 								Params:   params98,
+								Value:    value98,
 							}
 							all11 = append(all11, shared.NumericFactCondition{
 								NumericFactCondition3: &numericFactCondition39,
 							})
 						}
-						if allItem11.Four != nil {
-							fact99 := shared.NumericFactConditionSchemasTrue4Fact(allItem11.Four.Fact.ValueString())
-							operator99 := shared.NumericFactConditionSchemasTrue4Operator(allItem11.Four.Operator.ValueString())
-							var value99 bool
-							value99 = allItem11.Four.Value.ValueBool()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four != nil {
+							fact99 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Fact.ValueString())
+							operator99 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Operator.ValueString())
 							var params99 *shared.NumericFactConditionSchemasTrue4Params
-							if allItem11.Four.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Params != nil {
 								errorMessage99 := new(string)
-								if !allItem11.Four.Params.ErrorMessage.IsUnknown() && !allItem11.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage99 = allItem11.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Params.ErrorMessage.IsNull() {
+									*errorMessage99 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage99 = nil
 								}
@@ -6054,11 +6051,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage99,
 								}
 							}
+							var value99 bool
+							value99 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Value.ValueBool()
+
 							numericFactCondition49 := shared.NumericFactCondition4{
 								Fact:     fact99,
 								Operator: operator99,
-								Value:    value99,
 								Params:   params99,
+								Value:    value99,
 							}
 							all11 = append(all11, shared.NumericFactCondition{
 								NumericFactCondition4: &numericFactCondition49,
@@ -6077,18 +6077,15 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 				var numericNestedCondition22 *shared.NumericNestedCondition2
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two != nil {
 					anyVar11 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any))
-					for _, anyItem11 := range r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any {
-						if anyItem11.One != nil {
-							fact100 := shared.NumericFactConditionFact(anyItem11.One.Fact.ValueString())
-							operator100 := shared.NumericFactConditionOperator(anyItem11.One.Operator.ValueString())
-							var value100 float64
-							value100 = anyItem11.One.Value.ValueFloat64()
-
+					for anyItem8 := range r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any {
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One != nil {
+							fact100 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Fact.ValueString())
+							operator100 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Operator.ValueString())
 							var params100 *shared.NumericFactConditionParams
-							if anyItem11.One.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Params != nil {
 								errorMessage100 := new(string)
-								if !anyItem11.One.Params.ErrorMessage.IsUnknown() && !anyItem11.One.Params.ErrorMessage.IsNull() {
-									*errorMessage100 = anyItem11.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Params.ErrorMessage.IsNull() {
+									*errorMessage100 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage100 = nil
 								}
@@ -6096,62 +6093,62 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage100,
 								}
 							}
+							var value100 float64
+							value100 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Value.ValueFloat64()
+
 							numericFactCondition110 := shared.NumericFactCondition1{
 								Fact:     fact100,
 								Operator: operator100,
-								Value:    value100,
 								Params:   params100,
+								Value:    value100,
 							}
 							anyVar11 = append(anyVar11, shared.NumericFactCondition{
 								NumericFactCondition1: &numericFactCondition110,
 							})
 						}
-						if anyItem11.Two != nil {
-							fact101 := shared.NumericFactConditionSchemasFact(anyItem11.Two.Fact.ValueString())
-							operator101 := shared.NumericFactConditionSchemasOperator(anyItem11.Two.Operator.ValueString())
-							var value101 float64
-							value101 = anyItem11.Two.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two != nil {
+							fact101 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Fact.ValueString())
+							operator101 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Operator.ValueString())
 							var params101 *shared.NumericFactConditionSchemasParams
-							if anyItem11.Two.Params != nil {
-								errorMessage101 := new(string)
-								if !anyItem11.Two.Params.ErrorMessage.IsUnknown() && !anyItem11.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage101 = anyItem11.Two.Params.ErrorMessage.ValueString()
-								} else {
-									errorMessage101 = nil
-								}
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params != nil {
 								allowLeadingZeroes10 := new(bool)
-								if !anyItem11.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem11.Two.Params.AllowLeadingZeroes.IsNull() {
-									*allowLeadingZeroes10 = anyItem11.Two.Params.AllowLeadingZeroes.ValueBool()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.AllowLeadingZeroes.IsNull() {
+									*allowLeadingZeroes10 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.AllowLeadingZeroes.ValueBool()
 								} else {
 									allowLeadingZeroes10 = nil
 								}
+								errorMessage101 := new(string)
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.ErrorMessage.IsNull() {
+									*errorMessage101 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.ErrorMessage.ValueString()
+								} else {
+									errorMessage101 = nil
+								}
 								params101 = &shared.NumericFactConditionSchemasParams{
-									ErrorMessage:       errorMessage101,
 									AllowLeadingZeroes: allowLeadingZeroes10,
+									ErrorMessage:       errorMessage101,
 								}
 							}
+							var value101 float64
+							value101 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Value.ValueFloat64()
+
 							numericFactCondition210 := shared.NumericFactCondition2{
 								Fact:     fact101,
 								Operator: operator101,
-								Value:    value101,
 								Params:   params101,
+								Value:    value101,
 							}
 							anyVar11 = append(anyVar11, shared.NumericFactCondition{
 								NumericFactCondition2: &numericFactCondition210,
 							})
 						}
-						if anyItem11.Three != nil {
-							fact102 := shared.NumericFactConditionSchemasTrueFact(anyItem11.Three.Fact.ValueString())
-							operator102 := shared.NumericFactConditionSchemasTrueOperator(anyItem11.Three.Operator.ValueString())
-							var value102 float64
-							value102 = anyItem11.Three.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three != nil {
+							fact102 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Fact.ValueString())
+							operator102 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Operator.ValueString())
 							var params102 *shared.NumericFactConditionSchemasTrueParams
-							if anyItem11.Three.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Params != nil {
 								errorMessage102 := new(string)
-								if !anyItem11.Three.Params.ErrorMessage.IsUnknown() && !anyItem11.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage102 = anyItem11.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Params.ErrorMessage.IsNull() {
+									*errorMessage102 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage102 = nil
 								}
@@ -6159,27 +6156,27 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage102,
 								}
 							}
+							var value102 float64
+							value102 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Value.ValueFloat64()
+
 							numericFactCondition310 := shared.NumericFactCondition3{
 								Fact:     fact102,
 								Operator: operator102,
-								Value:    value102,
 								Params:   params102,
+								Value:    value102,
 							}
 							anyVar11 = append(anyVar11, shared.NumericFactCondition{
 								NumericFactCondition3: &numericFactCondition310,
 							})
 						}
-						if anyItem11.Four != nil {
-							fact103 := shared.NumericFactConditionSchemasTrue4Fact(anyItem11.Four.Fact.ValueString())
-							operator103 := shared.NumericFactConditionSchemasTrue4Operator(anyItem11.Four.Operator.ValueString())
-							var value103 bool
-							value103 = anyItem11.Four.Value.ValueBool()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four != nil {
+							fact103 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Fact.ValueString())
+							operator103 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Operator.ValueString())
 							var params103 *shared.NumericFactConditionSchemasTrue4Params
-							if anyItem11.Four.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Params != nil {
 								errorMessage103 := new(string)
-								if !anyItem11.Four.Params.ErrorMessage.IsUnknown() && !anyItem11.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage103 = anyItem11.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Params.ErrorMessage.IsNull() {
+									*errorMessage103 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage103 = nil
 								}
@@ -6187,11 +6184,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 									ErrorMessage: errorMessage103,
 								}
 							}
+							var value103 bool
+							value103 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Value.ValueBool()
+
 							numericFactCondition410 := shared.NumericFactCondition4{
 								Fact:     fact103,
 								Operator: operator103,
-								Value:    value103,
 								Params:   params103,
+								Value:    value103,
 							}
 							anyVar11 = append(anyVar11, shared.NumericFactCondition{
 								NumericFactCondition4: &numericFactCondition410,
@@ -6214,9 +6214,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One != nil {
 						fact104 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Fact.ValueString())
 						operator104 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Operator.ValueString())
-						var value104 float64
-						value104 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
-
 						var params104 *shared.NumericFactConditionParams
 						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Params != nil {
 							errorMessage104 := new(string)
@@ -6229,11 +6226,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage104,
 							}
 						}
+						var value104 float64
+						value104 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 						numericFactCondition111 = &shared.NumericFactCondition1{
 							Fact:     fact104,
 							Operator: operator104,
-							Value:    value104,
 							Params:   params104,
+							Value:    value104,
 						}
 					}
 					if numericFactCondition111 != nil {
@@ -6245,33 +6245,33 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two != nil {
 						fact105 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Fact.ValueString())
 						operator105 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Operator.ValueString())
-						var value105 float64
-						value105 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
 						var params105 *shared.NumericFactConditionSchemasParams
 						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params != nil {
-							errorMessage105 := new(string)
-							if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage105 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
-							} else {
-								errorMessage105 = nil
-							}
 							allowLeadingZeroes11 := new(bool)
 							if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
 								*allowLeadingZeroes11 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
 							} else {
 								allowLeadingZeroes11 = nil
 							}
+							errorMessage105 := new(string)
+							if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage105 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+							} else {
+								errorMessage105 = nil
+							}
 							params105 = &shared.NumericFactConditionSchemasParams{
-								ErrorMessage:       errorMessage105,
 								AllowLeadingZeroes: allowLeadingZeroes11,
+								ErrorMessage:       errorMessage105,
 							}
 						}
+						var value105 float64
+						value105 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 						numericFactCondition211 = &shared.NumericFactCondition2{
 							Fact:     fact105,
 							Operator: operator105,
-							Value:    value105,
 							Params:   params105,
+							Value:    value105,
 						}
 					}
 					if numericFactCondition211 != nil {
@@ -6283,9 +6283,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three != nil {
 						fact106 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Fact.ValueString())
 						operator106 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Operator.ValueString())
-						var value106 float64
-						value106 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
-
 						var params106 *shared.NumericFactConditionSchemasTrueParams
 						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Params != nil {
 							errorMessage106 := new(string)
@@ -6298,11 +6295,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage106,
 							}
 						}
+						var value106 float64
+						value106 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
+
 						numericFactCondition311 = &shared.NumericFactCondition3{
 							Fact:     fact106,
 							Operator: operator106,
-							Value:    value106,
 							Params:   params106,
+							Value:    value106,
 						}
 					}
 					if numericFactCondition311 != nil {
@@ -6314,9 +6314,6 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four != nil {
 						fact107 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Fact.ValueString())
 						operator107 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Operator.ValueString())
-						var value107 bool
-						value107 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Value.ValueBool()
-
 						var params107 *shared.NumericFactConditionSchemasTrue4Params
 						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Params != nil {
 							errorMessage107 := new(string)
@@ -6329,11 +6326,14 @@ func (r *ValidationRuleResourceModel) ToSharedCreateValidationRuleRequest(ctx co
 								ErrorMessage: errorMessage107,
 							}
 						}
+						var value107 bool
+						value107 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Value.ValueBool()
+
 						numericFactCondition411 = &shared.NumericFactCondition4{
 							Fact:     fact107,
 							Operator: operator107,
-							Value:    value107,
 							Params:   params107,
+							Value:    value107,
 						}
 					}
 					if numericFactCondition411 != nil {
@@ -6407,18 +6407,15 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 		var regexCondition1 *shared.RegexCondition1
 		if r.Rule.RegexRuleType.Conditions.One != nil {
 			all := make([]shared.All, 0, len(r.Rule.RegexRuleType.Conditions.One.All))
-			for _, allItem := range r.Rule.RegexRuleType.Conditions.One.All {
-				if allItem.RegexFactCondition != nil {
-					fact := shared.Fact(allItem.RegexFactCondition.Fact.ValueString())
-					operator := shared.Operator(allItem.RegexFactCondition.Operator.ValueString())
-					var value string
-					value = allItem.RegexFactCondition.Value.ValueString()
-
+			for allItem := range r.Rule.RegexRuleType.Conditions.One.All {
+				if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition != nil {
+					fact := shared.Fact(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Fact.ValueString())
+					operator := shared.Operator(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Operator.ValueString())
 					var params *shared.Params
-					if allItem.RegexFactCondition.Params != nil {
+					if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Params != nil {
 						errorMessage := new(string)
-						if !allItem.RegexFactCondition.Params.ErrorMessage.IsUnknown() && !allItem.RegexFactCondition.Params.ErrorMessage.IsNull() {
-							*errorMessage = allItem.RegexFactCondition.Params.ErrorMessage.ValueString()
+						if !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Params.ErrorMessage.IsNull() {
+							*errorMessage = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Params.ErrorMessage.ValueString()
 						} else {
 							errorMessage = nil
 						}
@@ -6426,32 +6423,32 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							ErrorMessage: errorMessage,
 						}
 					}
+					var value string
+					value = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexFactCondition.Value.ValueString()
+
 					regexFactCondition := shared.RegexFactCondition{
 						Fact:     fact,
 						Operator: operator,
-						Value:    value,
 						Params:   params,
+						Value:    value,
 					}
 					all = append(all, shared.All{
 						RegexFactCondition: &regexFactCondition,
 					})
 				}
-				if allItem.RegexNestedCondition != nil {
+				if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition != nil {
 					var regexNestedCondition shared.RegexNestedCondition
 					var one *shared.One
-					if allItem.RegexNestedCondition.One != nil {
-						all1 := make([]shared.RegexFactCondition, 0, len(allItem.RegexNestedCondition.One.All))
-						for _, allItem1 := range allItem.RegexNestedCondition.One.All {
-							fact1 := shared.Fact(allItem1.Fact.ValueString())
-							operator1 := shared.Operator(allItem1.Operator.ValueString())
-							var value1 string
-							value1 = allItem1.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One != nil {
+						all1 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All))
+						for allIndex := range r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All {
+							fact1 := shared.Fact(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Fact.ValueString())
+							operator1 := shared.Operator(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Operator.ValueString())
 							var params1 *shared.Params
-							if allItem1.Params != nil {
+							if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Params != nil {
 								errorMessage1 := new(string)
-								if !allItem1.Params.ErrorMessage.IsUnknown() && !allItem1.Params.ErrorMessage.IsNull() {
-									*errorMessage1 = allItem1.Params.ErrorMessage.ValueString()
+								if !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Params.ErrorMessage.IsNull() {
+									*errorMessage1 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage1 = nil
 								}
@@ -6459,11 +6456,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage1,
 								}
 							}
+							var value1 string
+							value1 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.One.All[allIndex].Value.ValueString()
+
 							all1 = append(all1, shared.RegexFactCondition{
 								Fact:     fact1,
 								Operator: operator1,
-								Value:    value1,
 								Params:   params1,
+								Value:    value1,
 							})
 						}
 						one = &shared.One{
@@ -6476,19 +6476,16 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var two *shared.Two
-					if allItem.RegexNestedCondition.Two != nil {
-						anyVar := make([]shared.RegexFactCondition, 0, len(allItem.RegexNestedCondition.Two.Any))
-						for _, anyItem := range allItem.RegexNestedCondition.Two.Any {
-							fact2 := shared.Fact(anyItem.Fact.ValueString())
-							operator2 := shared.Operator(anyItem.Operator.ValueString())
-							var value2 string
-							value2 = anyItem.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two != nil {
+						anyVar := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any))
+						for anyIndex := range r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any {
+							fact2 := shared.Fact(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Fact.ValueString())
+							operator2 := shared.Operator(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Operator.ValueString())
 							var params2 *shared.Params
-							if anyItem.Params != nil {
+							if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Params != nil {
 								errorMessage2 := new(string)
-								if !anyItem.Params.ErrorMessage.IsUnknown() && !anyItem.Params.ErrorMessage.IsNull() {
-									*errorMessage2 = anyItem.Params.ErrorMessage.ValueString()
+								if !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Params.ErrorMessage.IsNull() {
+									*errorMessage2 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage2 = nil
 								}
@@ -6496,11 +6493,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage2,
 								}
 							}
+							var value2 string
+							value2 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Two.Any[anyIndex].Value.ValueString()
+
 							anyVar = append(anyVar, shared.RegexFactCondition{
 								Fact:     fact2,
 								Operator: operator2,
-								Value:    value2,
 								Params:   params2,
+								Value:    value2,
 							})
 						}
 						two = &shared.Two{
@@ -6513,17 +6513,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var three *shared.Three
-					if allItem.RegexNestedCondition.Three != nil {
-						fact3 := shared.Fact(allItem.RegexNestedCondition.Three.Not.Fact.ValueString())
-						operator3 := shared.Operator(allItem.RegexNestedCondition.Three.Not.Operator.ValueString())
-						var value3 string
-						value3 = allItem.RegexNestedCondition.Three.Not.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three != nil {
+						fact3 := shared.Fact(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Fact.ValueString())
+						operator3 := shared.Operator(r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Operator.ValueString())
 						var params3 *shared.Params
-						if allItem.RegexNestedCondition.Three.Not.Params != nil {
+						if r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Params != nil {
 							errorMessage3 := new(string)
-							if !allItem.RegexNestedCondition.Three.Not.Params.ErrorMessage.IsUnknown() && !allItem.RegexNestedCondition.Three.Not.Params.ErrorMessage.IsNull() {
-								*errorMessage3 = allItem.RegexNestedCondition.Three.Not.Params.ErrorMessage.ValueString()
+							if !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.IsNull() {
+								*errorMessage3 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage3 = nil
 							}
@@ -6531,11 +6528,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage3,
 							}
 						}
+						var value3 string
+						value3 = r.Rule.RegexRuleType.Conditions.One.All[allItem].RegexNestedCondition.Three.Not.Value.ValueString()
+
 						not := shared.RegexFactCondition{
 							Fact:     fact3,
 							Operator: operator3,
-							Value:    value3,
 							Params:   params3,
+							Value:    value3,
 						}
 						three = &shared.Three{
 							Not: not,
@@ -6563,18 +6563,15 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 		var regexCondition2 *shared.RegexCondition2
 		if r.Rule.RegexRuleType.Conditions.Two != nil {
 			anyVar1 := make([]shared.Any, 0, len(r.Rule.RegexRuleType.Conditions.Two.Any))
-			for _, anyItem1 := range r.Rule.RegexRuleType.Conditions.Two.Any {
-				if anyItem1.RegexFactCondition != nil {
-					fact4 := shared.Fact(anyItem1.RegexFactCondition.Fact.ValueString())
-					operator4 := shared.Operator(anyItem1.RegexFactCondition.Operator.ValueString())
-					var value4 string
-					value4 = anyItem1.RegexFactCondition.Value.ValueString()
-
+			for anyItem := range r.Rule.RegexRuleType.Conditions.Two.Any {
+				if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition != nil {
+					fact4 := shared.Fact(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Fact.ValueString())
+					operator4 := shared.Operator(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Operator.ValueString())
 					var params4 *shared.Params
-					if anyItem1.RegexFactCondition.Params != nil {
+					if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Params != nil {
 						errorMessage4 := new(string)
-						if !anyItem1.RegexFactCondition.Params.ErrorMessage.IsUnknown() && !anyItem1.RegexFactCondition.Params.ErrorMessage.IsNull() {
-							*errorMessage4 = anyItem1.RegexFactCondition.Params.ErrorMessage.ValueString()
+						if !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Params.ErrorMessage.IsNull() {
+							*errorMessage4 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Params.ErrorMessage.ValueString()
 						} else {
 							errorMessage4 = nil
 						}
@@ -6582,32 +6579,32 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							ErrorMessage: errorMessage4,
 						}
 					}
+					var value4 string
+					value4 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexFactCondition.Value.ValueString()
+
 					regexFactCondition1 := shared.RegexFactCondition{
 						Fact:     fact4,
 						Operator: operator4,
-						Value:    value4,
 						Params:   params4,
+						Value:    value4,
 					}
 					anyVar1 = append(anyVar1, shared.Any{
 						RegexFactCondition: &regexFactCondition1,
 					})
 				}
-				if anyItem1.RegexNestedCondition != nil {
+				if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition != nil {
 					var regexNestedCondition1 shared.RegexNestedCondition
 					var eleven *shared.One
-					if anyItem1.RegexNestedCondition.One != nil {
-						all2 := make([]shared.RegexFactCondition, 0, len(anyItem1.RegexNestedCondition.One.All))
-						for _, allItem2 := range anyItem1.RegexNestedCondition.One.All {
-							fact5 := shared.Fact(allItem2.Fact.ValueString())
-							operator5 := shared.Operator(allItem2.Operator.ValueString())
-							var value5 string
-							value5 = allItem2.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One != nil {
+						all2 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All))
+						for allIndex1 := range r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All {
+							fact5 := shared.Fact(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Fact.ValueString())
+							operator5 := shared.Operator(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Operator.ValueString())
 							var params5 *shared.Params
-							if allItem2.Params != nil {
+							if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Params != nil {
 								errorMessage5 := new(string)
-								if !allItem2.Params.ErrorMessage.IsUnknown() && !allItem2.Params.ErrorMessage.IsNull() {
-									*errorMessage5 = allItem2.Params.ErrorMessage.ValueString()
+								if !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Params.ErrorMessage.IsNull() {
+									*errorMessage5 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage5 = nil
 								}
@@ -6615,11 +6612,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage5,
 								}
 							}
+							var value5 string
+							value5 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.One.All[allIndex1].Value.ValueString()
+
 							all2 = append(all2, shared.RegexFactCondition{
 								Fact:     fact5,
 								Operator: operator5,
-								Value:    value5,
 								Params:   params5,
+								Value:    value5,
 							})
 						}
 						eleven = &shared.One{
@@ -6632,19 +6632,16 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var twentyOne *shared.Two
-					if anyItem1.RegexNestedCondition.Two != nil {
-						anyVar2 := make([]shared.RegexFactCondition, 0, len(anyItem1.RegexNestedCondition.Two.Any))
-						for _, anyItem2 := range anyItem1.RegexNestedCondition.Two.Any {
-							fact6 := shared.Fact(anyItem2.Fact.ValueString())
-							operator6 := shared.Operator(anyItem2.Operator.ValueString())
-							var value6 string
-							value6 = anyItem2.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two != nil {
+						anyVar2 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any))
+						for anyIndex1 := range r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any {
+							fact6 := shared.Fact(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Fact.ValueString())
+							operator6 := shared.Operator(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Operator.ValueString())
 							var params6 *shared.Params
-							if anyItem2.Params != nil {
+							if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Params != nil {
 								errorMessage6 := new(string)
-								if !anyItem2.Params.ErrorMessage.IsUnknown() && !anyItem2.Params.ErrorMessage.IsNull() {
-									*errorMessage6 = anyItem2.Params.ErrorMessage.ValueString()
+								if !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Params.ErrorMessage.IsNull() {
+									*errorMessage6 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage6 = nil
 								}
@@ -6652,11 +6649,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage6,
 								}
 							}
+							var value6 string
+							value6 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Two.Any[anyIndex1].Value.ValueString()
+
 							anyVar2 = append(anyVar2, shared.RegexFactCondition{
 								Fact:     fact6,
 								Operator: operator6,
-								Value:    value6,
 								Params:   params6,
+								Value:    value6,
 							})
 						}
 						twentyOne = &shared.Two{
@@ -6669,17 +6669,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var thirtyOne *shared.Three
-					if anyItem1.RegexNestedCondition.Three != nil {
-						fact7 := shared.Fact(anyItem1.RegexNestedCondition.Three.Not.Fact.ValueString())
-						operator7 := shared.Operator(anyItem1.RegexNestedCondition.Three.Not.Operator.ValueString())
-						var value7 string
-						value7 = anyItem1.RegexNestedCondition.Three.Not.Value.ValueString()
-
+					if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three != nil {
+						fact7 := shared.Fact(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Fact.ValueString())
+						operator7 := shared.Operator(r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Operator.ValueString())
 						var params7 *shared.Params
-						if anyItem1.RegexNestedCondition.Three.Not.Params != nil {
+						if r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Params != nil {
 							errorMessage7 := new(string)
-							if !anyItem1.RegexNestedCondition.Three.Not.Params.ErrorMessage.IsUnknown() && !anyItem1.RegexNestedCondition.Three.Not.Params.ErrorMessage.IsNull() {
-								*errorMessage7 = anyItem1.RegexNestedCondition.Three.Not.Params.ErrorMessage.ValueString()
+							if !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.IsNull() {
+								*errorMessage7 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage7 = nil
 							}
@@ -6687,11 +6684,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage7,
 							}
 						}
+						var value7 string
+						value7 = r.Rule.RegexRuleType.Conditions.Two.Any[anyItem].RegexNestedCondition.Three.Not.Value.ValueString()
+
 						not1 := shared.RegexFactCondition{
 							Fact:     fact7,
 							Operator: operator7,
-							Value:    value7,
 							Params:   params7,
+							Value:    value7,
 						}
 						thirtyOne = &shared.Three{
 							Not: not1,
@@ -6723,9 +6723,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 			if r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition != nil {
 				fact8 := shared.Fact(r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Fact.ValueString())
 				operator8 := shared.Operator(r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Operator.ValueString())
-				var value8 string
-				value8 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Value.ValueString()
-
 				var params8 *shared.Params
 				if r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Params != nil {
 					errorMessage8 := new(string)
@@ -6738,11 +6735,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						ErrorMessage: errorMessage8,
 					}
 				}
+				var value8 string
+				value8 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Value.ValueString()
+
 				regexFactCondition2 = &shared.RegexFactCondition{
 					Fact:     fact8,
 					Operator: operator8,
-					Value:    value8,
 					Params:   params8,
+					Value:    value8,
 				}
 			}
 			if regexFactCondition2 != nil {
@@ -6755,17 +6755,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				var twelve *shared.One
 				if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One != nil {
 					all3 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All))
-					for _, allItem3 := range r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All {
-						fact9 := shared.Fact(allItem3.Fact.ValueString())
-						operator9 := shared.Operator(allItem3.Operator.ValueString())
-						var value9 string
-						value9 = allItem3.Value.ValueString()
-
+					for allIndex2 := range r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All {
+						fact9 := shared.Fact(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Fact.ValueString())
+						operator9 := shared.Operator(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Operator.ValueString())
 						var params9 *shared.Params
-						if allItem3.Params != nil {
+						if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Params != nil {
 							errorMessage9 := new(string)
-							if !allItem3.Params.ErrorMessage.IsUnknown() && !allItem3.Params.ErrorMessage.IsNull() {
-								*errorMessage9 = allItem3.Params.ErrorMessage.ValueString()
+							if !r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Params.ErrorMessage.IsNull() {
+								*errorMessage9 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage9 = nil
 							}
@@ -6773,11 +6770,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage9,
 							}
 						}
+						var value9 string
+						value9 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All[allIndex2].Value.ValueString()
+
 						all3 = append(all3, shared.RegexFactCondition{
 							Fact:     fact9,
 							Operator: operator9,
-							Value:    value9,
 							Params:   params9,
+							Value:    value9,
 						})
 					}
 					twelve = &shared.One{
@@ -6792,17 +6792,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				var twentyTwo *shared.Two
 				if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two != nil {
 					anyVar3 := make([]shared.RegexFactCondition, 0, len(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any))
-					for _, anyItem3 := range r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any {
-						fact10 := shared.Fact(anyItem3.Fact.ValueString())
-						operator10 := shared.Operator(anyItem3.Operator.ValueString())
-						var value10 string
-						value10 = anyItem3.Value.ValueString()
-
+					for anyIndex2 := range r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any {
+						fact10 := shared.Fact(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Fact.ValueString())
+						operator10 := shared.Operator(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Operator.ValueString())
 						var params10 *shared.Params
-						if anyItem3.Params != nil {
+						if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Params != nil {
 							errorMessage10 := new(string)
-							if !anyItem3.Params.ErrorMessage.IsUnknown() && !anyItem3.Params.ErrorMessage.IsNull() {
-								*errorMessage10 = anyItem3.Params.ErrorMessage.ValueString()
+							if !r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Params.ErrorMessage.IsUnknown() && !r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Params.ErrorMessage.IsNull() {
+								*errorMessage10 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage10 = nil
 							}
@@ -6810,11 +6807,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage10,
 							}
 						}
+						var value10 string
+						value10 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Two.Any[anyIndex2].Value.ValueString()
+
 						anyVar3 = append(anyVar3, shared.RegexFactCondition{
 							Fact:     fact10,
 							Operator: operator10,
-							Value:    value10,
 							Params:   params10,
+							Value:    value10,
 						})
 					}
 					twentyTwo = &shared.Two{
@@ -6830,9 +6830,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three != nil {
 					fact11 := shared.Fact(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Fact.ValueString())
 					operator11 := shared.Operator(r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Operator.ValueString())
-					var value11 string
-					value11 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Value.ValueString()
-
 					var params11 *shared.Params
 					if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Params != nil {
 						errorMessage11 := new(string)
@@ -6845,11 +6842,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							ErrorMessage: errorMessage11,
 						}
 					}
+					var value11 string
+					value11 = r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Value.ValueString()
+
 					not3 := shared.RegexFactCondition{
 						Fact:     fact11,
 						Operator: operator11,
-						Value:    value11,
 						Params:   params11,
+						Value:    value11,
 					}
 					thirtyTwo = &shared.Three{
 						Not: not3,
@@ -6892,47 +6892,47 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 		var patternCondition1 *shared.PatternCondition1
 		if r.Rule.PatternRuleType.Conditions.One != nil {
 			all4 := make([]shared.PatternConditionAll, 0, len(r.Rule.PatternRuleType.Conditions.One.All))
-			for _, allItem4 := range r.Rule.PatternRuleType.Conditions.One.All {
-				if allItem4.PatternFactCondition != nil {
+			for allItem1 := range r.Rule.PatternRuleType.Conditions.One.All {
+				if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition != nil {
 					var patternFactCondition shared.PatternFactCondition
 					var patternFactCondition1 *shared.PatternFactCondition1
-					if allItem4.PatternFactCondition.One != nil {
-						fact12 := shared.PatternFactConditionFact(allItem4.PatternFactCondition.One.Fact.ValueString())
-						operator12 := shared.PatternFactConditionOperator(allItem4.PatternFactCondition.One.Operator.ValueString())
-						var value12 float64
-						value12 = allItem4.PatternFactCondition.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One != nil {
+						fact12 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Fact.ValueString())
+						operator12 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Operator.ValueString())
 						var params12 *shared.PatternFactConditionParams
-						if allItem4.PatternFactCondition.One.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params != nil {
+							end := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.End.IsNull() {
+								*end = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.End.ValueFloat64()
+							} else {
+								end = nil
+							}
 							errorMessage12 := new(string)
-							if !allItem4.PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !allItem4.PatternFactCondition.One.Params.ErrorMessage.IsNull() {
-								*errorMessage12 = allItem4.PatternFactCondition.One.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.ErrorMessage.IsNull() {
+								*errorMessage12 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage12 = nil
 							}
 							start := new(float64)
-							if !allItem4.PatternFactCondition.One.Params.Start.IsUnknown() && !allItem4.PatternFactCondition.One.Params.Start.IsNull() {
-								*start = allItem4.PatternFactCondition.One.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.Start.IsNull() {
+								*start = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Params.Start.ValueFloat64()
 							} else {
 								start = nil
 							}
-							end := new(float64)
-							if !allItem4.PatternFactCondition.One.Params.End.IsUnknown() && !allItem4.PatternFactCondition.One.Params.End.IsNull() {
-								*end = allItem4.PatternFactCondition.One.Params.End.ValueFloat64()
-							} else {
-								end = nil
-							}
 							params12 = &shared.PatternFactConditionParams{
+								End:          end,
 								ErrorMessage: errorMessage12,
 								Start:        start,
-								End:          end,
 							}
 						}
+						var value12 float64
+						value12 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.One.Value.ValueFloat64()
+
 						patternFactCondition1 = &shared.PatternFactCondition1{
 							Fact:     fact12,
 							Operator: operator12,
-							Value:    value12,
 							Params:   params12,
+							Value:    value12,
 						}
 					}
 					if patternFactCondition1 != nil {
@@ -6941,43 +6941,43 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var patternFactCondition2 *shared.PatternFactCondition2
-					if allItem4.PatternFactCondition.Two != nil {
-						fact13 := shared.PatternFactConditionSchemasFact(allItem4.PatternFactCondition.Two.Fact.ValueString())
-						operator13 := shared.PatternFactConditionSchemasOperator(allItem4.PatternFactCondition.Two.Operator.ValueString())
-						var value13 float64
-						value13 = allItem4.PatternFactCondition.Two.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two != nil {
+						fact13 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Fact.ValueString())
+						operator13 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Operator.ValueString())
 						var params13 *shared.PatternFactConditionSchemasParams
-						if allItem4.PatternFactCondition.Two.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params != nil {
+							end1 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.End.IsNull() {
+								*end1 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.End.ValueFloat64()
+							} else {
+								end1 = nil
+							}
 							errorMessage13 := new(string)
-							if !allItem4.PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !allItem4.PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage13 = allItem4.PatternFactCondition.Two.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage13 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage13 = nil
 							}
 							start1 := new(float64)
-							if !allItem4.PatternFactCondition.Two.Params.Start.IsUnknown() && !allItem4.PatternFactCondition.Two.Params.Start.IsNull() {
-								*start1 = allItem4.PatternFactCondition.Two.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.Start.IsNull() {
+								*start1 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Params.Start.ValueFloat64()
 							} else {
 								start1 = nil
 							}
-							end1 := new(float64)
-							if !allItem4.PatternFactCondition.Two.Params.End.IsUnknown() && !allItem4.PatternFactCondition.Two.Params.End.IsNull() {
-								*end1 = allItem4.PatternFactCondition.Two.Params.End.ValueFloat64()
-							} else {
-								end1 = nil
-							}
 							params13 = &shared.PatternFactConditionSchemasParams{
+								End:          end1,
 								ErrorMessage: errorMessage13,
 								Start:        start1,
-								End:          end1,
 							}
 						}
+						var value13 float64
+						value13 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Two.Value.ValueFloat64()
+
 						patternFactCondition2 = &shared.PatternFactCondition2{
 							Fact:     fact13,
 							Operator: operator13,
-							Value:    value13,
 							Params:   params13,
+							Value:    value13,
 						}
 					}
 					if patternFactCondition2 != nil {
@@ -6986,44 +6986,44 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var patternFactCondition3 *shared.PatternFactCondition3
-					if allItem4.PatternFactCondition.Three != nil {
-						fact14 := shared.PatternFactConditionSchemasTrueFact(allItem4.PatternFactCondition.Three.Fact.ValueString())
-						operator14 := shared.PatternFactConditionSchemasTrueOperator(allItem4.PatternFactCondition.Three.Operator.ValueString())
-						value14 := make([]string, 0, len(allItem4.PatternFactCondition.Three.Value))
-						for _, valueItem := range allItem4.PatternFactCondition.Three.Value {
-							value14 = append(value14, valueItem.ValueString())
-						}
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three != nil {
+						fact14 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Fact.ValueString())
+						operator14 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Operator.ValueString())
 						var params14 *shared.PatternFactConditionSchemasTrueParams
-						if allItem4.PatternFactCondition.Three.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params != nil {
+							end2 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.End.IsNull() {
+								*end2 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.End.ValueFloat64()
+							} else {
+								end2 = nil
+							}
 							errorMessage14 := new(string)
-							if !allItem4.PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !allItem4.PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
-								*errorMessage14 = allItem4.PatternFactCondition.Three.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
+								*errorMessage14 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage14 = nil
 							}
 							start2 := new(float64)
-							if !allItem4.PatternFactCondition.Three.Params.Start.IsUnknown() && !allItem4.PatternFactCondition.Three.Params.Start.IsNull() {
-								*start2 = allItem4.PatternFactCondition.Three.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.Start.IsNull() {
+								*start2 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Params.Start.ValueFloat64()
 							} else {
 								start2 = nil
 							}
-							end2 := new(float64)
-							if !allItem4.PatternFactCondition.Three.Params.End.IsUnknown() && !allItem4.PatternFactCondition.Three.Params.End.IsNull() {
-								*end2 = allItem4.PatternFactCondition.Three.Params.End.ValueFloat64()
-							} else {
-								end2 = nil
-							}
 							params14 = &shared.PatternFactConditionSchemasTrueParams{
+								End:          end2,
 								ErrorMessage: errorMessage14,
 								Start:        start2,
-								End:          end2,
 							}
+						}
+						value14 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Value))
+						for valueIndex := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Value {
+							value14 = append(value14, r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Three.Value[valueIndex].ValueString())
 						}
 						patternFactCondition3 = &shared.PatternFactCondition3{
 							Fact:     fact14,
 							Operator: operator14,
-							Value:    value14,
 							Params:   params14,
+							Value:    value14,
 						}
 					}
 					if patternFactCondition3 != nil {
@@ -7032,43 +7032,43 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var four *shared.Four
-					if allItem4.PatternFactCondition.Four != nil {
-						fact15 := shared.PatternFactConditionSchemasTrue4Fact(allItem4.PatternFactCondition.Four.Fact.ValueString())
-						operator15 := shared.PatternFactConditionSchemasTrue4Operator(allItem4.PatternFactCondition.Four.Operator.ValueString())
-						var value15 string
-						value15 = allItem4.PatternFactCondition.Four.Value.ValueString()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four != nil {
+						fact15 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Fact.ValueString())
+						operator15 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Operator.ValueString())
 						var params15 *shared.PatternFactConditionSchemasTrue4Params
-						if allItem4.PatternFactCondition.Four.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params != nil {
+							end3 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.End.IsNull() {
+								*end3 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.End.ValueFloat64()
+							} else {
+								end3 = nil
+							}
 							errorMessage15 := new(string)
-							if !allItem4.PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !allItem4.PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
-								*errorMessage15 = allItem4.PatternFactCondition.Four.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
+								*errorMessage15 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage15 = nil
 							}
 							start3 := new(float64)
-							if !allItem4.PatternFactCondition.Four.Params.Start.IsUnknown() && !allItem4.PatternFactCondition.Four.Params.Start.IsNull() {
-								*start3 = allItem4.PatternFactCondition.Four.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.Start.IsNull() {
+								*start3 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Params.Start.ValueFloat64()
 							} else {
 								start3 = nil
 							}
-							end3 := new(float64)
-							if !allItem4.PatternFactCondition.Four.Params.End.IsUnknown() && !allItem4.PatternFactCondition.Four.Params.End.IsNull() {
-								*end3 = allItem4.PatternFactCondition.Four.Params.End.ValueFloat64()
-							} else {
-								end3 = nil
-							}
 							params15 = &shared.PatternFactConditionSchemasTrue4Params{
+								End:          end3,
 								ErrorMessage: errorMessage15,
 								Start:        start3,
-								End:          end3,
 							}
 						}
+						var value15 string
+						value15 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternFactCondition.Four.Value.ValueString()
+
 						four = &shared.Four{
 							Fact:     fact15,
 							Operator: operator15,
-							Value:    value15,
 							Params:   params15,
+							Value:    value15,
 						}
 					}
 					if four != nil {
@@ -7080,176 +7080,176 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						PatternFactCondition: &patternFactCondition,
 					})
 				}
-				if allItem4.PatternNestedCondition != nil {
+				if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition != nil {
 					var patternNestedCondition shared.PatternNestedCondition
 					var patternNestedCondition1 *shared.PatternNestedCondition1
-					if allItem4.PatternNestedCondition.One != nil {
-						all5 := make([]shared.PatternFactCondition, 0, len(allItem4.PatternNestedCondition.One.All))
-						for _, allItem5 := range allItem4.PatternNestedCondition.One.All {
-							if allItem5.One != nil {
-								fact16 := shared.PatternFactConditionFact(allItem5.One.Fact.ValueString())
-								operator16 := shared.PatternFactConditionOperator(allItem5.One.Operator.ValueString())
-								var value16 float64
-								value16 = allItem5.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One != nil {
+						all5 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All))
+						for allItem2 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One != nil {
+								fact16 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Fact.ValueString())
+								operator16 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Operator.ValueString())
 								var params16 *shared.PatternFactConditionParams
-								if allItem5.One.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params != nil {
+									end4 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.End.IsNull() {
+										*end4 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.End.ValueFloat64()
+									} else {
+										end4 = nil
+									}
 									errorMessage16 := new(string)
-									if !allItem5.One.Params.ErrorMessage.IsUnknown() && !allItem5.One.Params.ErrorMessage.IsNull() {
-										*errorMessage16 = allItem5.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.ErrorMessage.IsNull() {
+										*errorMessage16 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage16 = nil
 									}
 									start4 := new(float64)
-									if !allItem5.One.Params.Start.IsUnknown() && !allItem5.One.Params.Start.IsNull() {
-										*start4 = allItem5.One.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.Start.IsNull() {
+										*start4 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Params.Start.ValueFloat64()
 									} else {
 										start4 = nil
 									}
-									end4 := new(float64)
-									if !allItem5.One.Params.End.IsUnknown() && !allItem5.One.Params.End.IsNull() {
-										*end4 = allItem5.One.Params.End.ValueFloat64()
-									} else {
-										end4 = nil
-									}
 									params16 = &shared.PatternFactConditionParams{
+										End:          end4,
 										ErrorMessage: errorMessage16,
 										Start:        start4,
-										End:          end4,
 									}
 								}
+								var value16 float64
+								value16 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].One.Value.ValueFloat64()
+
 								patternFactCondition11 := shared.PatternFactCondition1{
 									Fact:     fact16,
 									Operator: operator16,
-									Value:    value16,
 									Params:   params16,
+									Value:    value16,
 								}
 								all5 = append(all5, shared.PatternFactCondition{
 									PatternFactCondition1: &patternFactCondition11,
 								})
 							}
-							if allItem5.Two != nil {
-								fact17 := shared.PatternFactConditionSchemasFact(allItem5.Two.Fact.ValueString())
-								operator17 := shared.PatternFactConditionSchemasOperator(allItem5.Two.Operator.ValueString())
-								var value17 float64
-								value17 = allItem5.Two.Value.ValueFloat64()
-
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two != nil {
+								fact17 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Fact.ValueString())
+								operator17 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Operator.ValueString())
 								var params17 *shared.PatternFactConditionSchemasParams
-								if allItem5.Two.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params != nil {
+									end5 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.End.IsNull() {
+										*end5 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.End.ValueFloat64()
+									} else {
+										end5 = nil
+									}
 									errorMessage17 := new(string)
-									if !allItem5.Two.Params.ErrorMessage.IsUnknown() && !allItem5.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage17 = allItem5.Two.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage17 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage17 = nil
 									}
 									start5 := new(float64)
-									if !allItem5.Two.Params.Start.IsUnknown() && !allItem5.Two.Params.Start.IsNull() {
-										*start5 = allItem5.Two.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.Start.IsNull() {
+										*start5 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Params.Start.ValueFloat64()
 									} else {
 										start5 = nil
 									}
-									end5 := new(float64)
-									if !allItem5.Two.Params.End.IsUnknown() && !allItem5.Two.Params.End.IsNull() {
-										*end5 = allItem5.Two.Params.End.ValueFloat64()
-									} else {
-										end5 = nil
-									}
 									params17 = &shared.PatternFactConditionSchemasParams{
+										End:          end5,
 										ErrorMessage: errorMessage17,
 										Start:        start5,
-										End:          end5,
 									}
 								}
+								var value17 float64
+								value17 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Two.Value.ValueFloat64()
+
 								patternFactCondition21 := shared.PatternFactCondition2{
 									Fact:     fact17,
 									Operator: operator17,
-									Value:    value17,
 									Params:   params17,
+									Value:    value17,
 								}
 								all5 = append(all5, shared.PatternFactCondition{
 									PatternFactCondition2: &patternFactCondition21,
 								})
 							}
-							if allItem5.Three != nil {
-								fact18 := shared.PatternFactConditionSchemasTrueFact(allItem5.Three.Fact.ValueString())
-								operator18 := shared.PatternFactConditionSchemasTrueOperator(allItem5.Three.Operator.ValueString())
-								value18 := make([]string, 0, len(allItem5.Three.Value))
-								for _, valueItem1 := range allItem5.Three.Value {
-									value18 = append(value18, valueItem1.ValueString())
-								}
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three != nil {
+								fact18 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Fact.ValueString())
+								operator18 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Operator.ValueString())
 								var params18 *shared.PatternFactConditionSchemasTrueParams
-								if allItem5.Three.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params != nil {
+									end6 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.End.IsNull() {
+										*end6 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.End.ValueFloat64()
+									} else {
+										end6 = nil
+									}
 									errorMessage18 := new(string)
-									if !allItem5.Three.Params.ErrorMessage.IsUnknown() && !allItem5.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage18 = allItem5.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage18 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage18 = nil
 									}
 									start6 := new(float64)
-									if !allItem5.Three.Params.Start.IsUnknown() && !allItem5.Three.Params.Start.IsNull() {
-										*start6 = allItem5.Three.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.Start.IsNull() {
+										*start6 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Params.Start.ValueFloat64()
 									} else {
 										start6 = nil
 									}
-									end6 := new(float64)
-									if !allItem5.Three.Params.End.IsUnknown() && !allItem5.Three.Params.End.IsNull() {
-										*end6 = allItem5.Three.Params.End.ValueFloat64()
-									} else {
-										end6 = nil
-									}
 									params18 = &shared.PatternFactConditionSchemasTrueParams{
+										End:          end6,
 										ErrorMessage: errorMessage18,
 										Start:        start6,
-										End:          end6,
 									}
+								}
+								value18 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Value))
+								for valueIndex1 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Value {
+									value18 = append(value18, r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Three.Value[valueIndex1].ValueString())
 								}
 								patternFactCondition31 := shared.PatternFactCondition3{
 									Fact:     fact18,
 									Operator: operator18,
-									Value:    value18,
 									Params:   params18,
+									Value:    value18,
 								}
 								all5 = append(all5, shared.PatternFactCondition{
 									PatternFactCondition3: &patternFactCondition31,
 								})
 							}
-							if allItem5.Four != nil {
-								fact19 := shared.PatternFactConditionSchemasTrue4Fact(allItem5.Four.Fact.ValueString())
-								operator19 := shared.PatternFactConditionSchemasTrue4Operator(allItem5.Four.Operator.ValueString())
-								var value19 string
-								value19 = allItem5.Four.Value.ValueString()
-
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four != nil {
+								fact19 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Fact.ValueString())
+								operator19 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Operator.ValueString())
 								var params19 *shared.PatternFactConditionSchemasTrue4Params
-								if allItem5.Four.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params != nil {
+									end7 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.End.IsNull() {
+										*end7 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.End.ValueFloat64()
+									} else {
+										end7 = nil
+									}
 									errorMessage19 := new(string)
-									if !allItem5.Four.Params.ErrorMessage.IsUnknown() && !allItem5.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage19 = allItem5.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage19 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage19 = nil
 									}
 									start7 := new(float64)
-									if !allItem5.Four.Params.Start.IsUnknown() && !allItem5.Four.Params.Start.IsNull() {
-										*start7 = allItem5.Four.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.Start.IsNull() {
+										*start7 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Params.Start.ValueFloat64()
 									} else {
 										start7 = nil
 									}
-									end7 := new(float64)
-									if !allItem5.Four.Params.End.IsUnknown() && !allItem5.Four.Params.End.IsNull() {
-										*end7 = allItem5.Four.Params.End.ValueFloat64()
-									} else {
-										end7 = nil
-									}
 									params19 = &shared.PatternFactConditionSchemasTrue4Params{
+										End:          end7,
 										ErrorMessage: errorMessage19,
 										Start:        start7,
-										End:          end7,
 									}
 								}
+								var value19 string
+								value19 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.One.All[allItem2].Four.Value.ValueString()
+
 								fortyOne := shared.Four{
 									Fact:     fact19,
 									Operator: operator19,
-									Value:    value19,
 									Params:   params19,
+									Value:    value19,
 								}
 								all5 = append(all5, shared.PatternFactCondition{
 									Four: &fortyOne,
@@ -7266,173 +7266,173 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var patternNestedCondition2 *shared.PatternNestedCondition2
-					if allItem4.PatternNestedCondition.Two != nil {
-						anyVar4 := make([]shared.PatternFactCondition, 0, len(allItem4.PatternNestedCondition.Two.Any))
-						for _, anyItem4 := range allItem4.PatternNestedCondition.Two.Any {
-							if anyItem4.One != nil {
-								fact20 := shared.PatternFactConditionFact(anyItem4.One.Fact.ValueString())
-								operator20 := shared.PatternFactConditionOperator(anyItem4.One.Operator.ValueString())
-								var value20 float64
-								value20 = anyItem4.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two != nil {
+						anyVar4 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any))
+						for anyItem1 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One != nil {
+								fact20 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Fact.ValueString())
+								operator20 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Operator.ValueString())
 								var params20 *shared.PatternFactConditionParams
-								if anyItem4.One.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params != nil {
+									end8 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.End.IsNull() {
+										*end8 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.End.ValueFloat64()
+									} else {
+										end8 = nil
+									}
 									errorMessage20 := new(string)
-									if !anyItem4.One.Params.ErrorMessage.IsUnknown() && !anyItem4.One.Params.ErrorMessage.IsNull() {
-										*errorMessage20 = anyItem4.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.ErrorMessage.IsNull() {
+										*errorMessage20 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage20 = nil
 									}
 									start8 := new(float64)
-									if !anyItem4.One.Params.Start.IsUnknown() && !anyItem4.One.Params.Start.IsNull() {
-										*start8 = anyItem4.One.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.Start.IsNull() {
+										*start8 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Params.Start.ValueFloat64()
 									} else {
 										start8 = nil
 									}
-									end8 := new(float64)
-									if !anyItem4.One.Params.End.IsUnknown() && !anyItem4.One.Params.End.IsNull() {
-										*end8 = anyItem4.One.Params.End.ValueFloat64()
-									} else {
-										end8 = nil
-									}
 									params20 = &shared.PatternFactConditionParams{
+										End:          end8,
 										ErrorMessage: errorMessage20,
 										Start:        start8,
-										End:          end8,
 									}
 								}
+								var value20 float64
+								value20 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].One.Value.ValueFloat64()
+
 								patternFactCondition12 := shared.PatternFactCondition1{
 									Fact:     fact20,
 									Operator: operator20,
-									Value:    value20,
 									Params:   params20,
+									Value:    value20,
 								}
 								anyVar4 = append(anyVar4, shared.PatternFactCondition{
 									PatternFactCondition1: &patternFactCondition12,
 								})
 							}
-							if anyItem4.Two != nil {
-								fact21 := shared.PatternFactConditionSchemasFact(anyItem4.Two.Fact.ValueString())
-								operator21 := shared.PatternFactConditionSchemasOperator(anyItem4.Two.Operator.ValueString())
-								var value21 float64
-								value21 = anyItem4.Two.Value.ValueFloat64()
-
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two != nil {
+								fact21 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Fact.ValueString())
+								operator21 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Operator.ValueString())
 								var params21 *shared.PatternFactConditionSchemasParams
-								if anyItem4.Two.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params != nil {
+									end9 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.End.IsNull() {
+										*end9 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.End.ValueFloat64()
+									} else {
+										end9 = nil
+									}
 									errorMessage21 := new(string)
-									if !anyItem4.Two.Params.ErrorMessage.IsUnknown() && !anyItem4.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage21 = anyItem4.Two.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage21 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage21 = nil
 									}
 									start9 := new(float64)
-									if !anyItem4.Two.Params.Start.IsUnknown() && !anyItem4.Two.Params.Start.IsNull() {
-										*start9 = anyItem4.Two.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.Start.IsNull() {
+										*start9 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Params.Start.ValueFloat64()
 									} else {
 										start9 = nil
 									}
-									end9 := new(float64)
-									if !anyItem4.Two.Params.End.IsUnknown() && !anyItem4.Two.Params.End.IsNull() {
-										*end9 = anyItem4.Two.Params.End.ValueFloat64()
-									} else {
-										end9 = nil
-									}
 									params21 = &shared.PatternFactConditionSchemasParams{
+										End:          end9,
 										ErrorMessage: errorMessage21,
 										Start:        start9,
-										End:          end9,
 									}
 								}
+								var value21 float64
+								value21 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Two.Value.ValueFloat64()
+
 								patternFactCondition22 := shared.PatternFactCondition2{
 									Fact:     fact21,
 									Operator: operator21,
-									Value:    value21,
 									Params:   params21,
+									Value:    value21,
 								}
 								anyVar4 = append(anyVar4, shared.PatternFactCondition{
 									PatternFactCondition2: &patternFactCondition22,
 								})
 							}
-							if anyItem4.Three != nil {
-								fact22 := shared.PatternFactConditionSchemasTrueFact(anyItem4.Three.Fact.ValueString())
-								operator22 := shared.PatternFactConditionSchemasTrueOperator(anyItem4.Three.Operator.ValueString())
-								value22 := make([]string, 0, len(anyItem4.Three.Value))
-								for _, valueItem2 := range anyItem4.Three.Value {
-									value22 = append(value22, valueItem2.ValueString())
-								}
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three != nil {
+								fact22 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Fact.ValueString())
+								operator22 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Operator.ValueString())
 								var params22 *shared.PatternFactConditionSchemasTrueParams
-								if anyItem4.Three.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params != nil {
+									end10 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.End.IsNull() {
+										*end10 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.End.ValueFloat64()
+									} else {
+										end10 = nil
+									}
 									errorMessage22 := new(string)
-									if !anyItem4.Three.Params.ErrorMessage.IsUnknown() && !anyItem4.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage22 = anyItem4.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage22 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage22 = nil
 									}
 									start10 := new(float64)
-									if !anyItem4.Three.Params.Start.IsUnknown() && !anyItem4.Three.Params.Start.IsNull() {
-										*start10 = anyItem4.Three.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.Start.IsNull() {
+										*start10 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Params.Start.ValueFloat64()
 									} else {
 										start10 = nil
 									}
-									end10 := new(float64)
-									if !anyItem4.Three.Params.End.IsUnknown() && !anyItem4.Three.Params.End.IsNull() {
-										*end10 = anyItem4.Three.Params.End.ValueFloat64()
-									} else {
-										end10 = nil
-									}
 									params22 = &shared.PatternFactConditionSchemasTrueParams{
+										End:          end10,
 										ErrorMessage: errorMessage22,
 										Start:        start10,
-										End:          end10,
 									}
+								}
+								value22 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Value))
+								for valueIndex2 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Value {
+									value22 = append(value22, r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Three.Value[valueIndex2].ValueString())
 								}
 								patternFactCondition32 := shared.PatternFactCondition3{
 									Fact:     fact22,
 									Operator: operator22,
-									Value:    value22,
 									Params:   params22,
+									Value:    value22,
 								}
 								anyVar4 = append(anyVar4, shared.PatternFactCondition{
 									PatternFactCondition3: &patternFactCondition32,
 								})
 							}
-							if anyItem4.Four != nil {
-								fact23 := shared.PatternFactConditionSchemasTrue4Fact(anyItem4.Four.Fact.ValueString())
-								operator23 := shared.PatternFactConditionSchemasTrue4Operator(anyItem4.Four.Operator.ValueString())
-								var value23 string
-								value23 = anyItem4.Four.Value.ValueString()
-
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four != nil {
+								fact23 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Fact.ValueString())
+								operator23 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Operator.ValueString())
 								var params23 *shared.PatternFactConditionSchemasTrue4Params
-								if anyItem4.Four.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params != nil {
+									end11 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.End.IsNull() {
+										*end11 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.End.ValueFloat64()
+									} else {
+										end11 = nil
+									}
 									errorMessage23 := new(string)
-									if !anyItem4.Four.Params.ErrorMessage.IsUnknown() && !anyItem4.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage23 = anyItem4.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage23 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage23 = nil
 									}
 									start11 := new(float64)
-									if !anyItem4.Four.Params.Start.IsUnknown() && !anyItem4.Four.Params.Start.IsNull() {
-										*start11 = anyItem4.Four.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.Start.IsNull() {
+										*start11 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Params.Start.ValueFloat64()
 									} else {
 										start11 = nil
 									}
-									end11 := new(float64)
-									if !anyItem4.Four.Params.End.IsUnknown() && !anyItem4.Four.Params.End.IsNull() {
-										*end11 = anyItem4.Four.Params.End.ValueFloat64()
-									} else {
-										end11 = nil
-									}
 									params23 = &shared.PatternFactConditionSchemasTrue4Params{
+										End:          end11,
 										ErrorMessage: errorMessage23,
 										Start:        start11,
-										End:          end11,
 									}
 								}
+								var value23 string
+								value23 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Two.Any[anyItem1].Four.Value.ValueString()
+
 								fortyTwo := shared.Four{
 									Fact:     fact23,
 									Operator: operator23,
-									Value:    value23,
 									Params:   params23,
+									Value:    value23,
 								}
 								anyVar4 = append(anyVar4, shared.PatternFactCondition{
 									Four: &fortyTwo,
@@ -7449,46 +7449,46 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var patternNestedCondition3 *shared.PatternNestedCondition3
-					if allItem4.PatternNestedCondition.Three != nil {
+					if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three != nil {
 						var not4 shared.PatternFactCondition
 						var patternFactCondition13 *shared.PatternFactCondition1
-						if allItem4.PatternNestedCondition.Three.Not.One != nil {
-							fact24 := shared.PatternFactConditionFact(allItem4.PatternNestedCondition.Three.Not.One.Fact.ValueString())
-							operator24 := shared.PatternFactConditionOperator(allItem4.PatternNestedCondition.Three.Not.One.Operator.ValueString())
-							var value24 float64
-							value24 = allItem4.PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One != nil {
+							fact24 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Fact.ValueString())
+							operator24 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Operator.ValueString())
 							var params24 *shared.PatternFactConditionParams
-							if allItem4.PatternNestedCondition.Three.Not.One.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params != nil {
+								end12 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
+									*end12 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
+								} else {
+									end12 = nil
+								}
 								errorMessage24 := new(string)
-								if !allItem4.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
-									*errorMessage24 = allItem4.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
+									*errorMessage24 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage24 = nil
 								}
 								start12 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.One.Params.Start.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.One.Params.Start.IsNull() {
-									*start12 = allItem4.PatternNestedCondition.Three.Not.One.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.Start.IsNull() {
+									*start12 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Params.Start.ValueFloat64()
 								} else {
 									start12 = nil
 								}
-								end12 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
-									*end12 = allItem4.PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
-								} else {
-									end12 = nil
-								}
 								params24 = &shared.PatternFactConditionParams{
+									End:          end12,
 									ErrorMessage: errorMessage24,
 									Start:        start12,
-									End:          end12,
 								}
 							}
+							var value24 float64
+							value24 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 							patternFactCondition13 = &shared.PatternFactCondition1{
 								Fact:     fact24,
 								Operator: operator24,
-								Value:    value24,
 								Params:   params24,
+								Value:    value24,
 							}
 						}
 						if patternFactCondition13 != nil {
@@ -7497,43 +7497,43 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var patternFactCondition23 *shared.PatternFactCondition2
-						if allItem4.PatternNestedCondition.Three.Not.Two != nil {
-							fact25 := shared.PatternFactConditionSchemasFact(allItem4.PatternNestedCondition.Three.Not.Two.Fact.ValueString())
-							operator25 := shared.PatternFactConditionSchemasOperator(allItem4.PatternNestedCondition.Three.Not.Two.Operator.ValueString())
-							var value25 float64
-							value25 = allItem4.PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two != nil {
+							fact25 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Fact.ValueString())
+							operator25 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Operator.ValueString())
 							var params25 *shared.PatternFactConditionSchemasParams
-							if allItem4.PatternNestedCondition.Three.Not.Two.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params != nil {
+								end13 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
+									*end13 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
+								} else {
+									end13 = nil
+								}
 								errorMessage25 := new(string)
-								if !allItem4.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage25 = allItem4.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+									*errorMessage25 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage25 = nil
 								}
 								start13 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Two.Params.Start.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Two.Params.Start.IsNull() {
-									*start13 = allItem4.PatternNestedCondition.Three.Not.Two.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.Start.IsNull() {
+									*start13 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Params.Start.ValueFloat64()
 								} else {
 									start13 = nil
 								}
-								end13 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
-									*end13 = allItem4.PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
-								} else {
-									end13 = nil
-								}
 								params25 = &shared.PatternFactConditionSchemasParams{
+									End:          end13,
 									ErrorMessage: errorMessage25,
 									Start:        start13,
-									End:          end13,
 								}
 							}
+							var value25 float64
+							value25 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 							patternFactCondition23 = &shared.PatternFactCondition2{
 								Fact:     fact25,
 								Operator: operator25,
-								Value:    value25,
 								Params:   params25,
+								Value:    value25,
 							}
 						}
 						if patternFactCondition23 != nil {
@@ -7542,44 +7542,44 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var patternFactCondition33 *shared.PatternFactCondition3
-						if allItem4.PatternNestedCondition.Three.Not.Three != nil {
-							fact26 := shared.PatternFactConditionSchemasTrueFact(allItem4.PatternNestedCondition.Three.Not.Three.Fact.ValueString())
-							operator26 := shared.PatternFactConditionSchemasTrueOperator(allItem4.PatternNestedCondition.Three.Not.Three.Operator.ValueString())
-							value26 := make([]string, 0, len(allItem4.PatternNestedCondition.Three.Not.Three.Value))
-							for _, valueItem3 := range allItem4.PatternNestedCondition.Three.Not.Three.Value {
-								value26 = append(value26, valueItem3.ValueString())
-							}
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three != nil {
+							fact26 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Fact.ValueString())
+							operator26 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Operator.ValueString())
 							var params26 *shared.PatternFactConditionSchemasTrueParams
-							if allItem4.PatternNestedCondition.Three.Not.Three.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params != nil {
+								end14 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
+									*end14 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
+								} else {
+									end14 = nil
+								}
 								errorMessage26 := new(string)
-								if !allItem4.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage26 = allItem4.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
+									*errorMessage26 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage26 = nil
 								}
 								start14 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Three.Params.Start.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Three.Params.Start.IsNull() {
-									*start14 = allItem4.PatternNestedCondition.Three.Not.Three.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.Start.IsNull() {
+									*start14 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Params.Start.ValueFloat64()
 								} else {
 									start14 = nil
 								}
-								end14 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
-									*end14 = allItem4.PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
-								} else {
-									end14 = nil
-								}
 								params26 = &shared.PatternFactConditionSchemasTrueParams{
+									End:          end14,
 									ErrorMessage: errorMessage26,
 									Start:        start14,
-									End:          end14,
 								}
+							}
+							value26 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Value))
+							for valueIndex3 := range r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Value {
+								value26 = append(value26, r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Three.Value[valueIndex3].ValueString())
 							}
 							patternFactCondition33 = &shared.PatternFactCondition3{
 								Fact:     fact26,
 								Operator: operator26,
-								Value:    value26,
 								Params:   params26,
+								Value:    value26,
 							}
 						}
 						if patternFactCondition33 != nil {
@@ -7588,43 +7588,43 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var fortyThree *shared.Four
-						if allItem4.PatternNestedCondition.Three.Not.Four != nil {
-							fact27 := shared.PatternFactConditionSchemasTrue4Fact(allItem4.PatternNestedCondition.Three.Not.Four.Fact.ValueString())
-							operator27 := shared.PatternFactConditionSchemasTrue4Operator(allItem4.PatternNestedCondition.Three.Not.Four.Operator.ValueString())
-							var value27 string
-							value27 = allItem4.PatternNestedCondition.Three.Not.Four.Value.ValueString()
-
+						if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four != nil {
+							fact27 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Fact.ValueString())
+							operator27 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Operator.ValueString())
 							var params27 *shared.PatternFactConditionSchemasTrue4Params
-							if allItem4.PatternNestedCondition.Three.Not.Four.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params != nil {
+								end15 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
+									*end15 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
+								} else {
+									end15 = nil
+								}
 								errorMessage27 := new(string)
-								if !allItem4.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage27 = allItem4.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
+									*errorMessage27 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage27 = nil
 								}
 								start15 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Four.Params.Start.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Four.Params.Start.IsNull() {
-									*start15 = allItem4.PatternNestedCondition.Three.Not.Four.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.Start.IsNull() {
+									*start15 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Params.Start.ValueFloat64()
 								} else {
 									start15 = nil
 								}
-								end15 := new(float64)
-								if !allItem4.PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !allItem4.PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
-									*end15 = allItem4.PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
-								} else {
-									end15 = nil
-								}
 								params27 = &shared.PatternFactConditionSchemasTrue4Params{
+									End:          end15,
 									ErrorMessage: errorMessage27,
 									Start:        start15,
-									End:          end15,
 								}
 							}
+							var value27 string
+							value27 = r.Rule.PatternRuleType.Conditions.One.All[allItem1].PatternNestedCondition.Three.Not.Four.Value.ValueString()
+
 							fortyThree = &shared.Four{
 								Fact:     fact27,
 								Operator: operator27,
-								Value:    value27,
 								Params:   params27,
+								Value:    value27,
 							}
 						}
 						if fortyThree != nil {
@@ -7658,47 +7658,47 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 		var patternCondition2 *shared.PatternCondition2
 		if r.Rule.PatternRuleType.Conditions.Two != nil {
 			anyVar5 := make([]shared.PatternConditionAny, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any))
-			for _, anyItem5 := range r.Rule.PatternRuleType.Conditions.Two.Any {
-				if anyItem5.PatternFactCondition != nil {
+			for anyItem2 := range r.Rule.PatternRuleType.Conditions.Two.Any {
+				if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition != nil {
 					var patternFactCondition4 shared.PatternFactCondition
 					var patternFactCondition14 *shared.PatternFactCondition1
-					if anyItem5.PatternFactCondition.One != nil {
-						fact28 := shared.PatternFactConditionFact(anyItem5.PatternFactCondition.One.Fact.ValueString())
-						operator28 := shared.PatternFactConditionOperator(anyItem5.PatternFactCondition.One.Operator.ValueString())
-						var value28 float64
-						value28 = anyItem5.PatternFactCondition.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One != nil {
+						fact28 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Fact.ValueString())
+						operator28 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Operator.ValueString())
 						var params28 *shared.PatternFactConditionParams
-						if anyItem5.PatternFactCondition.One.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params != nil {
+							end16 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.End.IsNull() {
+								*end16 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.End.ValueFloat64()
+							} else {
+								end16 = nil
+							}
 							errorMessage28 := new(string)
-							if !anyItem5.PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternFactCondition.One.Params.ErrorMessage.IsNull() {
-								*errorMessage28 = anyItem5.PatternFactCondition.One.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.ErrorMessage.IsNull() {
+								*errorMessage28 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage28 = nil
 							}
 							start16 := new(float64)
-							if !anyItem5.PatternFactCondition.One.Params.Start.IsUnknown() && !anyItem5.PatternFactCondition.One.Params.Start.IsNull() {
-								*start16 = anyItem5.PatternFactCondition.One.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.Start.IsNull() {
+								*start16 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Params.Start.ValueFloat64()
 							} else {
 								start16 = nil
 							}
-							end16 := new(float64)
-							if !anyItem5.PatternFactCondition.One.Params.End.IsUnknown() && !anyItem5.PatternFactCondition.One.Params.End.IsNull() {
-								*end16 = anyItem5.PatternFactCondition.One.Params.End.ValueFloat64()
-							} else {
-								end16 = nil
-							}
 							params28 = &shared.PatternFactConditionParams{
+								End:          end16,
 								ErrorMessage: errorMessage28,
 								Start:        start16,
-								End:          end16,
 							}
 						}
+						var value28 float64
+						value28 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.One.Value.ValueFloat64()
+
 						patternFactCondition14 = &shared.PatternFactCondition1{
 							Fact:     fact28,
 							Operator: operator28,
-							Value:    value28,
 							Params:   params28,
+							Value:    value28,
 						}
 					}
 					if patternFactCondition14 != nil {
@@ -7707,43 +7707,43 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var patternFactCondition24 *shared.PatternFactCondition2
-					if anyItem5.PatternFactCondition.Two != nil {
-						fact29 := shared.PatternFactConditionSchemasFact(anyItem5.PatternFactCondition.Two.Fact.ValueString())
-						operator29 := shared.PatternFactConditionSchemasOperator(anyItem5.PatternFactCondition.Two.Operator.ValueString())
-						var value29 float64
-						value29 = anyItem5.PatternFactCondition.Two.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two != nil {
+						fact29 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Fact.ValueString())
+						operator29 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Operator.ValueString())
 						var params29 *shared.PatternFactConditionSchemasParams
-						if anyItem5.PatternFactCondition.Two.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params != nil {
+							end17 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.End.IsNull() {
+								*end17 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.End.ValueFloat64()
+							} else {
+								end17 = nil
+							}
 							errorMessage29 := new(string)
-							if !anyItem5.PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage29 = anyItem5.PatternFactCondition.Two.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage29 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage29 = nil
 							}
 							start17 := new(float64)
-							if !anyItem5.PatternFactCondition.Two.Params.Start.IsUnknown() && !anyItem5.PatternFactCondition.Two.Params.Start.IsNull() {
-								*start17 = anyItem5.PatternFactCondition.Two.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.Start.IsNull() {
+								*start17 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Params.Start.ValueFloat64()
 							} else {
 								start17 = nil
 							}
-							end17 := new(float64)
-							if !anyItem5.PatternFactCondition.Two.Params.End.IsUnknown() && !anyItem5.PatternFactCondition.Two.Params.End.IsNull() {
-								*end17 = anyItem5.PatternFactCondition.Two.Params.End.ValueFloat64()
-							} else {
-								end17 = nil
-							}
 							params29 = &shared.PatternFactConditionSchemasParams{
+								End:          end17,
 								ErrorMessage: errorMessage29,
 								Start:        start17,
-								End:          end17,
 							}
 						}
+						var value29 float64
+						value29 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Two.Value.ValueFloat64()
+
 						patternFactCondition24 = &shared.PatternFactCondition2{
 							Fact:     fact29,
 							Operator: operator29,
-							Value:    value29,
 							Params:   params29,
+							Value:    value29,
 						}
 					}
 					if patternFactCondition24 != nil {
@@ -7752,44 +7752,44 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var patternFactCondition34 *shared.PatternFactCondition3
-					if anyItem5.PatternFactCondition.Three != nil {
-						fact30 := shared.PatternFactConditionSchemasTrueFact(anyItem5.PatternFactCondition.Three.Fact.ValueString())
-						operator30 := shared.PatternFactConditionSchemasTrueOperator(anyItem5.PatternFactCondition.Three.Operator.ValueString())
-						value30 := make([]string, 0, len(anyItem5.PatternFactCondition.Three.Value))
-						for _, valueItem4 := range anyItem5.PatternFactCondition.Three.Value {
-							value30 = append(value30, valueItem4.ValueString())
-						}
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three != nil {
+						fact30 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Fact.ValueString())
+						operator30 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Operator.ValueString())
 						var params30 *shared.PatternFactConditionSchemasTrueParams
-						if anyItem5.PatternFactCondition.Three.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params != nil {
+							end18 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.End.IsNull() {
+								*end18 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.End.ValueFloat64()
+							} else {
+								end18 = nil
+							}
 							errorMessage30 := new(string)
-							if !anyItem5.PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
-								*errorMessage30 = anyItem5.PatternFactCondition.Three.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
+								*errorMessage30 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage30 = nil
 							}
 							start18 := new(float64)
-							if !anyItem5.PatternFactCondition.Three.Params.Start.IsUnknown() && !anyItem5.PatternFactCondition.Three.Params.Start.IsNull() {
-								*start18 = anyItem5.PatternFactCondition.Three.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.Start.IsNull() {
+								*start18 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Params.Start.ValueFloat64()
 							} else {
 								start18 = nil
 							}
-							end18 := new(float64)
-							if !anyItem5.PatternFactCondition.Three.Params.End.IsUnknown() && !anyItem5.PatternFactCondition.Three.Params.End.IsNull() {
-								*end18 = anyItem5.PatternFactCondition.Three.Params.End.ValueFloat64()
-							} else {
-								end18 = nil
-							}
 							params30 = &shared.PatternFactConditionSchemasTrueParams{
+								End:          end18,
 								ErrorMessage: errorMessage30,
 								Start:        start18,
-								End:          end18,
 							}
+						}
+						value30 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Value))
+						for valueIndex4 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Value {
+							value30 = append(value30, r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Three.Value[valueIndex4].ValueString())
 						}
 						patternFactCondition34 = &shared.PatternFactCondition3{
 							Fact:     fact30,
 							Operator: operator30,
-							Value:    value30,
 							Params:   params30,
+							Value:    value30,
 						}
 					}
 					if patternFactCondition34 != nil {
@@ -7798,43 +7798,43 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var fortyFour *shared.Four
-					if anyItem5.PatternFactCondition.Four != nil {
-						fact31 := shared.PatternFactConditionSchemasTrue4Fact(anyItem5.PatternFactCondition.Four.Fact.ValueString())
-						operator31 := shared.PatternFactConditionSchemasTrue4Operator(anyItem5.PatternFactCondition.Four.Operator.ValueString())
-						var value31 string
-						value31 = anyItem5.PatternFactCondition.Four.Value.ValueString()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four != nil {
+						fact31 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Fact.ValueString())
+						operator31 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Operator.ValueString())
 						var params31 *shared.PatternFactConditionSchemasTrue4Params
-						if anyItem5.PatternFactCondition.Four.Params != nil {
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params != nil {
+							end19 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.End.IsNull() {
+								*end19 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.End.ValueFloat64()
+							} else {
+								end19 = nil
+							}
 							errorMessage31 := new(string)
-							if !anyItem5.PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
-								*errorMessage31 = anyItem5.PatternFactCondition.Four.Params.ErrorMessage.ValueString()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
+								*errorMessage31 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage31 = nil
 							}
 							start19 := new(float64)
-							if !anyItem5.PatternFactCondition.Four.Params.Start.IsUnknown() && !anyItem5.PatternFactCondition.Four.Params.Start.IsNull() {
-								*start19 = anyItem5.PatternFactCondition.Four.Params.Start.ValueFloat64()
+							if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.Start.IsNull() {
+								*start19 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Params.Start.ValueFloat64()
 							} else {
 								start19 = nil
 							}
-							end19 := new(float64)
-							if !anyItem5.PatternFactCondition.Four.Params.End.IsUnknown() && !anyItem5.PatternFactCondition.Four.Params.End.IsNull() {
-								*end19 = anyItem5.PatternFactCondition.Four.Params.End.ValueFloat64()
-							} else {
-								end19 = nil
-							}
 							params31 = &shared.PatternFactConditionSchemasTrue4Params{
+								End:          end19,
 								ErrorMessage: errorMessage31,
 								Start:        start19,
-								End:          end19,
 							}
 						}
+						var value31 string
+						value31 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternFactCondition.Four.Value.ValueString()
+
 						fortyFour = &shared.Four{
 							Fact:     fact31,
 							Operator: operator31,
-							Value:    value31,
 							Params:   params31,
+							Value:    value31,
 						}
 					}
 					if fortyFour != nil {
@@ -7846,176 +7846,176 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						PatternFactCondition: &patternFactCondition4,
 					})
 				}
-				if anyItem5.PatternNestedCondition != nil {
+				if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition != nil {
 					var patternNestedCondition4 shared.PatternNestedCondition
 					var patternNestedCondition11 *shared.PatternNestedCondition1
-					if anyItem5.PatternNestedCondition.One != nil {
-						all6 := make([]shared.PatternFactCondition, 0, len(anyItem5.PatternNestedCondition.One.All))
-						for _, allItem6 := range anyItem5.PatternNestedCondition.One.All {
-							if allItem6.One != nil {
-								fact32 := shared.PatternFactConditionFact(allItem6.One.Fact.ValueString())
-								operator32 := shared.PatternFactConditionOperator(allItem6.One.Operator.ValueString())
-								var value32 float64
-								value32 = allItem6.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One != nil {
+						all6 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All))
+						for allItem3 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One != nil {
+								fact32 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Fact.ValueString())
+								operator32 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Operator.ValueString())
 								var params32 *shared.PatternFactConditionParams
-								if allItem6.One.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params != nil {
+									end20 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.End.IsNull() {
+										*end20 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.End.ValueFloat64()
+									} else {
+										end20 = nil
+									}
 									errorMessage32 := new(string)
-									if !allItem6.One.Params.ErrorMessage.IsUnknown() && !allItem6.One.Params.ErrorMessage.IsNull() {
-										*errorMessage32 = allItem6.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.ErrorMessage.IsNull() {
+										*errorMessage32 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage32 = nil
 									}
 									start20 := new(float64)
-									if !allItem6.One.Params.Start.IsUnknown() && !allItem6.One.Params.Start.IsNull() {
-										*start20 = allItem6.One.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.Start.IsNull() {
+										*start20 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Params.Start.ValueFloat64()
 									} else {
 										start20 = nil
 									}
-									end20 := new(float64)
-									if !allItem6.One.Params.End.IsUnknown() && !allItem6.One.Params.End.IsNull() {
-										*end20 = allItem6.One.Params.End.ValueFloat64()
-									} else {
-										end20 = nil
-									}
 									params32 = &shared.PatternFactConditionParams{
+										End:          end20,
 										ErrorMessage: errorMessage32,
 										Start:        start20,
-										End:          end20,
 									}
 								}
+								var value32 float64
+								value32 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].One.Value.ValueFloat64()
+
 								patternFactCondition15 := shared.PatternFactCondition1{
 									Fact:     fact32,
 									Operator: operator32,
-									Value:    value32,
 									Params:   params32,
+									Value:    value32,
 								}
 								all6 = append(all6, shared.PatternFactCondition{
 									PatternFactCondition1: &patternFactCondition15,
 								})
 							}
-							if allItem6.Two != nil {
-								fact33 := shared.PatternFactConditionSchemasFact(allItem6.Two.Fact.ValueString())
-								operator33 := shared.PatternFactConditionSchemasOperator(allItem6.Two.Operator.ValueString())
-								var value33 float64
-								value33 = allItem6.Two.Value.ValueFloat64()
-
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two != nil {
+								fact33 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Fact.ValueString())
+								operator33 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Operator.ValueString())
 								var params33 *shared.PatternFactConditionSchemasParams
-								if allItem6.Two.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params != nil {
+									end21 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.End.IsNull() {
+										*end21 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.End.ValueFloat64()
+									} else {
+										end21 = nil
+									}
 									errorMessage33 := new(string)
-									if !allItem6.Two.Params.ErrorMessage.IsUnknown() && !allItem6.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage33 = allItem6.Two.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage33 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage33 = nil
 									}
 									start21 := new(float64)
-									if !allItem6.Two.Params.Start.IsUnknown() && !allItem6.Two.Params.Start.IsNull() {
-										*start21 = allItem6.Two.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.Start.IsNull() {
+										*start21 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Params.Start.ValueFloat64()
 									} else {
 										start21 = nil
 									}
-									end21 := new(float64)
-									if !allItem6.Two.Params.End.IsUnknown() && !allItem6.Two.Params.End.IsNull() {
-										*end21 = allItem6.Two.Params.End.ValueFloat64()
-									} else {
-										end21 = nil
-									}
 									params33 = &shared.PatternFactConditionSchemasParams{
+										End:          end21,
 										ErrorMessage: errorMessage33,
 										Start:        start21,
-										End:          end21,
 									}
 								}
+								var value33 float64
+								value33 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Two.Value.ValueFloat64()
+
 								patternFactCondition25 := shared.PatternFactCondition2{
 									Fact:     fact33,
 									Operator: operator33,
-									Value:    value33,
 									Params:   params33,
+									Value:    value33,
 								}
 								all6 = append(all6, shared.PatternFactCondition{
 									PatternFactCondition2: &patternFactCondition25,
 								})
 							}
-							if allItem6.Three != nil {
-								fact34 := shared.PatternFactConditionSchemasTrueFact(allItem6.Three.Fact.ValueString())
-								operator34 := shared.PatternFactConditionSchemasTrueOperator(allItem6.Three.Operator.ValueString())
-								value34 := make([]string, 0, len(allItem6.Three.Value))
-								for _, valueItem5 := range allItem6.Three.Value {
-									value34 = append(value34, valueItem5.ValueString())
-								}
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three != nil {
+								fact34 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Fact.ValueString())
+								operator34 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Operator.ValueString())
 								var params34 *shared.PatternFactConditionSchemasTrueParams
-								if allItem6.Three.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params != nil {
+									end22 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.End.IsNull() {
+										*end22 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.End.ValueFloat64()
+									} else {
+										end22 = nil
+									}
 									errorMessage34 := new(string)
-									if !allItem6.Three.Params.ErrorMessage.IsUnknown() && !allItem6.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage34 = allItem6.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage34 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage34 = nil
 									}
 									start22 := new(float64)
-									if !allItem6.Three.Params.Start.IsUnknown() && !allItem6.Three.Params.Start.IsNull() {
-										*start22 = allItem6.Three.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.Start.IsNull() {
+										*start22 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Params.Start.ValueFloat64()
 									} else {
 										start22 = nil
 									}
-									end22 := new(float64)
-									if !allItem6.Three.Params.End.IsUnknown() && !allItem6.Three.Params.End.IsNull() {
-										*end22 = allItem6.Three.Params.End.ValueFloat64()
-									} else {
-										end22 = nil
-									}
 									params34 = &shared.PatternFactConditionSchemasTrueParams{
+										End:          end22,
 										ErrorMessage: errorMessage34,
 										Start:        start22,
-										End:          end22,
 									}
+								}
+								value34 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Value))
+								for valueIndex5 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Value {
+									value34 = append(value34, r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Three.Value[valueIndex5].ValueString())
 								}
 								patternFactCondition35 := shared.PatternFactCondition3{
 									Fact:     fact34,
 									Operator: operator34,
-									Value:    value34,
 									Params:   params34,
+									Value:    value34,
 								}
 								all6 = append(all6, shared.PatternFactCondition{
 									PatternFactCondition3: &patternFactCondition35,
 								})
 							}
-							if allItem6.Four != nil {
-								fact35 := shared.PatternFactConditionSchemasTrue4Fact(allItem6.Four.Fact.ValueString())
-								operator35 := shared.PatternFactConditionSchemasTrue4Operator(allItem6.Four.Operator.ValueString())
-								var value35 string
-								value35 = allItem6.Four.Value.ValueString()
-
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four != nil {
+								fact35 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Fact.ValueString())
+								operator35 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Operator.ValueString())
 								var params35 *shared.PatternFactConditionSchemasTrue4Params
-								if allItem6.Four.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params != nil {
+									end23 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.End.IsNull() {
+										*end23 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.End.ValueFloat64()
+									} else {
+										end23 = nil
+									}
 									errorMessage35 := new(string)
-									if !allItem6.Four.Params.ErrorMessage.IsUnknown() && !allItem6.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage35 = allItem6.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage35 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage35 = nil
 									}
 									start23 := new(float64)
-									if !allItem6.Four.Params.Start.IsUnknown() && !allItem6.Four.Params.Start.IsNull() {
-										*start23 = allItem6.Four.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.Start.IsNull() {
+										*start23 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Params.Start.ValueFloat64()
 									} else {
 										start23 = nil
 									}
-									end23 := new(float64)
-									if !allItem6.Four.Params.End.IsUnknown() && !allItem6.Four.Params.End.IsNull() {
-										*end23 = allItem6.Four.Params.End.ValueFloat64()
-									} else {
-										end23 = nil
-									}
 									params35 = &shared.PatternFactConditionSchemasTrue4Params{
+										End:          end23,
 										ErrorMessage: errorMessage35,
 										Start:        start23,
-										End:          end23,
 									}
 								}
+								var value35 string
+								value35 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.One.All[allItem3].Four.Value.ValueString()
+
 								fortyFive := shared.Four{
 									Fact:     fact35,
 									Operator: operator35,
-									Value:    value35,
 									Params:   params35,
+									Value:    value35,
 								}
 								all6 = append(all6, shared.PatternFactCondition{
 									Four: &fortyFive,
@@ -8032,173 +8032,173 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var patternNestedCondition21 *shared.PatternNestedCondition2
-					if anyItem5.PatternNestedCondition.Two != nil {
-						anyVar6 := make([]shared.PatternFactCondition, 0, len(anyItem5.PatternNestedCondition.Two.Any))
-						for _, anyItem6 := range anyItem5.PatternNestedCondition.Two.Any {
-							if anyItem6.One != nil {
-								fact36 := shared.PatternFactConditionFact(anyItem6.One.Fact.ValueString())
-								operator36 := shared.PatternFactConditionOperator(anyItem6.One.Operator.ValueString())
-								var value36 float64
-								value36 = anyItem6.One.Value.ValueFloat64()
-
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two != nil {
+						anyVar6 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any))
+						for anyItem3 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One != nil {
+								fact36 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Fact.ValueString())
+								operator36 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Operator.ValueString())
 								var params36 *shared.PatternFactConditionParams
-								if anyItem6.One.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params != nil {
+									end24 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.End.IsNull() {
+										*end24 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.End.ValueFloat64()
+									} else {
+										end24 = nil
+									}
 									errorMessage36 := new(string)
-									if !anyItem6.One.Params.ErrorMessage.IsUnknown() && !anyItem6.One.Params.ErrorMessage.IsNull() {
-										*errorMessage36 = anyItem6.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.ErrorMessage.IsNull() {
+										*errorMessage36 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage36 = nil
 									}
 									start24 := new(float64)
-									if !anyItem6.One.Params.Start.IsUnknown() && !anyItem6.One.Params.Start.IsNull() {
-										*start24 = anyItem6.One.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.Start.IsNull() {
+										*start24 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Params.Start.ValueFloat64()
 									} else {
 										start24 = nil
 									}
-									end24 := new(float64)
-									if !anyItem6.One.Params.End.IsUnknown() && !anyItem6.One.Params.End.IsNull() {
-										*end24 = anyItem6.One.Params.End.ValueFloat64()
-									} else {
-										end24 = nil
-									}
 									params36 = &shared.PatternFactConditionParams{
+										End:          end24,
 										ErrorMessage: errorMessage36,
 										Start:        start24,
-										End:          end24,
 									}
 								}
+								var value36 float64
+								value36 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].One.Value.ValueFloat64()
+
 								patternFactCondition16 := shared.PatternFactCondition1{
 									Fact:     fact36,
 									Operator: operator36,
-									Value:    value36,
 									Params:   params36,
+									Value:    value36,
 								}
 								anyVar6 = append(anyVar6, shared.PatternFactCondition{
 									PatternFactCondition1: &patternFactCondition16,
 								})
 							}
-							if anyItem6.Two != nil {
-								fact37 := shared.PatternFactConditionSchemasFact(anyItem6.Two.Fact.ValueString())
-								operator37 := shared.PatternFactConditionSchemasOperator(anyItem6.Two.Operator.ValueString())
-								var value37 float64
-								value37 = anyItem6.Two.Value.ValueFloat64()
-
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two != nil {
+								fact37 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Fact.ValueString())
+								operator37 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Operator.ValueString())
 								var params37 *shared.PatternFactConditionSchemasParams
-								if anyItem6.Two.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params != nil {
+									end25 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.End.IsNull() {
+										*end25 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.End.ValueFloat64()
+									} else {
+										end25 = nil
+									}
 									errorMessage37 := new(string)
-									if !anyItem6.Two.Params.ErrorMessage.IsUnknown() && !anyItem6.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage37 = anyItem6.Two.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage37 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage37 = nil
 									}
 									start25 := new(float64)
-									if !anyItem6.Two.Params.Start.IsUnknown() && !anyItem6.Two.Params.Start.IsNull() {
-										*start25 = anyItem6.Two.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.Start.IsNull() {
+										*start25 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Params.Start.ValueFloat64()
 									} else {
 										start25 = nil
 									}
-									end25 := new(float64)
-									if !anyItem6.Two.Params.End.IsUnknown() && !anyItem6.Two.Params.End.IsNull() {
-										*end25 = anyItem6.Two.Params.End.ValueFloat64()
-									} else {
-										end25 = nil
-									}
 									params37 = &shared.PatternFactConditionSchemasParams{
+										End:          end25,
 										ErrorMessage: errorMessage37,
 										Start:        start25,
-										End:          end25,
 									}
 								}
+								var value37 float64
+								value37 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Two.Value.ValueFloat64()
+
 								patternFactCondition26 := shared.PatternFactCondition2{
 									Fact:     fact37,
 									Operator: operator37,
-									Value:    value37,
 									Params:   params37,
+									Value:    value37,
 								}
 								anyVar6 = append(anyVar6, shared.PatternFactCondition{
 									PatternFactCondition2: &patternFactCondition26,
 								})
 							}
-							if anyItem6.Three != nil {
-								fact38 := shared.PatternFactConditionSchemasTrueFact(anyItem6.Three.Fact.ValueString())
-								operator38 := shared.PatternFactConditionSchemasTrueOperator(anyItem6.Three.Operator.ValueString())
-								value38 := make([]string, 0, len(anyItem6.Three.Value))
-								for _, valueItem6 := range anyItem6.Three.Value {
-									value38 = append(value38, valueItem6.ValueString())
-								}
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three != nil {
+								fact38 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Fact.ValueString())
+								operator38 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Operator.ValueString())
 								var params38 *shared.PatternFactConditionSchemasTrueParams
-								if anyItem6.Three.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params != nil {
+									end26 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.End.IsNull() {
+										*end26 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.End.ValueFloat64()
+									} else {
+										end26 = nil
+									}
 									errorMessage38 := new(string)
-									if !anyItem6.Three.Params.ErrorMessage.IsUnknown() && !anyItem6.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage38 = anyItem6.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage38 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage38 = nil
 									}
 									start26 := new(float64)
-									if !anyItem6.Three.Params.Start.IsUnknown() && !anyItem6.Three.Params.Start.IsNull() {
-										*start26 = anyItem6.Three.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.Start.IsNull() {
+										*start26 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Params.Start.ValueFloat64()
 									} else {
 										start26 = nil
 									}
-									end26 := new(float64)
-									if !anyItem6.Three.Params.End.IsUnknown() && !anyItem6.Three.Params.End.IsNull() {
-										*end26 = anyItem6.Three.Params.End.ValueFloat64()
-									} else {
-										end26 = nil
-									}
 									params38 = &shared.PatternFactConditionSchemasTrueParams{
+										End:          end26,
 										ErrorMessage: errorMessage38,
 										Start:        start26,
-										End:          end26,
 									}
+								}
+								value38 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Value))
+								for valueIndex6 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Value {
+									value38 = append(value38, r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Three.Value[valueIndex6].ValueString())
 								}
 								patternFactCondition36 := shared.PatternFactCondition3{
 									Fact:     fact38,
 									Operator: operator38,
-									Value:    value38,
 									Params:   params38,
+									Value:    value38,
 								}
 								anyVar6 = append(anyVar6, shared.PatternFactCondition{
 									PatternFactCondition3: &patternFactCondition36,
 								})
 							}
-							if anyItem6.Four != nil {
-								fact39 := shared.PatternFactConditionSchemasTrue4Fact(anyItem6.Four.Fact.ValueString())
-								operator39 := shared.PatternFactConditionSchemasTrue4Operator(anyItem6.Four.Operator.ValueString())
-								var value39 string
-								value39 = anyItem6.Four.Value.ValueString()
-
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four != nil {
+								fact39 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Fact.ValueString())
+								operator39 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Operator.ValueString())
 								var params39 *shared.PatternFactConditionSchemasTrue4Params
-								if anyItem6.Four.Params != nil {
+								if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params != nil {
+									end27 := new(float64)
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.End.IsNull() {
+										*end27 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.End.ValueFloat64()
+									} else {
+										end27 = nil
+									}
 									errorMessage39 := new(string)
-									if !anyItem6.Four.Params.ErrorMessage.IsUnknown() && !anyItem6.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage39 = anyItem6.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage39 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage39 = nil
 									}
 									start27 := new(float64)
-									if !anyItem6.Four.Params.Start.IsUnknown() && !anyItem6.Four.Params.Start.IsNull() {
-										*start27 = anyItem6.Four.Params.Start.ValueFloat64()
+									if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.Start.IsNull() {
+										*start27 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Params.Start.ValueFloat64()
 									} else {
 										start27 = nil
 									}
-									end27 := new(float64)
-									if !anyItem6.Four.Params.End.IsUnknown() && !anyItem6.Four.Params.End.IsNull() {
-										*end27 = anyItem6.Four.Params.End.ValueFloat64()
-									} else {
-										end27 = nil
-									}
 									params39 = &shared.PatternFactConditionSchemasTrue4Params{
+										End:          end27,
 										ErrorMessage: errorMessage39,
 										Start:        start27,
-										End:          end27,
 									}
 								}
+								var value39 string
+								value39 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Two.Any[anyItem3].Four.Value.ValueString()
+
 								fortySix := shared.Four{
 									Fact:     fact39,
 									Operator: operator39,
-									Value:    value39,
 									Params:   params39,
+									Value:    value39,
 								}
 								anyVar6 = append(anyVar6, shared.PatternFactCondition{
 									Four: &fortySix,
@@ -8215,46 +8215,46 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var patternNestedCondition31 *shared.PatternNestedCondition3
-					if anyItem5.PatternNestedCondition.Three != nil {
+					if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three != nil {
 						var not5 shared.PatternFactCondition
 						var patternFactCondition17 *shared.PatternFactCondition1
-						if anyItem5.PatternNestedCondition.Three.Not.One != nil {
-							fact40 := shared.PatternFactConditionFact(anyItem5.PatternNestedCondition.Three.Not.One.Fact.ValueString())
-							operator40 := shared.PatternFactConditionOperator(anyItem5.PatternNestedCondition.Three.Not.One.Operator.ValueString())
-							var value40 float64
-							value40 = anyItem5.PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One != nil {
+							fact40 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Fact.ValueString())
+							operator40 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Operator.ValueString())
 							var params40 *shared.PatternFactConditionParams
-							if anyItem5.PatternNestedCondition.Three.Not.One.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params != nil {
+								end28 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
+									*end28 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
+								} else {
+									end28 = nil
+								}
 								errorMessage40 := new(string)
-								if !anyItem5.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
-									*errorMessage40 = anyItem5.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
+									*errorMessage40 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage40 = nil
 								}
 								start28 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.One.Params.Start.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.One.Params.Start.IsNull() {
-									*start28 = anyItem5.PatternNestedCondition.Three.Not.One.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.Start.IsNull() {
+									*start28 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Params.Start.ValueFloat64()
 								} else {
 									start28 = nil
 								}
-								end28 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
-									*end28 = anyItem5.PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
-								} else {
-									end28 = nil
-								}
 								params40 = &shared.PatternFactConditionParams{
+									End:          end28,
 									ErrorMessage: errorMessage40,
 									Start:        start28,
-									End:          end28,
 								}
 							}
+							var value40 float64
+							value40 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 							patternFactCondition17 = &shared.PatternFactCondition1{
 								Fact:     fact40,
 								Operator: operator40,
-								Value:    value40,
 								Params:   params40,
+								Value:    value40,
 							}
 						}
 						if patternFactCondition17 != nil {
@@ -8263,43 +8263,43 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var patternFactCondition27 *shared.PatternFactCondition2
-						if anyItem5.PatternNestedCondition.Three.Not.Two != nil {
-							fact41 := shared.PatternFactConditionSchemasFact(anyItem5.PatternNestedCondition.Three.Not.Two.Fact.ValueString())
-							operator41 := shared.PatternFactConditionSchemasOperator(anyItem5.PatternNestedCondition.Three.Not.Two.Operator.ValueString())
-							var value41 float64
-							value41 = anyItem5.PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two != nil {
+							fact41 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Fact.ValueString())
+							operator41 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Operator.ValueString())
 							var params41 *shared.PatternFactConditionSchemasParams
-							if anyItem5.PatternNestedCondition.Three.Not.Two.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params != nil {
+								end29 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
+									*end29 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
+								} else {
+									end29 = nil
+								}
 								errorMessage41 := new(string)
-								if !anyItem5.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage41 = anyItem5.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+									*errorMessage41 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage41 = nil
 								}
 								start29 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Two.Params.Start.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Two.Params.Start.IsNull() {
-									*start29 = anyItem5.PatternNestedCondition.Three.Not.Two.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.Start.IsNull() {
+									*start29 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Params.Start.ValueFloat64()
 								} else {
 									start29 = nil
 								}
-								end29 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
-									*end29 = anyItem5.PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
-								} else {
-									end29 = nil
-								}
 								params41 = &shared.PatternFactConditionSchemasParams{
+									End:          end29,
 									ErrorMessage: errorMessage41,
 									Start:        start29,
-									End:          end29,
 								}
 							}
+							var value41 float64
+							value41 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 							patternFactCondition27 = &shared.PatternFactCondition2{
 								Fact:     fact41,
 								Operator: operator41,
-								Value:    value41,
 								Params:   params41,
+								Value:    value41,
 							}
 						}
 						if patternFactCondition27 != nil {
@@ -8308,44 +8308,44 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var patternFactCondition37 *shared.PatternFactCondition3
-						if anyItem5.PatternNestedCondition.Three.Not.Three != nil {
-							fact42 := shared.PatternFactConditionSchemasTrueFact(anyItem5.PatternNestedCondition.Three.Not.Three.Fact.ValueString())
-							operator42 := shared.PatternFactConditionSchemasTrueOperator(anyItem5.PatternNestedCondition.Three.Not.Three.Operator.ValueString())
-							value42 := make([]string, 0, len(anyItem5.PatternNestedCondition.Three.Not.Three.Value))
-							for _, valueItem7 := range anyItem5.PatternNestedCondition.Three.Not.Three.Value {
-								value42 = append(value42, valueItem7.ValueString())
-							}
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three != nil {
+							fact42 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Fact.ValueString())
+							operator42 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Operator.ValueString())
 							var params42 *shared.PatternFactConditionSchemasTrueParams
-							if anyItem5.PatternNestedCondition.Three.Not.Three.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params != nil {
+								end30 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
+									*end30 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
+								} else {
+									end30 = nil
+								}
 								errorMessage42 := new(string)
-								if !anyItem5.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage42 = anyItem5.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
+									*errorMessage42 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage42 = nil
 								}
 								start30 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Three.Params.Start.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Three.Params.Start.IsNull() {
-									*start30 = anyItem5.PatternNestedCondition.Three.Not.Three.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.Start.IsNull() {
+									*start30 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Params.Start.ValueFloat64()
 								} else {
 									start30 = nil
 								}
-								end30 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
-									*end30 = anyItem5.PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
-								} else {
-									end30 = nil
-								}
 								params42 = &shared.PatternFactConditionSchemasTrueParams{
+									End:          end30,
 									ErrorMessage: errorMessage42,
 									Start:        start30,
-									End:          end30,
 								}
+							}
+							value42 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Value))
+							for valueIndex7 := range r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Value {
+								value42 = append(value42, r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Three.Value[valueIndex7].ValueString())
 							}
 							patternFactCondition37 = &shared.PatternFactCondition3{
 								Fact:     fact42,
 								Operator: operator42,
-								Value:    value42,
 								Params:   params42,
+								Value:    value42,
 							}
 						}
 						if patternFactCondition37 != nil {
@@ -8354,43 +8354,43 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var fortySeven *shared.Four
-						if anyItem5.PatternNestedCondition.Three.Not.Four != nil {
-							fact43 := shared.PatternFactConditionSchemasTrue4Fact(anyItem5.PatternNestedCondition.Three.Not.Four.Fact.ValueString())
-							operator43 := shared.PatternFactConditionSchemasTrue4Operator(anyItem5.PatternNestedCondition.Three.Not.Four.Operator.ValueString())
-							var value43 string
-							value43 = anyItem5.PatternNestedCondition.Three.Not.Four.Value.ValueString()
-
+						if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four != nil {
+							fact43 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Fact.ValueString())
+							operator43 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Operator.ValueString())
 							var params43 *shared.PatternFactConditionSchemasTrue4Params
-							if anyItem5.PatternNestedCondition.Three.Not.Four.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params != nil {
+								end31 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
+									*end31 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
+								} else {
+									end31 = nil
+								}
 								errorMessage43 := new(string)
-								if !anyItem5.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage43 = anyItem5.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
+									*errorMessage43 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage43 = nil
 								}
 								start31 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Four.Params.Start.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Four.Params.Start.IsNull() {
-									*start31 = anyItem5.PatternNestedCondition.Three.Not.Four.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.Start.IsNull() {
+									*start31 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Params.Start.ValueFloat64()
 								} else {
 									start31 = nil
 								}
-								end31 := new(float64)
-								if !anyItem5.PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !anyItem5.PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
-									*end31 = anyItem5.PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
-								} else {
-									end31 = nil
-								}
 								params43 = &shared.PatternFactConditionSchemasTrue4Params{
+									End:          end31,
 									ErrorMessage: errorMessage43,
 									Start:        start31,
-									End:          end31,
 								}
 							}
+							var value43 string
+							value43 = r.Rule.PatternRuleType.Conditions.Two.Any[anyItem2].PatternNestedCondition.Three.Not.Four.Value.ValueString()
+
 							fortySeven = &shared.Four{
 								Fact:     fact43,
 								Operator: operator43,
-								Value:    value43,
 								Params:   params43,
+								Value:    value43,
 							}
 						}
 						if fortySeven != nil {
@@ -8430,11 +8430,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One != nil {
 					fact44 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Fact.ValueString())
 					operator44 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Operator.ValueString())
-					var value44 float64
-					value44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Value.ValueFloat64()
-
 					var params44 *shared.PatternFactConditionParams
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params != nil {
+						end32 := new(float64)
+						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.IsNull() {
+							*end32 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.ValueFloat64()
+						} else {
+							end32 = nil
+						}
 						errorMessage44 := new(string)
 						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.ErrorMessage.IsNull() {
 							*errorMessage44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.ErrorMessage.ValueString()
@@ -8447,23 +8450,20 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						} else {
 							start32 = nil
 						}
-						end32 := new(float64)
-						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.IsNull() {
-							*end32 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Params.End.ValueFloat64()
-						} else {
-							end32 = nil
-						}
 						params44 = &shared.PatternFactConditionParams{
+							End:          end32,
 							ErrorMessage: errorMessage44,
 							Start:        start32,
-							End:          end32,
 						}
 					}
+					var value44 float64
+					value44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Value.ValueFloat64()
+
 					patternFactCondition18 = &shared.PatternFactCondition1{
 						Fact:     fact44,
 						Operator: operator44,
-						Value:    value44,
 						Params:   params44,
+						Value:    value44,
 					}
 				}
 				if patternFactCondition18 != nil {
@@ -8475,11 +8475,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two != nil {
 					fact45 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Fact.ValueString())
 					operator45 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Operator.ValueString())
-					var value45 float64
-					value45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Value.ValueFloat64()
-
 					var params45 *shared.PatternFactConditionSchemasParams
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params != nil {
+						end33 := new(float64)
+						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.IsNull() {
+							*end33 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.ValueFloat64()
+						} else {
+							end33 = nil
+						}
 						errorMessage45 := new(string)
 						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.ErrorMessage.IsNull() {
 							*errorMessage45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.ErrorMessage.ValueString()
@@ -8492,23 +8495,20 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						} else {
 							start33 = nil
 						}
-						end33 := new(float64)
-						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.IsNull() {
-							*end33 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Params.End.ValueFloat64()
-						} else {
-							end33 = nil
-						}
 						params45 = &shared.PatternFactConditionSchemasParams{
+							End:          end33,
 							ErrorMessage: errorMessage45,
 							Start:        start33,
-							End:          end33,
 						}
 					}
+					var value45 float64
+					value45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Two.Value.ValueFloat64()
+
 					patternFactCondition28 = &shared.PatternFactCondition2{
 						Fact:     fact45,
 						Operator: operator45,
-						Value:    value45,
 						Params:   params45,
+						Value:    value45,
 					}
 				}
 				if patternFactCondition28 != nil {
@@ -8520,12 +8520,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three != nil {
 					fact46 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Fact.ValueString())
 					operator46 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Operator.ValueString())
-					value46 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value))
-					for _, valueItem8 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value {
-						value46 = append(value46, valueItem8.ValueString())
-					}
 					var params46 *shared.PatternFactConditionSchemasTrueParams
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params != nil {
+						end34 := new(float64)
+						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.IsNull() {
+							*end34 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.ValueFloat64()
+						} else {
+							end34 = nil
+						}
 						errorMessage46 := new(string)
 						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.ErrorMessage.IsNull() {
 							*errorMessage46 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.ErrorMessage.ValueString()
@@ -8538,23 +8540,21 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						} else {
 							start34 = nil
 						}
-						end34 := new(float64)
-						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.IsNull() {
-							*end34 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Params.End.ValueFloat64()
-						} else {
-							end34 = nil
-						}
 						params46 = &shared.PatternFactConditionSchemasTrueParams{
+							End:          end34,
 							ErrorMessage: errorMessage46,
 							Start:        start34,
-							End:          end34,
 						}
+					}
+					value46 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value))
+					for valueIndex8 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value {
+						value46 = append(value46, r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Three.Value[valueIndex8].ValueString())
 					}
 					patternFactCondition38 = &shared.PatternFactCondition3{
 						Fact:     fact46,
 						Operator: operator46,
-						Value:    value46,
 						Params:   params46,
+						Value:    value46,
 					}
 				}
 				if patternFactCondition38 != nil {
@@ -8566,11 +8566,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four != nil {
 					fact47 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Fact.ValueString())
 					operator47 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Operator.ValueString())
-					var value47 string
-					value47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Value.ValueString()
-
 					var params47 *shared.PatternFactConditionSchemasTrue4Params
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params != nil {
+						end35 := new(float64)
+						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.IsNull() {
+							*end35 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.ValueFloat64()
+						} else {
+							end35 = nil
+						}
 						errorMessage47 := new(string)
 						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.ErrorMessage.IsNull() {
 							*errorMessage47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.ErrorMessage.ValueString()
@@ -8583,23 +8586,20 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						} else {
 							start35 = nil
 						}
-						end35 := new(float64)
-						if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.IsNull() {
-							*end35 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Params.End.ValueFloat64()
-						} else {
-							end35 = nil
-						}
 						params47 = &shared.PatternFactConditionSchemasTrue4Params{
+							End:          end35,
 							ErrorMessage: errorMessage47,
 							Start:        start35,
-							End:          end35,
 						}
 					}
+					var value47 string
+					value47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.Four.Value.ValueString()
+
 					fortyEight = &shared.Four{
 						Fact:     fact47,
 						Operator: operator47,
-						Value:    value47,
 						Params:   params47,
+						Value:    value47,
 					}
 				}
 				if fortyEight != nil {
@@ -8618,171 +8618,171 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				var patternNestedCondition12 *shared.PatternNestedCondition1
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One != nil {
 					all7 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All))
-					for _, allItem7 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All {
-						if allItem7.One != nil {
-							fact48 := shared.PatternFactConditionFact(allItem7.One.Fact.ValueString())
-							operator48 := shared.PatternFactConditionOperator(allItem7.One.Operator.ValueString())
-							var value48 float64
-							value48 = allItem7.One.Value.ValueFloat64()
-
+					for allItem4 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All {
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One != nil {
+							fact48 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Fact.ValueString())
+							operator48 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Operator.ValueString())
 							var params48 *shared.PatternFactConditionParams
-							if allItem7.One.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params != nil {
+								end36 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.End.IsNull() {
+									*end36 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.End.ValueFloat64()
+								} else {
+									end36 = nil
+								}
 								errorMessage48 := new(string)
-								if !allItem7.One.Params.ErrorMessage.IsUnknown() && !allItem7.One.Params.ErrorMessage.IsNull() {
-									*errorMessage48 = allItem7.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.ErrorMessage.IsNull() {
+									*errorMessage48 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage48 = nil
 								}
 								start36 := new(float64)
-								if !allItem7.One.Params.Start.IsUnknown() && !allItem7.One.Params.Start.IsNull() {
-									*start36 = allItem7.One.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.Start.IsNull() {
+									*start36 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Params.Start.ValueFloat64()
 								} else {
 									start36 = nil
 								}
-								end36 := new(float64)
-								if !allItem7.One.Params.End.IsUnknown() && !allItem7.One.Params.End.IsNull() {
-									*end36 = allItem7.One.Params.End.ValueFloat64()
-								} else {
-									end36 = nil
-								}
 								params48 = &shared.PatternFactConditionParams{
+									End:          end36,
 									ErrorMessage: errorMessage48,
 									Start:        start36,
-									End:          end36,
 								}
 							}
+							var value48 float64
+							value48 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].One.Value.ValueFloat64()
+
 							patternFactCondition19 := shared.PatternFactCondition1{
 								Fact:     fact48,
 								Operator: operator48,
-								Value:    value48,
 								Params:   params48,
+								Value:    value48,
 							}
 							all7 = append(all7, shared.PatternFactCondition{
 								PatternFactCondition1: &patternFactCondition19,
 							})
 						}
-						if allItem7.Two != nil {
-							fact49 := shared.PatternFactConditionSchemasFact(allItem7.Two.Fact.ValueString())
-							operator49 := shared.PatternFactConditionSchemasOperator(allItem7.Two.Operator.ValueString())
-							var value49 float64
-							value49 = allItem7.Two.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two != nil {
+							fact49 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Fact.ValueString())
+							operator49 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Operator.ValueString())
 							var params49 *shared.PatternFactConditionSchemasParams
-							if allItem7.Two.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params != nil {
+								end37 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.End.IsNull() {
+									*end37 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.End.ValueFloat64()
+								} else {
+									end37 = nil
+								}
 								errorMessage49 := new(string)
-								if !allItem7.Two.Params.ErrorMessage.IsUnknown() && !allItem7.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage49 = allItem7.Two.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.ErrorMessage.IsNull() {
+									*errorMessage49 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage49 = nil
 								}
 								start37 := new(float64)
-								if !allItem7.Two.Params.Start.IsUnknown() && !allItem7.Two.Params.Start.IsNull() {
-									*start37 = allItem7.Two.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.Start.IsNull() {
+									*start37 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Params.Start.ValueFloat64()
 								} else {
 									start37 = nil
 								}
-								end37 := new(float64)
-								if !allItem7.Two.Params.End.IsUnknown() && !allItem7.Two.Params.End.IsNull() {
-									*end37 = allItem7.Two.Params.End.ValueFloat64()
-								} else {
-									end37 = nil
-								}
 								params49 = &shared.PatternFactConditionSchemasParams{
+									End:          end37,
 									ErrorMessage: errorMessage49,
 									Start:        start37,
-									End:          end37,
 								}
 							}
+							var value49 float64
+							value49 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Two.Value.ValueFloat64()
+
 							patternFactCondition29 := shared.PatternFactCondition2{
 								Fact:     fact49,
 								Operator: operator49,
-								Value:    value49,
 								Params:   params49,
+								Value:    value49,
 							}
 							all7 = append(all7, shared.PatternFactCondition{
 								PatternFactCondition2: &patternFactCondition29,
 							})
 						}
-						if allItem7.Three != nil {
-							fact50 := shared.PatternFactConditionSchemasTrueFact(allItem7.Three.Fact.ValueString())
-							operator50 := shared.PatternFactConditionSchemasTrueOperator(allItem7.Three.Operator.ValueString())
-							value50 := make([]string, 0, len(allItem7.Three.Value))
-							for _, valueItem9 := range allItem7.Three.Value {
-								value50 = append(value50, valueItem9.ValueString())
-							}
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three != nil {
+							fact50 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Fact.ValueString())
+							operator50 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Operator.ValueString())
 							var params50 *shared.PatternFactConditionSchemasTrueParams
-							if allItem7.Three.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params != nil {
+								end38 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.End.IsNull() {
+									*end38 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.End.ValueFloat64()
+								} else {
+									end38 = nil
+								}
 								errorMessage50 := new(string)
-								if !allItem7.Three.Params.ErrorMessage.IsUnknown() && !allItem7.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage50 = allItem7.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.ErrorMessage.IsNull() {
+									*errorMessage50 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage50 = nil
 								}
 								start38 := new(float64)
-								if !allItem7.Three.Params.Start.IsUnknown() && !allItem7.Three.Params.Start.IsNull() {
-									*start38 = allItem7.Three.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.Start.IsNull() {
+									*start38 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Params.Start.ValueFloat64()
 								} else {
 									start38 = nil
 								}
-								end38 := new(float64)
-								if !allItem7.Three.Params.End.IsUnknown() && !allItem7.Three.Params.End.IsNull() {
-									*end38 = allItem7.Three.Params.End.ValueFloat64()
-								} else {
-									end38 = nil
-								}
 								params50 = &shared.PatternFactConditionSchemasTrueParams{
+									End:          end38,
 									ErrorMessage: errorMessage50,
 									Start:        start38,
-									End:          end38,
 								}
+							}
+							value50 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Value))
+							for valueIndex9 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Value {
+								value50 = append(value50, r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Three.Value[valueIndex9].ValueString())
 							}
 							patternFactCondition39 := shared.PatternFactCondition3{
 								Fact:     fact50,
 								Operator: operator50,
-								Value:    value50,
 								Params:   params50,
+								Value:    value50,
 							}
 							all7 = append(all7, shared.PatternFactCondition{
 								PatternFactCondition3: &patternFactCondition39,
 							})
 						}
-						if allItem7.Four != nil {
-							fact51 := shared.PatternFactConditionSchemasTrue4Fact(allItem7.Four.Fact.ValueString())
-							operator51 := shared.PatternFactConditionSchemasTrue4Operator(allItem7.Four.Operator.ValueString())
-							var value51 string
-							value51 = allItem7.Four.Value.ValueString()
-
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four != nil {
+							fact51 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Fact.ValueString())
+							operator51 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Operator.ValueString())
 							var params51 *shared.PatternFactConditionSchemasTrue4Params
-							if allItem7.Four.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params != nil {
+								end39 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.End.IsNull() {
+									*end39 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.End.ValueFloat64()
+								} else {
+									end39 = nil
+								}
 								errorMessage51 := new(string)
-								if !allItem7.Four.Params.ErrorMessage.IsUnknown() && !allItem7.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage51 = allItem7.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.ErrorMessage.IsNull() {
+									*errorMessage51 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage51 = nil
 								}
 								start39 := new(float64)
-								if !allItem7.Four.Params.Start.IsUnknown() && !allItem7.Four.Params.Start.IsNull() {
-									*start39 = allItem7.Four.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.Start.IsNull() {
+									*start39 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Params.Start.ValueFloat64()
 								} else {
 									start39 = nil
 								}
-								end39 := new(float64)
-								if !allItem7.Four.Params.End.IsUnknown() && !allItem7.Four.Params.End.IsNull() {
-									*end39 = allItem7.Four.Params.End.ValueFloat64()
-								} else {
-									end39 = nil
-								}
 								params51 = &shared.PatternFactConditionSchemasTrue4Params{
+									End:          end39,
 									ErrorMessage: errorMessage51,
 									Start:        start39,
-									End:          end39,
 								}
 							}
+							var value51 string
+							value51 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All[allItem4].Four.Value.ValueString()
+
 							fortyNine := shared.Four{
 								Fact:     fact51,
 								Operator: operator51,
-								Value:    value51,
 								Params:   params51,
+								Value:    value51,
 							}
 							all7 = append(all7, shared.PatternFactCondition{
 								Four: &fortyNine,
@@ -8801,171 +8801,171 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				var patternNestedCondition22 *shared.PatternNestedCondition2
 				if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two != nil {
 					anyVar7 := make([]shared.PatternFactCondition, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any))
-					for _, anyItem7 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any {
-						if anyItem7.One != nil {
-							fact52 := shared.PatternFactConditionFact(anyItem7.One.Fact.ValueString())
-							operator52 := shared.PatternFactConditionOperator(anyItem7.One.Operator.ValueString())
-							var value52 float64
-							value52 = anyItem7.One.Value.ValueFloat64()
-
+					for anyItem4 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any {
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One != nil {
+							fact52 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Fact.ValueString())
+							operator52 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Operator.ValueString())
 							var params52 *shared.PatternFactConditionParams
-							if anyItem7.One.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params != nil {
+								end40 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.End.IsNull() {
+									*end40 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.End.ValueFloat64()
+								} else {
+									end40 = nil
+								}
 								errorMessage52 := new(string)
-								if !anyItem7.One.Params.ErrorMessage.IsUnknown() && !anyItem7.One.Params.ErrorMessage.IsNull() {
-									*errorMessage52 = anyItem7.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.ErrorMessage.IsNull() {
+									*errorMessage52 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage52 = nil
 								}
 								start40 := new(float64)
-								if !anyItem7.One.Params.Start.IsUnknown() && !anyItem7.One.Params.Start.IsNull() {
-									*start40 = anyItem7.One.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.Start.IsNull() {
+									*start40 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Params.Start.ValueFloat64()
 								} else {
 									start40 = nil
 								}
-								end40 := new(float64)
-								if !anyItem7.One.Params.End.IsUnknown() && !anyItem7.One.Params.End.IsNull() {
-									*end40 = anyItem7.One.Params.End.ValueFloat64()
-								} else {
-									end40 = nil
-								}
 								params52 = &shared.PatternFactConditionParams{
+									End:          end40,
 									ErrorMessage: errorMessage52,
 									Start:        start40,
-									End:          end40,
 								}
 							}
+							var value52 float64
+							value52 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].One.Value.ValueFloat64()
+
 							patternFactCondition110 := shared.PatternFactCondition1{
 								Fact:     fact52,
 								Operator: operator52,
-								Value:    value52,
 								Params:   params52,
+								Value:    value52,
 							}
 							anyVar7 = append(anyVar7, shared.PatternFactCondition{
 								PatternFactCondition1: &patternFactCondition110,
 							})
 						}
-						if anyItem7.Two != nil {
-							fact53 := shared.PatternFactConditionSchemasFact(anyItem7.Two.Fact.ValueString())
-							operator53 := shared.PatternFactConditionSchemasOperator(anyItem7.Two.Operator.ValueString())
-							var value53 float64
-							value53 = anyItem7.Two.Value.ValueFloat64()
-
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two != nil {
+							fact53 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Fact.ValueString())
+							operator53 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Operator.ValueString())
 							var params53 *shared.PatternFactConditionSchemasParams
-							if anyItem7.Two.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params != nil {
+								end41 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.End.IsNull() {
+									*end41 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.End.ValueFloat64()
+								} else {
+									end41 = nil
+								}
 								errorMessage53 := new(string)
-								if !anyItem7.Two.Params.ErrorMessage.IsUnknown() && !anyItem7.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage53 = anyItem7.Two.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.ErrorMessage.IsNull() {
+									*errorMessage53 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage53 = nil
 								}
 								start41 := new(float64)
-								if !anyItem7.Two.Params.Start.IsUnknown() && !anyItem7.Two.Params.Start.IsNull() {
-									*start41 = anyItem7.Two.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.Start.IsNull() {
+									*start41 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Params.Start.ValueFloat64()
 								} else {
 									start41 = nil
 								}
-								end41 := new(float64)
-								if !anyItem7.Two.Params.End.IsUnknown() && !anyItem7.Two.Params.End.IsNull() {
-									*end41 = anyItem7.Two.Params.End.ValueFloat64()
-								} else {
-									end41 = nil
-								}
 								params53 = &shared.PatternFactConditionSchemasParams{
+									End:          end41,
 									ErrorMessage: errorMessage53,
 									Start:        start41,
-									End:          end41,
 								}
 							}
+							var value53 float64
+							value53 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Two.Value.ValueFloat64()
+
 							patternFactCondition210 := shared.PatternFactCondition2{
 								Fact:     fact53,
 								Operator: operator53,
-								Value:    value53,
 								Params:   params53,
+								Value:    value53,
 							}
 							anyVar7 = append(anyVar7, shared.PatternFactCondition{
 								PatternFactCondition2: &patternFactCondition210,
 							})
 						}
-						if anyItem7.Three != nil {
-							fact54 := shared.PatternFactConditionSchemasTrueFact(anyItem7.Three.Fact.ValueString())
-							operator54 := shared.PatternFactConditionSchemasTrueOperator(anyItem7.Three.Operator.ValueString())
-							value54 := make([]string, 0, len(anyItem7.Three.Value))
-							for _, valueItem10 := range anyItem7.Three.Value {
-								value54 = append(value54, valueItem10.ValueString())
-							}
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three != nil {
+							fact54 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Fact.ValueString())
+							operator54 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Operator.ValueString())
 							var params54 *shared.PatternFactConditionSchemasTrueParams
-							if anyItem7.Three.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params != nil {
+								end42 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.End.IsNull() {
+									*end42 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.End.ValueFloat64()
+								} else {
+									end42 = nil
+								}
 								errorMessage54 := new(string)
-								if !anyItem7.Three.Params.ErrorMessage.IsUnknown() && !anyItem7.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage54 = anyItem7.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.ErrorMessage.IsNull() {
+									*errorMessage54 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage54 = nil
 								}
 								start42 := new(float64)
-								if !anyItem7.Three.Params.Start.IsUnknown() && !anyItem7.Three.Params.Start.IsNull() {
-									*start42 = anyItem7.Three.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.Start.IsNull() {
+									*start42 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Params.Start.ValueFloat64()
 								} else {
 									start42 = nil
 								}
-								end42 := new(float64)
-								if !anyItem7.Three.Params.End.IsUnknown() && !anyItem7.Three.Params.End.IsNull() {
-									*end42 = anyItem7.Three.Params.End.ValueFloat64()
-								} else {
-									end42 = nil
-								}
 								params54 = &shared.PatternFactConditionSchemasTrueParams{
+									End:          end42,
 									ErrorMessage: errorMessage54,
 									Start:        start42,
-									End:          end42,
 								}
+							}
+							value54 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Value))
+							for valueIndex10 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Value {
+								value54 = append(value54, r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Three.Value[valueIndex10].ValueString())
 							}
 							patternFactCondition310 := shared.PatternFactCondition3{
 								Fact:     fact54,
 								Operator: operator54,
-								Value:    value54,
 								Params:   params54,
+								Value:    value54,
 							}
 							anyVar7 = append(anyVar7, shared.PatternFactCondition{
 								PatternFactCondition3: &patternFactCondition310,
 							})
 						}
-						if anyItem7.Four != nil {
-							fact55 := shared.PatternFactConditionSchemasTrue4Fact(anyItem7.Four.Fact.ValueString())
-							operator55 := shared.PatternFactConditionSchemasTrue4Operator(anyItem7.Four.Operator.ValueString())
-							var value55 string
-							value55 = anyItem7.Four.Value.ValueString()
-
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four != nil {
+							fact55 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Fact.ValueString())
+							operator55 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Operator.ValueString())
 							var params55 *shared.PatternFactConditionSchemasTrue4Params
-							if anyItem7.Four.Params != nil {
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params != nil {
+								end43 := new(float64)
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.End.IsNull() {
+									*end43 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.End.ValueFloat64()
+								} else {
+									end43 = nil
+								}
 								errorMessage55 := new(string)
-								if !anyItem7.Four.Params.ErrorMessage.IsUnknown() && !anyItem7.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage55 = anyItem7.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.ErrorMessage.IsNull() {
+									*errorMessage55 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage55 = nil
 								}
 								start43 := new(float64)
-								if !anyItem7.Four.Params.Start.IsUnknown() && !anyItem7.Four.Params.Start.IsNull() {
-									*start43 = anyItem7.Four.Params.Start.ValueFloat64()
+								if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.Start.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.Start.IsNull() {
+									*start43 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Params.Start.ValueFloat64()
 								} else {
 									start43 = nil
 								}
-								end43 := new(float64)
-								if !anyItem7.Four.Params.End.IsUnknown() && !anyItem7.Four.Params.End.IsNull() {
-									*end43 = anyItem7.Four.Params.End.ValueFloat64()
-								} else {
-									end43 = nil
-								}
 								params55 = &shared.PatternFactConditionSchemasTrue4Params{
+									End:          end43,
 									ErrorMessage: errorMessage55,
 									Start:        start43,
-									End:          end43,
 								}
 							}
+							var value55 string
+							value55 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Two.Any[anyItem4].Four.Value.ValueString()
+
 							fourHundredAndTen := shared.Four{
 								Fact:     fact55,
 								Operator: operator55,
-								Value:    value55,
 								Params:   params55,
+								Value:    value55,
 							}
 							anyVar7 = append(anyVar7, shared.PatternFactCondition{
 								Four: &fourHundredAndTen,
@@ -8988,11 +8988,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One != nil {
 						fact56 := shared.PatternFactConditionFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Fact.ValueString())
 						operator56 := shared.PatternFactConditionOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Operator.ValueString())
-						var value56 float64
-						value56 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
-
 						var params56 *shared.PatternFactConditionParams
 						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params != nil {
+							end44 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
+								*end44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
+							} else {
+								end44 = nil
+							}
 							errorMessage56 := new(string)
 							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
 								*errorMessage56 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
@@ -9005,23 +9008,20 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							} else {
 								start44 = nil
 							}
-							end44 := new(float64)
-							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.IsNull() {
-								*end44 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Params.End.ValueFloat64()
-							} else {
-								end44 = nil
-							}
 							params56 = &shared.PatternFactConditionParams{
+								End:          end44,
 								ErrorMessage: errorMessage56,
 								Start:        start44,
-								End:          end44,
 							}
 						}
+						var value56 float64
+						value56 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 						patternFactCondition111 = &shared.PatternFactCondition1{
 							Fact:     fact56,
 							Operator: operator56,
-							Value:    value56,
 							Params:   params56,
+							Value:    value56,
 						}
 					}
 					if patternFactCondition111 != nil {
@@ -9033,11 +9033,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two != nil {
 						fact57 := shared.PatternFactConditionSchemasFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Fact.ValueString())
 						operator57 := shared.PatternFactConditionSchemasOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Operator.ValueString())
-						var value57 float64
-						value57 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
 						var params57 *shared.PatternFactConditionSchemasParams
 						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params != nil {
+							end45 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
+								*end45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
+							} else {
+								end45 = nil
+							}
 							errorMessage57 := new(string)
 							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
 								*errorMessage57 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
@@ -9050,23 +9053,20 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							} else {
 								start45 = nil
 							}
-							end45 := new(float64)
-							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.IsNull() {
-								*end45 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Params.End.ValueFloat64()
-							} else {
-								end45 = nil
-							}
 							params57 = &shared.PatternFactConditionSchemasParams{
+								End:          end45,
 								ErrorMessage: errorMessage57,
 								Start:        start45,
-								End:          end45,
 							}
 						}
+						var value57 float64
+						value57 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 						patternFactCondition211 = &shared.PatternFactCondition2{
 							Fact:     fact57,
 							Operator: operator57,
-							Value:    value57,
 							Params:   params57,
+							Value:    value57,
 						}
 					}
 					if patternFactCondition211 != nil {
@@ -9078,12 +9078,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three != nil {
 						fact58 := shared.PatternFactConditionSchemasTrueFact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Fact.ValueString())
 						operator58 := shared.PatternFactConditionSchemasTrueOperator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Operator.ValueString())
-						value58 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value))
-						for _, valueItem11 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value {
-							value58 = append(value58, valueItem11.ValueString())
-						}
 						var params58 *shared.PatternFactConditionSchemasTrueParams
 						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params != nil {
+							end46 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
+								*end46 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
+							} else {
+								end46 = nil
+							}
 							errorMessage58 := new(string)
 							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
 								*errorMessage58 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
@@ -9096,23 +9098,21 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							} else {
 								start46 = nil
 							}
-							end46 := new(float64)
-							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.IsNull() {
-								*end46 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Params.End.ValueFloat64()
-							} else {
-								end46 = nil
-							}
 							params58 = &shared.PatternFactConditionSchemasTrueParams{
+								End:          end46,
 								ErrorMessage: errorMessage58,
 								Start:        start46,
-								End:          end46,
 							}
+						}
+						value58 := make([]string, 0, len(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value))
+						for valueIndex11 := range r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value {
+							value58 = append(value58, r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Three.Value[valueIndex11].ValueString())
 						}
 						patternFactCondition311 = &shared.PatternFactCondition3{
 							Fact:     fact58,
 							Operator: operator58,
-							Value:    value58,
 							Params:   params58,
+							Value:    value58,
 						}
 					}
 					if patternFactCondition311 != nil {
@@ -9124,11 +9124,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 					if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four != nil {
 						fact59 := shared.PatternFactConditionSchemasTrue4Fact(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Fact.ValueString())
 						operator59 := shared.PatternFactConditionSchemasTrue4Operator(r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Operator.ValueString())
-						var value59 string
-						value59 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Value.ValueString()
-
 						var params59 *shared.PatternFactConditionSchemasTrue4Params
 						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params != nil {
+							end47 := new(float64)
+							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
+								*end47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
+							} else {
+								end47 = nil
+							}
 							errorMessage59 := new(string)
 							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
 								*errorMessage59 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
@@ -9141,23 +9144,20 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							} else {
 								start47 = nil
 							}
-							end47 := new(float64)
-							if !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.IsUnknown() && !r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.IsNull() {
-								*end47 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Params.End.ValueFloat64()
-							} else {
-								end47 = nil
-							}
 							params59 = &shared.PatternFactConditionSchemasTrue4Params{
+								End:          end47,
 								ErrorMessage: errorMessage59,
 								Start:        start47,
-								End:          end47,
 							}
 						}
+						var value59 string
+						value59 = r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.Four.Value.ValueString()
+
 						fourHundredAndEleven = &shared.Four{
 							Fact:     fact59,
 							Operator: operator59,
-							Value:    value59,
 							Params:   params59,
+							Value:    value59,
 						}
 					}
 					if fourHundredAndEleven != nil {
@@ -9206,21 +9206,18 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 		var numericCondition1 *shared.NumericCondition1
 		if r.Rule.NumericRuleType.Conditions.One != nil {
 			all8 := make([]shared.NumericConditionAll, 0, len(r.Rule.NumericRuleType.Conditions.One.All))
-			for _, allItem8 := range r.Rule.NumericRuleType.Conditions.One.All {
-				if allItem8.NumericFactCondition != nil {
+			for allItem5 := range r.Rule.NumericRuleType.Conditions.One.All {
+				if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition != nil {
 					var numericFactCondition shared.NumericFactCondition
 					var numericFactCondition1 *shared.NumericFactCondition1
-					if allItem8.NumericFactCondition.One != nil {
-						fact60 := shared.NumericFactConditionFact(allItem8.NumericFactCondition.One.Fact.ValueString())
-						operator60 := shared.NumericFactConditionOperator(allItem8.NumericFactCondition.One.Operator.ValueString())
-						var value60 float64
-						value60 = allItem8.NumericFactCondition.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One != nil {
+						fact60 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Fact.ValueString())
+						operator60 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Operator.ValueString())
 						var params60 *shared.NumericFactConditionParams
-						if allItem8.NumericFactCondition.One.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Params != nil {
 							errorMessage60 := new(string)
-							if !allItem8.NumericFactCondition.One.Params.ErrorMessage.IsUnknown() && !allItem8.NumericFactCondition.One.Params.ErrorMessage.IsNull() {
-								*errorMessage60 = allItem8.NumericFactCondition.One.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Params.ErrorMessage.IsNull() {
+								*errorMessage60 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage60 = nil
 							}
@@ -9228,11 +9225,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage60,
 							}
 						}
+						var value60 float64
+						value60 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.One.Value.ValueFloat64()
+
 						numericFactCondition1 = &shared.NumericFactCondition1{
 							Fact:     fact60,
 							Operator: operator60,
-							Value:    value60,
 							Params:   params60,
+							Value:    value60,
 						}
 					}
 					if numericFactCondition1 != nil {
@@ -9241,36 +9241,36 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericFactCondition2 *shared.NumericFactCondition2
-					if allItem8.NumericFactCondition.Two != nil {
-						fact61 := shared.NumericFactConditionSchemasFact(allItem8.NumericFactCondition.Two.Fact.ValueString())
-						operator61 := shared.NumericFactConditionSchemasOperator(allItem8.NumericFactCondition.Two.Operator.ValueString())
-						var value61 float64
-						value61 = allItem8.NumericFactCondition.Two.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two != nil {
+						fact61 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Fact.ValueString())
+						operator61 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Operator.ValueString())
 						var params61 *shared.NumericFactConditionSchemasParams
-						if allItem8.NumericFactCondition.Two.Params != nil {
-							errorMessage61 := new(string)
-							if !allItem8.NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !allItem8.NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage61 = allItem8.NumericFactCondition.Two.Params.ErrorMessage.ValueString()
-							} else {
-								errorMessage61 = nil
-							}
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params != nil {
 							allowLeadingZeroes := new(bool)
-							if !allItem8.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem8.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
-								*allowLeadingZeroes = allItem8.NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
+								*allowLeadingZeroes = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
 							} else {
 								allowLeadingZeroes = nil
 							}
+							errorMessage61 := new(string)
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage61 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Params.ErrorMessage.ValueString()
+							} else {
+								errorMessage61 = nil
+							}
 							params61 = &shared.NumericFactConditionSchemasParams{
-								ErrorMessage:       errorMessage61,
 								AllowLeadingZeroes: allowLeadingZeroes,
+								ErrorMessage:       errorMessage61,
 							}
 						}
+						var value61 float64
+						value61 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Two.Value.ValueFloat64()
+
 						numericFactCondition2 = &shared.NumericFactCondition2{
 							Fact:     fact61,
 							Operator: operator61,
-							Value:    value61,
 							Params:   params61,
+							Value:    value61,
 						}
 					}
 					if numericFactCondition2 != nil {
@@ -9279,17 +9279,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericFactCondition3 *shared.NumericFactCondition3
-					if allItem8.NumericFactCondition.Three != nil {
-						fact62 := shared.NumericFactConditionSchemasTrueFact(allItem8.NumericFactCondition.Three.Fact.ValueString())
-						operator62 := shared.NumericFactConditionSchemasTrueOperator(allItem8.NumericFactCondition.Three.Operator.ValueString())
-						var value62 float64
-						value62 = allItem8.NumericFactCondition.Three.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three != nil {
+						fact62 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Fact.ValueString())
+						operator62 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Operator.ValueString())
 						var params62 *shared.NumericFactConditionSchemasTrueParams
-						if allItem8.NumericFactCondition.Three.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Params != nil {
 							errorMessage62 := new(string)
-							if !allItem8.NumericFactCondition.Three.Params.ErrorMessage.IsUnknown() && !allItem8.NumericFactCondition.Three.Params.ErrorMessage.IsNull() {
-								*errorMessage62 = allItem8.NumericFactCondition.Three.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Params.ErrorMessage.IsNull() {
+								*errorMessage62 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage62 = nil
 							}
@@ -9297,11 +9294,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage62,
 							}
 						}
+						var value62 float64
+						value62 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Three.Value.ValueFloat64()
+
 						numericFactCondition3 = &shared.NumericFactCondition3{
 							Fact:     fact62,
 							Operator: operator62,
-							Value:    value62,
 							Params:   params62,
+							Value:    value62,
 						}
 					}
 					if numericFactCondition3 != nil {
@@ -9310,17 +9310,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericFactCondition4 *shared.NumericFactCondition4
-					if allItem8.NumericFactCondition.Four != nil {
-						fact63 := shared.NumericFactConditionSchemasTrue4Fact(allItem8.NumericFactCondition.Four.Fact.ValueString())
-						operator63 := shared.NumericFactConditionSchemasTrue4Operator(allItem8.NumericFactCondition.Four.Operator.ValueString())
-						var value63 bool
-						value63 = allItem8.NumericFactCondition.Four.Value.ValueBool()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four != nil {
+						fact63 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Fact.ValueString())
+						operator63 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Operator.ValueString())
 						var params63 *shared.NumericFactConditionSchemasTrue4Params
-						if allItem8.NumericFactCondition.Four.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Params != nil {
 							errorMessage63 := new(string)
-							if !allItem8.NumericFactCondition.Four.Params.ErrorMessage.IsUnknown() && !allItem8.NumericFactCondition.Four.Params.ErrorMessage.IsNull() {
-								*errorMessage63 = allItem8.NumericFactCondition.Four.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Params.ErrorMessage.IsNull() {
+								*errorMessage63 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage63 = nil
 							}
@@ -9328,11 +9325,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage63,
 							}
 						}
+						var value63 bool
+						value63 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericFactCondition.Four.Value.ValueBool()
+
 						numericFactCondition4 = &shared.NumericFactCondition4{
 							Fact:     fact63,
 							Operator: operator63,
-							Value:    value63,
 							Params:   params63,
+							Value:    value63,
 						}
 					}
 					if numericFactCondition4 != nil {
@@ -9344,23 +9344,20 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						NumericFactCondition: &numericFactCondition,
 					})
 				}
-				if allItem8.NumericNestedCondition != nil {
+				if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition != nil {
 					var numericNestedCondition shared.NumericNestedCondition
 					var numericNestedCondition1 *shared.NumericNestedCondition1
-					if allItem8.NumericNestedCondition.One != nil {
-						all9 := make([]shared.NumericFactCondition, 0, len(allItem8.NumericNestedCondition.One.All))
-						for _, allItem9 := range allItem8.NumericNestedCondition.One.All {
-							if allItem9.One != nil {
-								fact64 := shared.NumericFactConditionFact(allItem9.One.Fact.ValueString())
-								operator64 := shared.NumericFactConditionOperator(allItem9.One.Operator.ValueString())
-								var value64 float64
-								value64 = allItem9.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One != nil {
+						all9 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All))
+						for allItem6 := range r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One != nil {
+								fact64 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Fact.ValueString())
+								operator64 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Operator.ValueString())
 								var params64 *shared.NumericFactConditionParams
-								if allItem9.One.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Params != nil {
 									errorMessage64 := new(string)
-									if !allItem9.One.Params.ErrorMessage.IsUnknown() && !allItem9.One.Params.ErrorMessage.IsNull() {
-										*errorMessage64 = allItem9.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Params.ErrorMessage.IsNull() {
+										*errorMessage64 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage64 = nil
 									}
@@ -9368,62 +9365,62 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage64,
 									}
 								}
+								var value64 float64
+								value64 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].One.Value.ValueFloat64()
+
 								numericFactCondition11 := shared.NumericFactCondition1{
 									Fact:     fact64,
 									Operator: operator64,
-									Value:    value64,
 									Params:   params64,
+									Value:    value64,
 								}
 								all9 = append(all9, shared.NumericFactCondition{
 									NumericFactCondition1: &numericFactCondition11,
 								})
 							}
-							if allItem9.Two != nil {
-								fact65 := shared.NumericFactConditionSchemasFact(allItem9.Two.Fact.ValueString())
-								operator65 := shared.NumericFactConditionSchemasOperator(allItem9.Two.Operator.ValueString())
-								var value65 float64
-								value65 = allItem9.Two.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two != nil {
+								fact65 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Fact.ValueString())
+								operator65 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Operator.ValueString())
 								var params65 *shared.NumericFactConditionSchemasParams
-								if allItem9.Two.Params != nil {
-									errorMessage65 := new(string)
-									if !allItem9.Two.Params.ErrorMessage.IsUnknown() && !allItem9.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage65 = allItem9.Two.Params.ErrorMessage.ValueString()
-									} else {
-										errorMessage65 = nil
-									}
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params != nil {
 									allowLeadingZeroes1 := new(bool)
-									if !allItem9.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem9.Two.Params.AllowLeadingZeroes.IsNull() {
-										*allowLeadingZeroes1 = allItem9.Two.Params.AllowLeadingZeroes.ValueBool()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.AllowLeadingZeroes.IsNull() {
+										*allowLeadingZeroes1 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.AllowLeadingZeroes.ValueBool()
 									} else {
 										allowLeadingZeroes1 = nil
 									}
+									errorMessage65 := new(string)
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage65 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Params.ErrorMessage.ValueString()
+									} else {
+										errorMessage65 = nil
+									}
 									params65 = &shared.NumericFactConditionSchemasParams{
-										ErrorMessage:       errorMessage65,
 										AllowLeadingZeroes: allowLeadingZeroes1,
+										ErrorMessage:       errorMessage65,
 									}
 								}
+								var value65 float64
+								value65 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Two.Value.ValueFloat64()
+
 								numericFactCondition21 := shared.NumericFactCondition2{
 									Fact:     fact65,
 									Operator: operator65,
-									Value:    value65,
 									Params:   params65,
+									Value:    value65,
 								}
 								all9 = append(all9, shared.NumericFactCondition{
 									NumericFactCondition2: &numericFactCondition21,
 								})
 							}
-							if allItem9.Three != nil {
-								fact66 := shared.NumericFactConditionSchemasTrueFact(allItem9.Three.Fact.ValueString())
-								operator66 := shared.NumericFactConditionSchemasTrueOperator(allItem9.Three.Operator.ValueString())
-								var value66 float64
-								value66 = allItem9.Three.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three != nil {
+								fact66 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Fact.ValueString())
+								operator66 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Operator.ValueString())
 								var params66 *shared.NumericFactConditionSchemasTrueParams
-								if allItem9.Three.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Params != nil {
 									errorMessage66 := new(string)
-									if !allItem9.Three.Params.ErrorMessage.IsUnknown() && !allItem9.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage66 = allItem9.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage66 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage66 = nil
 									}
@@ -9431,27 +9428,27 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage66,
 									}
 								}
+								var value66 float64
+								value66 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Three.Value.ValueFloat64()
+
 								numericFactCondition31 := shared.NumericFactCondition3{
 									Fact:     fact66,
 									Operator: operator66,
-									Value:    value66,
 									Params:   params66,
+									Value:    value66,
 								}
 								all9 = append(all9, shared.NumericFactCondition{
 									NumericFactCondition3: &numericFactCondition31,
 								})
 							}
-							if allItem9.Four != nil {
-								fact67 := shared.NumericFactConditionSchemasTrue4Fact(allItem9.Four.Fact.ValueString())
-								operator67 := shared.NumericFactConditionSchemasTrue4Operator(allItem9.Four.Operator.ValueString())
-								var value67 bool
-								value67 = allItem9.Four.Value.ValueBool()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four != nil {
+								fact67 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Fact.ValueString())
+								operator67 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Operator.ValueString())
 								var params67 *shared.NumericFactConditionSchemasTrue4Params
-								if allItem9.Four.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Params != nil {
 									errorMessage67 := new(string)
-									if !allItem9.Four.Params.ErrorMessage.IsUnknown() && !allItem9.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage67 = allItem9.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage67 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage67 = nil
 									}
@@ -9459,11 +9456,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage67,
 									}
 								}
+								var value67 bool
+								value67 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.One.All[allItem6].Four.Value.ValueBool()
+
 								numericFactCondition41 := shared.NumericFactCondition4{
 									Fact:     fact67,
 									Operator: operator67,
-									Value:    value67,
 									Params:   params67,
+									Value:    value67,
 								}
 								all9 = append(all9, shared.NumericFactCondition{
 									NumericFactCondition4: &numericFactCondition41,
@@ -9480,20 +9480,17 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericNestedCondition2 *shared.NumericNestedCondition2
-					if allItem8.NumericNestedCondition.Two != nil {
-						anyVar8 := make([]shared.NumericFactCondition, 0, len(allItem8.NumericNestedCondition.Two.Any))
-						for _, anyItem8 := range allItem8.NumericNestedCondition.Two.Any {
-							if anyItem8.One != nil {
-								fact68 := shared.NumericFactConditionFact(anyItem8.One.Fact.ValueString())
-								operator68 := shared.NumericFactConditionOperator(anyItem8.One.Operator.ValueString())
-								var value68 float64
-								value68 = anyItem8.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two != nil {
+						anyVar8 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any))
+						for anyItem5 := range r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One != nil {
+								fact68 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Fact.ValueString())
+								operator68 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Operator.ValueString())
 								var params68 *shared.NumericFactConditionParams
-								if anyItem8.One.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Params != nil {
 									errorMessage68 := new(string)
-									if !anyItem8.One.Params.ErrorMessage.IsUnknown() && !anyItem8.One.Params.ErrorMessage.IsNull() {
-										*errorMessage68 = anyItem8.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Params.ErrorMessage.IsNull() {
+										*errorMessage68 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage68 = nil
 									}
@@ -9501,62 +9498,62 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage68,
 									}
 								}
+								var value68 float64
+								value68 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].One.Value.ValueFloat64()
+
 								numericFactCondition12 := shared.NumericFactCondition1{
 									Fact:     fact68,
 									Operator: operator68,
-									Value:    value68,
 									Params:   params68,
+									Value:    value68,
 								}
 								anyVar8 = append(anyVar8, shared.NumericFactCondition{
 									NumericFactCondition1: &numericFactCondition12,
 								})
 							}
-							if anyItem8.Two != nil {
-								fact69 := shared.NumericFactConditionSchemasFact(anyItem8.Two.Fact.ValueString())
-								operator69 := shared.NumericFactConditionSchemasOperator(anyItem8.Two.Operator.ValueString())
-								var value69 float64
-								value69 = anyItem8.Two.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two != nil {
+								fact69 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Fact.ValueString())
+								operator69 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Operator.ValueString())
 								var params69 *shared.NumericFactConditionSchemasParams
-								if anyItem8.Two.Params != nil {
-									errorMessage69 := new(string)
-									if !anyItem8.Two.Params.ErrorMessage.IsUnknown() && !anyItem8.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage69 = anyItem8.Two.Params.ErrorMessage.ValueString()
-									} else {
-										errorMessage69 = nil
-									}
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params != nil {
 									allowLeadingZeroes2 := new(bool)
-									if !anyItem8.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem8.Two.Params.AllowLeadingZeroes.IsNull() {
-										*allowLeadingZeroes2 = anyItem8.Two.Params.AllowLeadingZeroes.ValueBool()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.AllowLeadingZeroes.IsNull() {
+										*allowLeadingZeroes2 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.AllowLeadingZeroes.ValueBool()
 									} else {
 										allowLeadingZeroes2 = nil
 									}
+									errorMessage69 := new(string)
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage69 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Params.ErrorMessage.ValueString()
+									} else {
+										errorMessage69 = nil
+									}
 									params69 = &shared.NumericFactConditionSchemasParams{
-										ErrorMessage:       errorMessage69,
 										AllowLeadingZeroes: allowLeadingZeroes2,
+										ErrorMessage:       errorMessage69,
 									}
 								}
+								var value69 float64
+								value69 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Two.Value.ValueFloat64()
+
 								numericFactCondition22 := shared.NumericFactCondition2{
 									Fact:     fact69,
 									Operator: operator69,
-									Value:    value69,
 									Params:   params69,
+									Value:    value69,
 								}
 								anyVar8 = append(anyVar8, shared.NumericFactCondition{
 									NumericFactCondition2: &numericFactCondition22,
 								})
 							}
-							if anyItem8.Three != nil {
-								fact70 := shared.NumericFactConditionSchemasTrueFact(anyItem8.Three.Fact.ValueString())
-								operator70 := shared.NumericFactConditionSchemasTrueOperator(anyItem8.Three.Operator.ValueString())
-								var value70 float64
-								value70 = anyItem8.Three.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three != nil {
+								fact70 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Fact.ValueString())
+								operator70 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Operator.ValueString())
 								var params70 *shared.NumericFactConditionSchemasTrueParams
-								if anyItem8.Three.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Params != nil {
 									errorMessage70 := new(string)
-									if !anyItem8.Three.Params.ErrorMessage.IsUnknown() && !anyItem8.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage70 = anyItem8.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage70 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage70 = nil
 									}
@@ -9564,27 +9561,27 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage70,
 									}
 								}
+								var value70 float64
+								value70 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Three.Value.ValueFloat64()
+
 								numericFactCondition32 := shared.NumericFactCondition3{
 									Fact:     fact70,
 									Operator: operator70,
-									Value:    value70,
 									Params:   params70,
+									Value:    value70,
 								}
 								anyVar8 = append(anyVar8, shared.NumericFactCondition{
 									NumericFactCondition3: &numericFactCondition32,
 								})
 							}
-							if anyItem8.Four != nil {
-								fact71 := shared.NumericFactConditionSchemasTrue4Fact(anyItem8.Four.Fact.ValueString())
-								operator71 := shared.NumericFactConditionSchemasTrue4Operator(anyItem8.Four.Operator.ValueString())
-								var value71 bool
-								value71 = anyItem8.Four.Value.ValueBool()
-
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four != nil {
+								fact71 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Fact.ValueString())
+								operator71 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Operator.ValueString())
 								var params71 *shared.NumericFactConditionSchemasTrue4Params
-								if anyItem8.Four.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Params != nil {
 									errorMessage71 := new(string)
-									if !anyItem8.Four.Params.ErrorMessage.IsUnknown() && !anyItem8.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage71 = anyItem8.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage71 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage71 = nil
 									}
@@ -9592,11 +9589,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage71,
 									}
 								}
+								var value71 bool
+								value71 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Two.Any[anyItem5].Four.Value.ValueBool()
+
 								numericFactCondition42 := shared.NumericFactCondition4{
 									Fact:     fact71,
 									Operator: operator71,
-									Value:    value71,
 									Params:   params71,
+									Value:    value71,
 								}
 								anyVar8 = append(anyVar8, shared.NumericFactCondition{
 									NumericFactCondition4: &numericFactCondition42,
@@ -9613,20 +9613,17 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericNestedCondition3 *shared.NumericNestedCondition3
-					if allItem8.NumericNestedCondition.Three != nil {
+					if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three != nil {
 						var not8 shared.NumericFactCondition
 						var numericFactCondition13 *shared.NumericFactCondition1
-						if allItem8.NumericNestedCondition.Three.Not.One != nil {
-							fact72 := shared.NumericFactConditionFact(allItem8.NumericNestedCondition.Three.Not.One.Fact.ValueString())
-							operator72 := shared.NumericFactConditionOperator(allItem8.NumericNestedCondition.Three.Not.One.Operator.ValueString())
-							var value72 float64
-							value72 = allItem8.NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One != nil {
+							fact72 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Fact.ValueString())
+							operator72 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Operator.ValueString())
 							var params72 *shared.NumericFactConditionParams
-							if allItem8.NumericNestedCondition.Three.Not.One.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Params != nil {
 								errorMessage72 := new(string)
-								if !allItem8.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
-									*errorMessage72 = allItem8.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
+									*errorMessage72 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage72 = nil
 								}
@@ -9634,11 +9631,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage72,
 								}
 							}
+							var value72 float64
+							value72 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 							numericFactCondition13 = &shared.NumericFactCondition1{
 								Fact:     fact72,
 								Operator: operator72,
-								Value:    value72,
 								Params:   params72,
+								Value:    value72,
 							}
 						}
 						if numericFactCondition13 != nil {
@@ -9647,36 +9647,36 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var numericFactCondition23 *shared.NumericFactCondition2
-						if allItem8.NumericNestedCondition.Three.Not.Two != nil {
-							fact73 := shared.NumericFactConditionSchemasFact(allItem8.NumericNestedCondition.Three.Not.Two.Fact.ValueString())
-							operator73 := shared.NumericFactConditionSchemasOperator(allItem8.NumericNestedCondition.Three.Not.Two.Operator.ValueString())
-							var value73 float64
-							value73 = allItem8.NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two != nil {
+							fact73 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Fact.ValueString())
+							operator73 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Operator.ValueString())
 							var params73 *shared.NumericFactConditionSchemasParams
-							if allItem8.NumericNestedCondition.Three.Not.Two.Params != nil {
-								errorMessage73 := new(string)
-								if !allItem8.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage73 = allItem8.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
-								} else {
-									errorMessage73 = nil
-								}
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params != nil {
 								allowLeadingZeroes3 := new(bool)
-								if !allItem8.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
-									*allowLeadingZeroes3 = allItem8.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
+									*allowLeadingZeroes3 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
 								} else {
 									allowLeadingZeroes3 = nil
 								}
+								errorMessage73 := new(string)
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+									*errorMessage73 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+								} else {
+									errorMessage73 = nil
+								}
 								params73 = &shared.NumericFactConditionSchemasParams{
-									ErrorMessage:       errorMessage73,
 									AllowLeadingZeroes: allowLeadingZeroes3,
+									ErrorMessage:       errorMessage73,
 								}
 							}
+							var value73 float64
+							value73 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 							numericFactCondition23 = &shared.NumericFactCondition2{
 								Fact:     fact73,
 								Operator: operator73,
-								Value:    value73,
 								Params:   params73,
+								Value:    value73,
 							}
 						}
 						if numericFactCondition23 != nil {
@@ -9685,17 +9685,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var numericFactCondition33 *shared.NumericFactCondition3
-						if allItem8.NumericNestedCondition.Three.Not.Three != nil {
-							fact74 := shared.NumericFactConditionSchemasTrueFact(allItem8.NumericNestedCondition.Three.Not.Three.Fact.ValueString())
-							operator74 := shared.NumericFactConditionSchemasTrueOperator(allItem8.NumericNestedCondition.Three.Not.Three.Operator.ValueString())
-							var value74 float64
-							value74 = allItem8.NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three != nil {
+							fact74 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Fact.ValueString())
+							operator74 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Operator.ValueString())
 							var params74 *shared.NumericFactConditionSchemasTrueParams
-							if allItem8.NumericNestedCondition.Three.Not.Three.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Params != nil {
 								errorMessage74 := new(string)
-								if !allItem8.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage74 = allItem8.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
+									*errorMessage74 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage74 = nil
 								}
@@ -9703,11 +9700,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage74,
 								}
 							}
+							var value74 float64
+							value74 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
+
 							numericFactCondition33 = &shared.NumericFactCondition3{
 								Fact:     fact74,
 								Operator: operator74,
-								Value:    value74,
 								Params:   params74,
+								Value:    value74,
 							}
 						}
 						if numericFactCondition33 != nil {
@@ -9716,17 +9716,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var numericFactCondition43 *shared.NumericFactCondition4
-						if allItem8.NumericNestedCondition.Three.Not.Four != nil {
-							fact75 := shared.NumericFactConditionSchemasTrue4Fact(allItem8.NumericNestedCondition.Three.Not.Four.Fact.ValueString())
-							operator75 := shared.NumericFactConditionSchemasTrue4Operator(allItem8.NumericNestedCondition.Three.Not.Four.Operator.ValueString())
-							var value75 bool
-							value75 = allItem8.NumericNestedCondition.Three.Not.Four.Value.ValueBool()
-
+						if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four != nil {
+							fact75 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Fact.ValueString())
+							operator75 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Operator.ValueString())
 							var params75 *shared.NumericFactConditionSchemasTrue4Params
-							if allItem8.NumericNestedCondition.Three.Not.Four.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Params != nil {
 								errorMessage75 := new(string)
-								if !allItem8.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !allItem8.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage75 = allItem8.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
+									*errorMessage75 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage75 = nil
 								}
@@ -9734,11 +9731,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage75,
 								}
 							}
+							var value75 bool
+							value75 = r.Rule.NumericRuleType.Conditions.One.All[allItem5].NumericNestedCondition.Three.Not.Four.Value.ValueBool()
+
 							numericFactCondition43 = &shared.NumericFactCondition4{
 								Fact:     fact75,
 								Operator: operator75,
-								Value:    value75,
 								Params:   params75,
+								Value:    value75,
 							}
 						}
 						if numericFactCondition43 != nil {
@@ -9772,21 +9772,18 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 		var numericCondition2 *shared.NumericCondition2
 		if r.Rule.NumericRuleType.Conditions.Two != nil {
 			anyVar9 := make([]shared.NumericConditionAny, 0, len(r.Rule.NumericRuleType.Conditions.Two.Any))
-			for _, anyItem9 := range r.Rule.NumericRuleType.Conditions.Two.Any {
-				if anyItem9.NumericFactCondition != nil {
+			for anyItem6 := range r.Rule.NumericRuleType.Conditions.Two.Any {
+				if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition != nil {
 					var numericFactCondition5 shared.NumericFactCondition
 					var numericFactCondition14 *shared.NumericFactCondition1
-					if anyItem9.NumericFactCondition.One != nil {
-						fact76 := shared.NumericFactConditionFact(anyItem9.NumericFactCondition.One.Fact.ValueString())
-						operator76 := shared.NumericFactConditionOperator(anyItem9.NumericFactCondition.One.Operator.ValueString())
-						var value76 float64
-						value76 = anyItem9.NumericFactCondition.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One != nil {
+						fact76 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Fact.ValueString())
+						operator76 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Operator.ValueString())
 						var params76 *shared.NumericFactConditionParams
-						if anyItem9.NumericFactCondition.One.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Params != nil {
 							errorMessage76 := new(string)
-							if !anyItem9.NumericFactCondition.One.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericFactCondition.One.Params.ErrorMessage.IsNull() {
-								*errorMessage76 = anyItem9.NumericFactCondition.One.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Params.ErrorMessage.IsNull() {
+								*errorMessage76 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage76 = nil
 							}
@@ -9794,11 +9791,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage76,
 							}
 						}
+						var value76 float64
+						value76 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.One.Value.ValueFloat64()
+
 						numericFactCondition14 = &shared.NumericFactCondition1{
 							Fact:     fact76,
 							Operator: operator76,
-							Value:    value76,
 							Params:   params76,
+							Value:    value76,
 						}
 					}
 					if numericFactCondition14 != nil {
@@ -9807,36 +9807,36 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericFactCondition24 *shared.NumericFactCondition2
-					if anyItem9.NumericFactCondition.Two != nil {
-						fact77 := shared.NumericFactConditionSchemasFact(anyItem9.NumericFactCondition.Two.Fact.ValueString())
-						operator77 := shared.NumericFactConditionSchemasOperator(anyItem9.NumericFactCondition.Two.Operator.ValueString())
-						var value77 float64
-						value77 = anyItem9.NumericFactCondition.Two.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two != nil {
+						fact77 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Fact.ValueString())
+						operator77 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Operator.ValueString())
 						var params77 *shared.NumericFactConditionSchemasParams
-						if anyItem9.NumericFactCondition.Two.Params != nil {
-							errorMessage77 := new(string)
-							if !anyItem9.NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage77 = anyItem9.NumericFactCondition.Two.Params.ErrorMessage.ValueString()
-							} else {
-								errorMessage77 = nil
-							}
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params != nil {
 							allowLeadingZeroes4 := new(bool)
-							if !anyItem9.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem9.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
-								*allowLeadingZeroes4 = anyItem9.NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
+								*allowLeadingZeroes4 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
 							} else {
 								allowLeadingZeroes4 = nil
 							}
+							errorMessage77 := new(string)
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage77 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Params.ErrorMessage.ValueString()
+							} else {
+								errorMessage77 = nil
+							}
 							params77 = &shared.NumericFactConditionSchemasParams{
-								ErrorMessage:       errorMessage77,
 								AllowLeadingZeroes: allowLeadingZeroes4,
+								ErrorMessage:       errorMessage77,
 							}
 						}
+						var value77 float64
+						value77 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Two.Value.ValueFloat64()
+
 						numericFactCondition24 = &shared.NumericFactCondition2{
 							Fact:     fact77,
 							Operator: operator77,
-							Value:    value77,
 							Params:   params77,
+							Value:    value77,
 						}
 					}
 					if numericFactCondition24 != nil {
@@ -9845,17 +9845,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericFactCondition34 *shared.NumericFactCondition3
-					if anyItem9.NumericFactCondition.Three != nil {
-						fact78 := shared.NumericFactConditionSchemasTrueFact(anyItem9.NumericFactCondition.Three.Fact.ValueString())
-						operator78 := shared.NumericFactConditionSchemasTrueOperator(anyItem9.NumericFactCondition.Three.Operator.ValueString())
-						var value78 float64
-						value78 = anyItem9.NumericFactCondition.Three.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three != nil {
+						fact78 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Fact.ValueString())
+						operator78 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Operator.ValueString())
 						var params78 *shared.NumericFactConditionSchemasTrueParams
-						if anyItem9.NumericFactCondition.Three.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Params != nil {
 							errorMessage78 := new(string)
-							if !anyItem9.NumericFactCondition.Three.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericFactCondition.Three.Params.ErrorMessage.IsNull() {
-								*errorMessage78 = anyItem9.NumericFactCondition.Three.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Params.ErrorMessage.IsNull() {
+								*errorMessage78 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage78 = nil
 							}
@@ -9863,11 +9860,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage78,
 							}
 						}
+						var value78 float64
+						value78 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Three.Value.ValueFloat64()
+
 						numericFactCondition34 = &shared.NumericFactCondition3{
 							Fact:     fact78,
 							Operator: operator78,
-							Value:    value78,
 							Params:   params78,
+							Value:    value78,
 						}
 					}
 					if numericFactCondition34 != nil {
@@ -9876,17 +9876,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericFactCondition44 *shared.NumericFactCondition4
-					if anyItem9.NumericFactCondition.Four != nil {
-						fact79 := shared.NumericFactConditionSchemasTrue4Fact(anyItem9.NumericFactCondition.Four.Fact.ValueString())
-						operator79 := shared.NumericFactConditionSchemasTrue4Operator(anyItem9.NumericFactCondition.Four.Operator.ValueString())
-						var value79 bool
-						value79 = anyItem9.NumericFactCondition.Four.Value.ValueBool()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four != nil {
+						fact79 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Fact.ValueString())
+						operator79 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Operator.ValueString())
 						var params79 *shared.NumericFactConditionSchemasTrue4Params
-						if anyItem9.NumericFactCondition.Four.Params != nil {
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Params != nil {
 							errorMessage79 := new(string)
-							if !anyItem9.NumericFactCondition.Four.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericFactCondition.Four.Params.ErrorMessage.IsNull() {
-								*errorMessage79 = anyItem9.NumericFactCondition.Four.Params.ErrorMessage.ValueString()
+							if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Params.ErrorMessage.IsNull() {
+								*errorMessage79 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Params.ErrorMessage.ValueString()
 							} else {
 								errorMessage79 = nil
 							}
@@ -9894,11 +9891,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage79,
 							}
 						}
+						var value79 bool
+						value79 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericFactCondition.Four.Value.ValueBool()
+
 						numericFactCondition44 = &shared.NumericFactCondition4{
 							Fact:     fact79,
 							Operator: operator79,
-							Value:    value79,
 							Params:   params79,
+							Value:    value79,
 						}
 					}
 					if numericFactCondition44 != nil {
@@ -9910,23 +9910,20 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						NumericFactCondition: &numericFactCondition5,
 					})
 				}
-				if anyItem9.NumericNestedCondition != nil {
+				if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition != nil {
 					var numericNestedCondition4 shared.NumericNestedCondition
 					var numericNestedCondition11 *shared.NumericNestedCondition1
-					if anyItem9.NumericNestedCondition.One != nil {
-						all10 := make([]shared.NumericFactCondition, 0, len(anyItem9.NumericNestedCondition.One.All))
-						for _, allItem10 := range anyItem9.NumericNestedCondition.One.All {
-							if allItem10.One != nil {
-								fact80 := shared.NumericFactConditionFact(allItem10.One.Fact.ValueString())
-								operator80 := shared.NumericFactConditionOperator(allItem10.One.Operator.ValueString())
-								var value80 float64
-								value80 = allItem10.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One != nil {
+						all10 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All))
+						for allItem7 := range r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One != nil {
+								fact80 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Fact.ValueString())
+								operator80 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Operator.ValueString())
 								var params80 *shared.NumericFactConditionParams
-								if allItem10.One.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Params != nil {
 									errorMessage80 := new(string)
-									if !allItem10.One.Params.ErrorMessage.IsUnknown() && !allItem10.One.Params.ErrorMessage.IsNull() {
-										*errorMessage80 = allItem10.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Params.ErrorMessage.IsNull() {
+										*errorMessage80 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage80 = nil
 									}
@@ -9934,62 +9931,62 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage80,
 									}
 								}
+								var value80 float64
+								value80 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].One.Value.ValueFloat64()
+
 								numericFactCondition15 := shared.NumericFactCondition1{
 									Fact:     fact80,
 									Operator: operator80,
-									Value:    value80,
 									Params:   params80,
+									Value:    value80,
 								}
 								all10 = append(all10, shared.NumericFactCondition{
 									NumericFactCondition1: &numericFactCondition15,
 								})
 							}
-							if allItem10.Two != nil {
-								fact81 := shared.NumericFactConditionSchemasFact(allItem10.Two.Fact.ValueString())
-								operator81 := shared.NumericFactConditionSchemasOperator(allItem10.Two.Operator.ValueString())
-								var value81 float64
-								value81 = allItem10.Two.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two != nil {
+								fact81 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Fact.ValueString())
+								operator81 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Operator.ValueString())
 								var params81 *shared.NumericFactConditionSchemasParams
-								if allItem10.Two.Params != nil {
-									errorMessage81 := new(string)
-									if !allItem10.Two.Params.ErrorMessage.IsUnknown() && !allItem10.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage81 = allItem10.Two.Params.ErrorMessage.ValueString()
-									} else {
-										errorMessage81 = nil
-									}
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params != nil {
 									allowLeadingZeroes5 := new(bool)
-									if !allItem10.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem10.Two.Params.AllowLeadingZeroes.IsNull() {
-										*allowLeadingZeroes5 = allItem10.Two.Params.AllowLeadingZeroes.ValueBool()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.AllowLeadingZeroes.IsNull() {
+										*allowLeadingZeroes5 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.AllowLeadingZeroes.ValueBool()
 									} else {
 										allowLeadingZeroes5 = nil
 									}
+									errorMessage81 := new(string)
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage81 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Params.ErrorMessage.ValueString()
+									} else {
+										errorMessage81 = nil
+									}
 									params81 = &shared.NumericFactConditionSchemasParams{
-										ErrorMessage:       errorMessage81,
 										AllowLeadingZeroes: allowLeadingZeroes5,
+										ErrorMessage:       errorMessage81,
 									}
 								}
+								var value81 float64
+								value81 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Two.Value.ValueFloat64()
+
 								numericFactCondition25 := shared.NumericFactCondition2{
 									Fact:     fact81,
 									Operator: operator81,
-									Value:    value81,
 									Params:   params81,
+									Value:    value81,
 								}
 								all10 = append(all10, shared.NumericFactCondition{
 									NumericFactCondition2: &numericFactCondition25,
 								})
 							}
-							if allItem10.Three != nil {
-								fact82 := shared.NumericFactConditionSchemasTrueFact(allItem10.Three.Fact.ValueString())
-								operator82 := shared.NumericFactConditionSchemasTrueOperator(allItem10.Three.Operator.ValueString())
-								var value82 float64
-								value82 = allItem10.Three.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three != nil {
+								fact82 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Fact.ValueString())
+								operator82 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Operator.ValueString())
 								var params82 *shared.NumericFactConditionSchemasTrueParams
-								if allItem10.Three.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Params != nil {
 									errorMessage82 := new(string)
-									if !allItem10.Three.Params.ErrorMessage.IsUnknown() && !allItem10.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage82 = allItem10.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage82 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage82 = nil
 									}
@@ -9997,27 +9994,27 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage82,
 									}
 								}
+								var value82 float64
+								value82 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Three.Value.ValueFloat64()
+
 								numericFactCondition35 := shared.NumericFactCondition3{
 									Fact:     fact82,
 									Operator: operator82,
-									Value:    value82,
 									Params:   params82,
+									Value:    value82,
 								}
 								all10 = append(all10, shared.NumericFactCondition{
 									NumericFactCondition3: &numericFactCondition35,
 								})
 							}
-							if allItem10.Four != nil {
-								fact83 := shared.NumericFactConditionSchemasTrue4Fact(allItem10.Four.Fact.ValueString())
-								operator83 := shared.NumericFactConditionSchemasTrue4Operator(allItem10.Four.Operator.ValueString())
-								var value83 bool
-								value83 = allItem10.Four.Value.ValueBool()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four != nil {
+								fact83 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Fact.ValueString())
+								operator83 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Operator.ValueString())
 								var params83 *shared.NumericFactConditionSchemasTrue4Params
-								if allItem10.Four.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Params != nil {
 									errorMessage83 := new(string)
-									if !allItem10.Four.Params.ErrorMessage.IsUnknown() && !allItem10.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage83 = allItem10.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage83 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage83 = nil
 									}
@@ -10025,11 +10022,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage83,
 									}
 								}
+								var value83 bool
+								value83 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.One.All[allItem7].Four.Value.ValueBool()
+
 								numericFactCondition45 := shared.NumericFactCondition4{
 									Fact:     fact83,
 									Operator: operator83,
-									Value:    value83,
 									Params:   params83,
+									Value:    value83,
 								}
 								all10 = append(all10, shared.NumericFactCondition{
 									NumericFactCondition4: &numericFactCondition45,
@@ -10046,20 +10046,17 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericNestedCondition21 *shared.NumericNestedCondition2
-					if anyItem9.NumericNestedCondition.Two != nil {
-						anyVar10 := make([]shared.NumericFactCondition, 0, len(anyItem9.NumericNestedCondition.Two.Any))
-						for _, anyItem10 := range anyItem9.NumericNestedCondition.Two.Any {
-							if anyItem10.One != nil {
-								fact84 := shared.NumericFactConditionFact(anyItem10.One.Fact.ValueString())
-								operator84 := shared.NumericFactConditionOperator(anyItem10.One.Operator.ValueString())
-								var value84 float64
-								value84 = anyItem10.One.Value.ValueFloat64()
-
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two != nil {
+						anyVar10 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any))
+						for anyItem7 := range r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One != nil {
+								fact84 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Fact.ValueString())
+								operator84 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Operator.ValueString())
 								var params84 *shared.NumericFactConditionParams
-								if anyItem10.One.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Params != nil {
 									errorMessage84 := new(string)
-									if !anyItem10.One.Params.ErrorMessage.IsUnknown() && !anyItem10.One.Params.ErrorMessage.IsNull() {
-										*errorMessage84 = anyItem10.One.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Params.ErrorMessage.IsNull() {
+										*errorMessage84 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage84 = nil
 									}
@@ -10067,62 +10064,62 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage84,
 									}
 								}
+								var value84 float64
+								value84 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].One.Value.ValueFloat64()
+
 								numericFactCondition16 := shared.NumericFactCondition1{
 									Fact:     fact84,
 									Operator: operator84,
-									Value:    value84,
 									Params:   params84,
+									Value:    value84,
 								}
 								anyVar10 = append(anyVar10, shared.NumericFactCondition{
 									NumericFactCondition1: &numericFactCondition16,
 								})
 							}
-							if anyItem10.Two != nil {
-								fact85 := shared.NumericFactConditionSchemasFact(anyItem10.Two.Fact.ValueString())
-								operator85 := shared.NumericFactConditionSchemasOperator(anyItem10.Two.Operator.ValueString())
-								var value85 float64
-								value85 = anyItem10.Two.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two != nil {
+								fact85 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Fact.ValueString())
+								operator85 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Operator.ValueString())
 								var params85 *shared.NumericFactConditionSchemasParams
-								if anyItem10.Two.Params != nil {
-									errorMessage85 := new(string)
-									if !anyItem10.Two.Params.ErrorMessage.IsUnknown() && !anyItem10.Two.Params.ErrorMessage.IsNull() {
-										*errorMessage85 = anyItem10.Two.Params.ErrorMessage.ValueString()
-									} else {
-										errorMessage85 = nil
-									}
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params != nil {
 									allowLeadingZeroes6 := new(bool)
-									if !anyItem10.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem10.Two.Params.AllowLeadingZeroes.IsNull() {
-										*allowLeadingZeroes6 = anyItem10.Two.Params.AllowLeadingZeroes.ValueBool()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.AllowLeadingZeroes.IsNull() {
+										*allowLeadingZeroes6 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.AllowLeadingZeroes.ValueBool()
 									} else {
 										allowLeadingZeroes6 = nil
 									}
+									errorMessage85 := new(string)
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.ErrorMessage.IsNull() {
+										*errorMessage85 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Params.ErrorMessage.ValueString()
+									} else {
+										errorMessage85 = nil
+									}
 									params85 = &shared.NumericFactConditionSchemasParams{
-										ErrorMessage:       errorMessage85,
 										AllowLeadingZeroes: allowLeadingZeroes6,
+										ErrorMessage:       errorMessage85,
 									}
 								}
+								var value85 float64
+								value85 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Two.Value.ValueFloat64()
+
 								numericFactCondition26 := shared.NumericFactCondition2{
 									Fact:     fact85,
 									Operator: operator85,
-									Value:    value85,
 									Params:   params85,
+									Value:    value85,
 								}
 								anyVar10 = append(anyVar10, shared.NumericFactCondition{
 									NumericFactCondition2: &numericFactCondition26,
 								})
 							}
-							if anyItem10.Three != nil {
-								fact86 := shared.NumericFactConditionSchemasTrueFact(anyItem10.Three.Fact.ValueString())
-								operator86 := shared.NumericFactConditionSchemasTrueOperator(anyItem10.Three.Operator.ValueString())
-								var value86 float64
-								value86 = anyItem10.Three.Value.ValueFloat64()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three != nil {
+								fact86 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Fact.ValueString())
+								operator86 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Operator.ValueString())
 								var params86 *shared.NumericFactConditionSchemasTrueParams
-								if anyItem10.Three.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Params != nil {
 									errorMessage86 := new(string)
-									if !anyItem10.Three.Params.ErrorMessage.IsUnknown() && !anyItem10.Three.Params.ErrorMessage.IsNull() {
-										*errorMessage86 = anyItem10.Three.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Params.ErrorMessage.IsNull() {
+										*errorMessage86 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage86 = nil
 									}
@@ -10130,27 +10127,27 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage86,
 									}
 								}
+								var value86 float64
+								value86 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Three.Value.ValueFloat64()
+
 								numericFactCondition36 := shared.NumericFactCondition3{
 									Fact:     fact86,
 									Operator: operator86,
-									Value:    value86,
 									Params:   params86,
+									Value:    value86,
 								}
 								anyVar10 = append(anyVar10, shared.NumericFactCondition{
 									NumericFactCondition3: &numericFactCondition36,
 								})
 							}
-							if anyItem10.Four != nil {
-								fact87 := shared.NumericFactConditionSchemasTrue4Fact(anyItem10.Four.Fact.ValueString())
-								operator87 := shared.NumericFactConditionSchemasTrue4Operator(anyItem10.Four.Operator.ValueString())
-								var value87 bool
-								value87 = anyItem10.Four.Value.ValueBool()
-
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four != nil {
+								fact87 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Fact.ValueString())
+								operator87 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Operator.ValueString())
 								var params87 *shared.NumericFactConditionSchemasTrue4Params
-								if anyItem10.Four.Params != nil {
+								if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Params != nil {
 									errorMessage87 := new(string)
-									if !anyItem10.Four.Params.ErrorMessage.IsUnknown() && !anyItem10.Four.Params.ErrorMessage.IsNull() {
-										*errorMessage87 = anyItem10.Four.Params.ErrorMessage.ValueString()
+									if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Params.ErrorMessage.IsNull() {
+										*errorMessage87 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Params.ErrorMessage.ValueString()
 									} else {
 										errorMessage87 = nil
 									}
@@ -10158,11 +10155,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 										ErrorMessage: errorMessage87,
 									}
 								}
+								var value87 bool
+								value87 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Two.Any[anyItem7].Four.Value.ValueBool()
+
 								numericFactCondition46 := shared.NumericFactCondition4{
 									Fact:     fact87,
 									Operator: operator87,
-									Value:    value87,
 									Params:   params87,
+									Value:    value87,
 								}
 								anyVar10 = append(anyVar10, shared.NumericFactCondition{
 									NumericFactCondition4: &numericFactCondition46,
@@ -10179,20 +10179,17 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 						}
 					}
 					var numericNestedCondition31 *shared.NumericNestedCondition3
-					if anyItem9.NumericNestedCondition.Three != nil {
+					if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three != nil {
 						var not9 shared.NumericFactCondition
 						var numericFactCondition17 *shared.NumericFactCondition1
-						if anyItem9.NumericNestedCondition.Three.Not.One != nil {
-							fact88 := shared.NumericFactConditionFact(anyItem9.NumericNestedCondition.Three.Not.One.Fact.ValueString())
-							operator88 := shared.NumericFactConditionOperator(anyItem9.NumericNestedCondition.Three.Not.One.Operator.ValueString())
-							var value88 float64
-							value88 = anyItem9.NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One != nil {
+							fact88 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Fact.ValueString())
+							operator88 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Operator.ValueString())
 							var params88 *shared.NumericFactConditionParams
-							if anyItem9.NumericNestedCondition.Three.Not.One.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Params != nil {
 								errorMessage88 := new(string)
-								if !anyItem9.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
-									*errorMessage88 = anyItem9.NumericNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.IsNull() {
+									*errorMessage88 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage88 = nil
 								}
@@ -10200,11 +10197,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage88,
 								}
 							}
+							var value88 float64
+							value88 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 							numericFactCondition17 = &shared.NumericFactCondition1{
 								Fact:     fact88,
 								Operator: operator88,
-								Value:    value88,
 								Params:   params88,
+								Value:    value88,
 							}
 						}
 						if numericFactCondition17 != nil {
@@ -10213,36 +10213,36 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var numericFactCondition27 *shared.NumericFactCondition2
-						if anyItem9.NumericNestedCondition.Three.Not.Two != nil {
-							fact89 := shared.NumericFactConditionSchemasFact(anyItem9.NumericNestedCondition.Three.Not.Two.Fact.ValueString())
-							operator89 := shared.NumericFactConditionSchemasOperator(anyItem9.NumericNestedCondition.Three.Not.Two.Operator.ValueString())
-							var value89 float64
-							value89 = anyItem9.NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two != nil {
+							fact89 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Fact.ValueString())
+							operator89 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Operator.ValueString())
 							var params89 *shared.NumericFactConditionSchemasParams
-							if anyItem9.NumericNestedCondition.Three.Not.Two.Params != nil {
-								errorMessage89 := new(string)
-								if !anyItem9.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage89 = anyItem9.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
-								} else {
-									errorMessage89 = nil
-								}
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params != nil {
 								allowLeadingZeroes7 := new(bool)
-								if !anyItem9.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
-									*allowLeadingZeroes7 = anyItem9.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
+									*allowLeadingZeroes7 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
 								} else {
 									allowLeadingZeroes7 = nil
 								}
+								errorMessage89 := new(string)
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+									*errorMessage89 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+								} else {
+									errorMessage89 = nil
+								}
 								params89 = &shared.NumericFactConditionSchemasParams{
-									ErrorMessage:       errorMessage89,
 									AllowLeadingZeroes: allowLeadingZeroes7,
+									ErrorMessage:       errorMessage89,
 								}
 							}
+							var value89 float64
+							value89 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 							numericFactCondition27 = &shared.NumericFactCondition2{
 								Fact:     fact89,
 								Operator: operator89,
-								Value:    value89,
 								Params:   params89,
+								Value:    value89,
 							}
 						}
 						if numericFactCondition27 != nil {
@@ -10251,17 +10251,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var numericFactCondition37 *shared.NumericFactCondition3
-						if anyItem9.NumericNestedCondition.Three.Not.Three != nil {
-							fact90 := shared.NumericFactConditionSchemasTrueFact(anyItem9.NumericNestedCondition.Three.Not.Three.Fact.ValueString())
-							operator90 := shared.NumericFactConditionSchemasTrueOperator(anyItem9.NumericNestedCondition.Three.Not.Three.Operator.ValueString())
-							var value90 float64
-							value90 = anyItem9.NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three != nil {
+							fact90 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Fact.ValueString())
+							operator90 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Operator.ValueString())
 							var params90 *shared.NumericFactConditionSchemasTrueParams
-							if anyItem9.NumericNestedCondition.Three.Not.Three.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Params != nil {
 								errorMessage90 := new(string)
-								if !anyItem9.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage90 = anyItem9.NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.IsNull() {
+									*errorMessage90 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage90 = nil
 								}
@@ -10269,11 +10266,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage90,
 								}
 							}
+							var value90 float64
+							value90 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
+
 							numericFactCondition37 = &shared.NumericFactCondition3{
 								Fact:     fact90,
 								Operator: operator90,
-								Value:    value90,
 								Params:   params90,
+								Value:    value90,
 							}
 						}
 						if numericFactCondition37 != nil {
@@ -10282,17 +10282,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							}
 						}
 						var numericFactCondition47 *shared.NumericFactCondition4
-						if anyItem9.NumericNestedCondition.Three.Not.Four != nil {
-							fact91 := shared.NumericFactConditionSchemasTrue4Fact(anyItem9.NumericNestedCondition.Three.Not.Four.Fact.ValueString())
-							operator91 := shared.NumericFactConditionSchemasTrue4Operator(anyItem9.NumericNestedCondition.Three.Not.Four.Operator.ValueString())
-							var value91 bool
-							value91 = anyItem9.NumericNestedCondition.Three.Not.Four.Value.ValueBool()
-
+						if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four != nil {
+							fact91 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Fact.ValueString())
+							operator91 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Operator.ValueString())
 							var params91 *shared.NumericFactConditionSchemasTrue4Params
-							if anyItem9.NumericNestedCondition.Three.Not.Four.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Params != nil {
 								errorMessage91 := new(string)
-								if !anyItem9.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !anyItem9.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage91 = anyItem9.NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.IsNull() {
+									*errorMessage91 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage91 = nil
 								}
@@ -10300,11 +10297,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage91,
 								}
 							}
+							var value91 bool
+							value91 = r.Rule.NumericRuleType.Conditions.Two.Any[anyItem6].NumericNestedCondition.Three.Not.Four.Value.ValueBool()
+
 							numericFactCondition47 = &shared.NumericFactCondition4{
 								Fact:     fact91,
 								Operator: operator91,
-								Value:    value91,
 								Params:   params91,
+								Value:    value91,
 							}
 						}
 						if numericFactCondition47 != nil {
@@ -10344,9 +10344,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One != nil {
 					fact92 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Fact.ValueString())
 					operator92 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Operator.ValueString())
-					var value92 float64
-					value92 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Value.ValueFloat64()
-
 					var params92 *shared.NumericFactConditionParams
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Params != nil {
 						errorMessage92 := new(string)
@@ -10359,11 +10356,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							ErrorMessage: errorMessage92,
 						}
 					}
+					var value92 float64
+					value92 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Value.ValueFloat64()
+
 					numericFactCondition18 = &shared.NumericFactCondition1{
 						Fact:     fact92,
 						Operator: operator92,
-						Value:    value92,
 						Params:   params92,
+						Value:    value92,
 					}
 				}
 				if numericFactCondition18 != nil {
@@ -10375,33 +10375,33 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two != nil {
 					fact93 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Fact.ValueString())
 					operator93 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Operator.ValueString())
-					var value93 float64
-					value93 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Value.ValueFloat64()
-
 					var params93 *shared.NumericFactConditionSchemasParams
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params != nil {
-						errorMessage93 := new(string)
-						if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
-							*errorMessage93 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.ValueString()
-						} else {
-							errorMessage93 = nil
-						}
 						allowLeadingZeroes8 := new(bool)
 						if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.AllowLeadingZeroes.IsNull() {
 							*allowLeadingZeroes8 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.AllowLeadingZeroes.ValueBool()
 						} else {
 							allowLeadingZeroes8 = nil
 						}
+						errorMessage93 := new(string)
+						if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.IsNull() {
+							*errorMessage93 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Params.ErrorMessage.ValueString()
+						} else {
+							errorMessage93 = nil
+						}
 						params93 = &shared.NumericFactConditionSchemasParams{
-							ErrorMessage:       errorMessage93,
 							AllowLeadingZeroes: allowLeadingZeroes8,
+							ErrorMessage:       errorMessage93,
 						}
 					}
+					var value93 float64
+					value93 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Two.Value.ValueFloat64()
+
 					numericFactCondition28 = &shared.NumericFactCondition2{
 						Fact:     fact93,
 						Operator: operator93,
-						Value:    value93,
 						Params:   params93,
+						Value:    value93,
 					}
 				}
 				if numericFactCondition28 != nil {
@@ -10413,9 +10413,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three != nil {
 					fact94 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Fact.ValueString())
 					operator94 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Operator.ValueString())
-					var value94 float64
-					value94 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Value.ValueFloat64()
-
 					var params94 *shared.NumericFactConditionSchemasTrueParams
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Params != nil {
 						errorMessage94 := new(string)
@@ -10428,11 +10425,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							ErrorMessage: errorMessage94,
 						}
 					}
+					var value94 float64
+					value94 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Three.Value.ValueFloat64()
+
 					numericFactCondition38 = &shared.NumericFactCondition3{
 						Fact:     fact94,
 						Operator: operator94,
-						Value:    value94,
 						Params:   params94,
+						Value:    value94,
 					}
 				}
 				if numericFactCondition38 != nil {
@@ -10444,9 +10444,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four != nil {
 					fact95 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Fact.ValueString())
 					operator95 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Operator.ValueString())
-					var value95 bool
-					value95 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Value.ValueBool()
-
 					var params95 *shared.NumericFactConditionSchemasTrue4Params
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Params != nil {
 						errorMessage95 := new(string)
@@ -10459,11 +10456,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 							ErrorMessage: errorMessage95,
 						}
 					}
+					var value95 bool
+					value95 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.Four.Value.ValueBool()
+
 					numericFactCondition48 = &shared.NumericFactCondition4{
 						Fact:     fact95,
 						Operator: operator95,
-						Value:    value95,
 						Params:   params95,
+						Value:    value95,
 					}
 				}
 				if numericFactCondition48 != nil {
@@ -10482,18 +10482,15 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				var numericNestedCondition12 *shared.NumericNestedCondition1
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One != nil {
 					all11 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All))
-					for _, allItem11 := range r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All {
-						if allItem11.One != nil {
-							fact96 := shared.NumericFactConditionFact(allItem11.One.Fact.ValueString())
-							operator96 := shared.NumericFactConditionOperator(allItem11.One.Operator.ValueString())
-							var value96 float64
-							value96 = allItem11.One.Value.ValueFloat64()
-
+					for allItem8 := range r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All {
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One != nil {
+							fact96 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Fact.ValueString())
+							operator96 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Operator.ValueString())
 							var params96 *shared.NumericFactConditionParams
-							if allItem11.One.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Params != nil {
 								errorMessage96 := new(string)
-								if !allItem11.One.Params.ErrorMessage.IsUnknown() && !allItem11.One.Params.ErrorMessage.IsNull() {
-									*errorMessage96 = allItem11.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Params.ErrorMessage.IsNull() {
+									*errorMessage96 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage96 = nil
 								}
@@ -10501,62 +10498,62 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage96,
 								}
 							}
+							var value96 float64
+							value96 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].One.Value.ValueFloat64()
+
 							numericFactCondition19 := shared.NumericFactCondition1{
 								Fact:     fact96,
 								Operator: operator96,
-								Value:    value96,
 								Params:   params96,
+								Value:    value96,
 							}
 							all11 = append(all11, shared.NumericFactCondition{
 								NumericFactCondition1: &numericFactCondition19,
 							})
 						}
-						if allItem11.Two != nil {
-							fact97 := shared.NumericFactConditionSchemasFact(allItem11.Two.Fact.ValueString())
-							operator97 := shared.NumericFactConditionSchemasOperator(allItem11.Two.Operator.ValueString())
-							var value97 float64
-							value97 = allItem11.Two.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two != nil {
+							fact97 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Fact.ValueString())
+							operator97 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Operator.ValueString())
 							var params97 *shared.NumericFactConditionSchemasParams
-							if allItem11.Two.Params != nil {
-								errorMessage97 := new(string)
-								if !allItem11.Two.Params.ErrorMessage.IsUnknown() && !allItem11.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage97 = allItem11.Two.Params.ErrorMessage.ValueString()
-								} else {
-									errorMessage97 = nil
-								}
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params != nil {
 								allowLeadingZeroes9 := new(bool)
-								if !allItem11.Two.Params.AllowLeadingZeroes.IsUnknown() && !allItem11.Two.Params.AllowLeadingZeroes.IsNull() {
-									*allowLeadingZeroes9 = allItem11.Two.Params.AllowLeadingZeroes.ValueBool()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.AllowLeadingZeroes.IsNull() {
+									*allowLeadingZeroes9 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.AllowLeadingZeroes.ValueBool()
 								} else {
 									allowLeadingZeroes9 = nil
 								}
+								errorMessage97 := new(string)
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.ErrorMessage.IsNull() {
+									*errorMessage97 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Params.ErrorMessage.ValueString()
+								} else {
+									errorMessage97 = nil
+								}
 								params97 = &shared.NumericFactConditionSchemasParams{
-									ErrorMessage:       errorMessage97,
 									AllowLeadingZeroes: allowLeadingZeroes9,
+									ErrorMessage:       errorMessage97,
 								}
 							}
+							var value97 float64
+							value97 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Two.Value.ValueFloat64()
+
 							numericFactCondition29 := shared.NumericFactCondition2{
 								Fact:     fact97,
 								Operator: operator97,
-								Value:    value97,
 								Params:   params97,
+								Value:    value97,
 							}
 							all11 = append(all11, shared.NumericFactCondition{
 								NumericFactCondition2: &numericFactCondition29,
 							})
 						}
-						if allItem11.Three != nil {
-							fact98 := shared.NumericFactConditionSchemasTrueFact(allItem11.Three.Fact.ValueString())
-							operator98 := shared.NumericFactConditionSchemasTrueOperator(allItem11.Three.Operator.ValueString())
-							var value98 float64
-							value98 = allItem11.Three.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three != nil {
+							fact98 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Fact.ValueString())
+							operator98 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Operator.ValueString())
 							var params98 *shared.NumericFactConditionSchemasTrueParams
-							if allItem11.Three.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Params != nil {
 								errorMessage98 := new(string)
-								if !allItem11.Three.Params.ErrorMessage.IsUnknown() && !allItem11.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage98 = allItem11.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Params.ErrorMessage.IsNull() {
+									*errorMessage98 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage98 = nil
 								}
@@ -10564,27 +10561,27 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage98,
 								}
 							}
+							var value98 float64
+							value98 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Three.Value.ValueFloat64()
+
 							numericFactCondition39 := shared.NumericFactCondition3{
 								Fact:     fact98,
 								Operator: operator98,
-								Value:    value98,
 								Params:   params98,
+								Value:    value98,
 							}
 							all11 = append(all11, shared.NumericFactCondition{
 								NumericFactCondition3: &numericFactCondition39,
 							})
 						}
-						if allItem11.Four != nil {
-							fact99 := shared.NumericFactConditionSchemasTrue4Fact(allItem11.Four.Fact.ValueString())
-							operator99 := shared.NumericFactConditionSchemasTrue4Operator(allItem11.Four.Operator.ValueString())
-							var value99 bool
-							value99 = allItem11.Four.Value.ValueBool()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four != nil {
+							fact99 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Fact.ValueString())
+							operator99 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Operator.ValueString())
 							var params99 *shared.NumericFactConditionSchemasTrue4Params
-							if allItem11.Four.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Params != nil {
 								errorMessage99 := new(string)
-								if !allItem11.Four.Params.ErrorMessage.IsUnknown() && !allItem11.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage99 = allItem11.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Params.ErrorMessage.IsNull() {
+									*errorMessage99 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage99 = nil
 								}
@@ -10592,11 +10589,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage99,
 								}
 							}
+							var value99 bool
+							value99 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All[allItem8].Four.Value.ValueBool()
+
 							numericFactCondition49 := shared.NumericFactCondition4{
 								Fact:     fact99,
 								Operator: operator99,
-								Value:    value99,
 								Params:   params99,
+								Value:    value99,
 							}
 							all11 = append(all11, shared.NumericFactCondition{
 								NumericFactCondition4: &numericFactCondition49,
@@ -10615,18 +10615,15 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 				var numericNestedCondition22 *shared.NumericNestedCondition2
 				if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two != nil {
 					anyVar11 := make([]shared.NumericFactCondition, 0, len(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any))
-					for _, anyItem11 := range r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any {
-						if anyItem11.One != nil {
-							fact100 := shared.NumericFactConditionFact(anyItem11.One.Fact.ValueString())
-							operator100 := shared.NumericFactConditionOperator(anyItem11.One.Operator.ValueString())
-							var value100 float64
-							value100 = anyItem11.One.Value.ValueFloat64()
-
+					for anyItem8 := range r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any {
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One != nil {
+							fact100 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Fact.ValueString())
+							operator100 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Operator.ValueString())
 							var params100 *shared.NumericFactConditionParams
-							if anyItem11.One.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Params != nil {
 								errorMessage100 := new(string)
-								if !anyItem11.One.Params.ErrorMessage.IsUnknown() && !anyItem11.One.Params.ErrorMessage.IsNull() {
-									*errorMessage100 = anyItem11.One.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Params.ErrorMessage.IsNull() {
+									*errorMessage100 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage100 = nil
 								}
@@ -10634,62 +10631,62 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage100,
 								}
 							}
+							var value100 float64
+							value100 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].One.Value.ValueFloat64()
+
 							numericFactCondition110 := shared.NumericFactCondition1{
 								Fact:     fact100,
 								Operator: operator100,
-								Value:    value100,
 								Params:   params100,
+								Value:    value100,
 							}
 							anyVar11 = append(anyVar11, shared.NumericFactCondition{
 								NumericFactCondition1: &numericFactCondition110,
 							})
 						}
-						if anyItem11.Two != nil {
-							fact101 := shared.NumericFactConditionSchemasFact(anyItem11.Two.Fact.ValueString())
-							operator101 := shared.NumericFactConditionSchemasOperator(anyItem11.Two.Operator.ValueString())
-							var value101 float64
-							value101 = anyItem11.Two.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two != nil {
+							fact101 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Fact.ValueString())
+							operator101 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Operator.ValueString())
 							var params101 *shared.NumericFactConditionSchemasParams
-							if anyItem11.Two.Params != nil {
-								errorMessage101 := new(string)
-								if !anyItem11.Two.Params.ErrorMessage.IsUnknown() && !anyItem11.Two.Params.ErrorMessage.IsNull() {
-									*errorMessage101 = anyItem11.Two.Params.ErrorMessage.ValueString()
-								} else {
-									errorMessage101 = nil
-								}
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params != nil {
 								allowLeadingZeroes10 := new(bool)
-								if !anyItem11.Two.Params.AllowLeadingZeroes.IsUnknown() && !anyItem11.Two.Params.AllowLeadingZeroes.IsNull() {
-									*allowLeadingZeroes10 = anyItem11.Two.Params.AllowLeadingZeroes.ValueBool()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.AllowLeadingZeroes.IsNull() {
+									*allowLeadingZeroes10 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.AllowLeadingZeroes.ValueBool()
 								} else {
 									allowLeadingZeroes10 = nil
 								}
+								errorMessage101 := new(string)
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.ErrorMessage.IsNull() {
+									*errorMessage101 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Params.ErrorMessage.ValueString()
+								} else {
+									errorMessage101 = nil
+								}
 								params101 = &shared.NumericFactConditionSchemasParams{
-									ErrorMessage:       errorMessage101,
 									AllowLeadingZeroes: allowLeadingZeroes10,
+									ErrorMessage:       errorMessage101,
 								}
 							}
+							var value101 float64
+							value101 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Two.Value.ValueFloat64()
+
 							numericFactCondition210 := shared.NumericFactCondition2{
 								Fact:     fact101,
 								Operator: operator101,
-								Value:    value101,
 								Params:   params101,
+								Value:    value101,
 							}
 							anyVar11 = append(anyVar11, shared.NumericFactCondition{
 								NumericFactCondition2: &numericFactCondition210,
 							})
 						}
-						if anyItem11.Three != nil {
-							fact102 := shared.NumericFactConditionSchemasTrueFact(anyItem11.Three.Fact.ValueString())
-							operator102 := shared.NumericFactConditionSchemasTrueOperator(anyItem11.Three.Operator.ValueString())
-							var value102 float64
-							value102 = anyItem11.Three.Value.ValueFloat64()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three != nil {
+							fact102 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Fact.ValueString())
+							operator102 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Operator.ValueString())
 							var params102 *shared.NumericFactConditionSchemasTrueParams
-							if anyItem11.Three.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Params != nil {
 								errorMessage102 := new(string)
-								if !anyItem11.Three.Params.ErrorMessage.IsUnknown() && !anyItem11.Three.Params.ErrorMessage.IsNull() {
-									*errorMessage102 = anyItem11.Three.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Params.ErrorMessage.IsNull() {
+									*errorMessage102 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage102 = nil
 								}
@@ -10697,27 +10694,27 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage102,
 								}
 							}
+							var value102 float64
+							value102 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Three.Value.ValueFloat64()
+
 							numericFactCondition310 := shared.NumericFactCondition3{
 								Fact:     fact102,
 								Operator: operator102,
-								Value:    value102,
 								Params:   params102,
+								Value:    value102,
 							}
 							anyVar11 = append(anyVar11, shared.NumericFactCondition{
 								NumericFactCondition3: &numericFactCondition310,
 							})
 						}
-						if anyItem11.Four != nil {
-							fact103 := shared.NumericFactConditionSchemasTrue4Fact(anyItem11.Four.Fact.ValueString())
-							operator103 := shared.NumericFactConditionSchemasTrue4Operator(anyItem11.Four.Operator.ValueString())
-							var value103 bool
-							value103 = anyItem11.Four.Value.ValueBool()
-
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four != nil {
+							fact103 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Fact.ValueString())
+							operator103 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Operator.ValueString())
 							var params103 *shared.NumericFactConditionSchemasTrue4Params
-							if anyItem11.Four.Params != nil {
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Params != nil {
 								errorMessage103 := new(string)
-								if !anyItem11.Four.Params.ErrorMessage.IsUnknown() && !anyItem11.Four.Params.ErrorMessage.IsNull() {
-									*errorMessage103 = anyItem11.Four.Params.ErrorMessage.ValueString()
+								if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Params.ErrorMessage.IsNull() {
+									*errorMessage103 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Params.ErrorMessage.ValueString()
 								} else {
 									errorMessage103 = nil
 								}
@@ -10725,11 +10722,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 									ErrorMessage: errorMessage103,
 								}
 							}
+							var value103 bool
+							value103 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Two.Any[anyItem8].Four.Value.ValueBool()
+
 							numericFactCondition410 := shared.NumericFactCondition4{
 								Fact:     fact103,
 								Operator: operator103,
-								Value:    value103,
 								Params:   params103,
+								Value:    value103,
 							}
 							anyVar11 = append(anyVar11, shared.NumericFactCondition{
 								NumericFactCondition4: &numericFactCondition410,
@@ -10752,9 +10752,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One != nil {
 						fact104 := shared.NumericFactConditionFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Fact.ValueString())
 						operator104 := shared.NumericFactConditionOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Operator.ValueString())
-						var value104 float64
-						value104 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
-
 						var params104 *shared.NumericFactConditionParams
 						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Params != nil {
 							errorMessage104 := new(string)
@@ -10767,11 +10764,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage104,
 							}
 						}
+						var value104 float64
+						value104 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Value.ValueFloat64()
+
 						numericFactCondition111 = &shared.NumericFactCondition1{
 							Fact:     fact104,
 							Operator: operator104,
-							Value:    value104,
 							Params:   params104,
+							Value:    value104,
 						}
 					}
 					if numericFactCondition111 != nil {
@@ -10783,33 +10783,33 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two != nil {
 						fact105 := shared.NumericFactConditionSchemasFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Fact.ValueString())
 						operator105 := shared.NumericFactConditionSchemasOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Operator.ValueString())
-						var value105 float64
-						value105 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
-
 						var params105 *shared.NumericFactConditionSchemasParams
 						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params != nil {
-							errorMessage105 := new(string)
-							if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
-								*errorMessage105 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
-							} else {
-								errorMessage105 = nil
-							}
 							allowLeadingZeroes11 := new(bool)
 							if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.IsNull() {
 								*allowLeadingZeroes11 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.AllowLeadingZeroes.ValueBool()
 							} else {
 								allowLeadingZeroes11 = nil
 							}
+							errorMessage105 := new(string)
+							if !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsUnknown() && !r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.IsNull() {
+								*errorMessage105 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Params.ErrorMessage.ValueString()
+							} else {
+								errorMessage105 = nil
+							}
 							params105 = &shared.NumericFactConditionSchemasParams{
-								ErrorMessage:       errorMessage105,
 								AllowLeadingZeroes: allowLeadingZeroes11,
+								ErrorMessage:       errorMessage105,
 							}
 						}
+						var value105 float64
+						value105 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Two.Value.ValueFloat64()
+
 						numericFactCondition211 = &shared.NumericFactCondition2{
 							Fact:     fact105,
 							Operator: operator105,
-							Value:    value105,
 							Params:   params105,
+							Value:    value105,
 						}
 					}
 					if numericFactCondition211 != nil {
@@ -10821,9 +10821,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three != nil {
 						fact106 := shared.NumericFactConditionSchemasTrueFact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Fact.ValueString())
 						operator106 := shared.NumericFactConditionSchemasTrueOperator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Operator.ValueString())
-						var value106 float64
-						value106 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
-
 						var params106 *shared.NumericFactConditionSchemasTrueParams
 						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Params != nil {
 							errorMessage106 := new(string)
@@ -10836,11 +10833,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage106,
 							}
 						}
+						var value106 float64
+						value106 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Three.Value.ValueFloat64()
+
 						numericFactCondition311 = &shared.NumericFactCondition3{
 							Fact:     fact106,
 							Operator: operator106,
-							Value:    value106,
 							Params:   params106,
+							Value:    value106,
 						}
 					}
 					if numericFactCondition311 != nil {
@@ -10852,9 +10852,6 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 					if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four != nil {
 						fact107 := shared.NumericFactConditionSchemasTrue4Fact(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Fact.ValueString())
 						operator107 := shared.NumericFactConditionSchemasTrue4Operator(r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Operator.ValueString())
-						var value107 bool
-						value107 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Value.ValueBool()
-
 						var params107 *shared.NumericFactConditionSchemasTrue4Params
 						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Params != nil {
 							errorMessage107 := new(string)
@@ -10867,11 +10864,14 @@ func (r *ValidationRuleResourceModel) ToSharedValidationRuleBase(ctx context.Con
 								ErrorMessage: errorMessage107,
 							}
 						}
+						var value107 bool
+						value107 = r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.Four.Value.ValueBool()
+
 						numericFactCondition411 = &shared.NumericFactCondition4{
 							Fact:     fact107,
 							Operator: operator107,
-							Value:    value107,
 							Params:   params107,
+							Value:    value107,
 						}
 					}
 					if numericFactCondition411 != nil {

@@ -11,11 +11,11 @@ type DeleteValidationRuleRequest struct {
 	RuleID string `pathParam:"style=simple,explode=false,name=ruleId"`
 }
 
-func (o *DeleteValidationRuleRequest) GetRuleID() string {
-	if o == nil {
+func (d *DeleteValidationRuleRequest) GetRuleID() string {
+	if d == nil {
 		return ""
 	}
-	return o.RuleID
+	return d.RuleID
 }
 
 // DeleteValidationRuleResponseBody - Internal Server Error
@@ -23,11 +23,11 @@ type DeleteValidationRuleResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *DeleteValidationRuleResponseBody) GetMessage() *string {
-	if o == nil {
+func (d *DeleteValidationRuleResponseBody) GetMessage() *string {
+	if d == nil {
 		return nil
 	}
-	return o.Message
+	return d.Message
 }
 
 type DeleteValidationRuleResponse struct {
@@ -41,30 +41,30 @@ type DeleteValidationRuleResponse struct {
 	Object *DeleteValidationRuleResponseBody
 }
 
-func (o *DeleteValidationRuleResponse) GetContentType() string {
-	if o == nil {
+func (d *DeleteValidationRuleResponse) GetContentType() string {
+	if d == nil {
 		return ""
 	}
-	return o.ContentType
+	return d.ContentType
 }
 
-func (o *DeleteValidationRuleResponse) GetStatusCode() int {
-	if o == nil {
+func (d *DeleteValidationRuleResponse) GetStatusCode() int {
+	if d == nil {
 		return 0
 	}
-	return o.StatusCode
+	return d.StatusCode
 }
 
-func (o *DeleteValidationRuleResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (d *DeleteValidationRuleResponse) GetRawResponse() *http.Response {
+	if d == nil {
 		return nil
 	}
-	return o.RawResponse
+	return d.RawResponse
 }
 
-func (o *DeleteValidationRuleResponse) GetObject() *DeleteValidationRuleResponseBody {
-	if o == nil {
+func (d *DeleteValidationRuleResponse) GetObject() *DeleteValidationRuleResponseBody {
+	if d == nil {
 		return nil
 	}
-	return o.Object
+	return d.Object
 }

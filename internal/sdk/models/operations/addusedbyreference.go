@@ -10,21 +10,22 @@ import (
 type AddUsedByReferenceRequest struct {
 	// The unique identifier of the validation rule to update.
 	RuleID string `pathParam:"style=simple,explode=false,name=ruleId"`
+	// The used_by reference to add
 	UsedBy *shared.UsedBy `request:"mediaType=application/json"`
 }
 
-func (o *AddUsedByReferenceRequest) GetRuleID() string {
-	if o == nil {
+func (a *AddUsedByReferenceRequest) GetRuleID() string {
+	if a == nil {
 		return ""
 	}
-	return o.RuleID
+	return a.RuleID
 }
 
-func (o *AddUsedByReferenceRequest) GetUsedBy() *shared.UsedBy {
-	if o == nil {
+func (a *AddUsedByReferenceRequest) GetUsedBy() *shared.UsedBy {
+	if a == nil {
 		return nil
 	}
-	return o.UsedBy
+	return a.UsedBy
 }
 
 // AddUsedByReferenceValidationRulesResponseResponseBody - Internal Server Error
@@ -32,11 +33,11 @@ type AddUsedByReferenceValidationRulesResponseResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *AddUsedByReferenceValidationRulesResponseResponseBody) GetMessage() *string {
-	if o == nil {
+func (a *AddUsedByReferenceValidationRulesResponseResponseBody) GetMessage() *string {
+	if a == nil {
 		return nil
 	}
-	return o.Message
+	return a.Message
 }
 
 // AddUsedByReferenceValidationRulesResponseBody - Validation rule not found
@@ -44,11 +45,11 @@ type AddUsedByReferenceValidationRulesResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *AddUsedByReferenceValidationRulesResponseBody) GetMessage() *string {
-	if o == nil {
+func (a *AddUsedByReferenceValidationRulesResponseBody) GetMessage() *string {
+	if a == nil {
 		return nil
 	}
-	return o.Message
+	return a.Message
 }
 
 // AddUsedByReferenceResponseBody - Bad Request - Invalid request body
@@ -56,11 +57,11 @@ type AddUsedByReferenceResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *AddUsedByReferenceResponseBody) GetMessage() *string {
-	if o == nil {
+func (a *AddUsedByReferenceResponseBody) GetMessage() *string {
+	if a == nil {
 		return nil
 	}
-	return o.Message
+	return a.Message
 }
 
 type AddUsedByReferenceResponse struct {
@@ -80,51 +81,51 @@ type AddUsedByReferenceResponse struct {
 	FiveHundredApplicationJSONObject *AddUsedByReferenceValidationRulesResponseResponseBody
 }
 
-func (o *AddUsedByReferenceResponse) GetContentType() string {
-	if o == nil {
+func (a *AddUsedByReferenceResponse) GetContentType() string {
+	if a == nil {
 		return ""
 	}
-	return o.ContentType
+	return a.ContentType
 }
 
-func (o *AddUsedByReferenceResponse) GetStatusCode() int {
-	if o == nil {
+func (a *AddUsedByReferenceResponse) GetStatusCode() int {
+	if a == nil {
 		return 0
 	}
-	return o.StatusCode
+	return a.StatusCode
 }
 
-func (o *AddUsedByReferenceResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (a *AddUsedByReferenceResponse) GetRawResponse() *http.Response {
+	if a == nil {
 		return nil
 	}
-	return o.RawResponse
+	return a.RawResponse
 }
 
-func (o *AddUsedByReferenceResponse) GetValidationRule() *shared.ValidationRule {
-	if o == nil {
+func (a *AddUsedByReferenceResponse) GetValidationRule() *shared.ValidationRule {
+	if a == nil {
 		return nil
 	}
-	return o.ValidationRule
+	return a.ValidationRule
 }
 
-func (o *AddUsedByReferenceResponse) GetFourHundredApplicationJSONObject() *AddUsedByReferenceResponseBody {
-	if o == nil {
+func (a *AddUsedByReferenceResponse) GetFourHundredApplicationJSONObject() *AddUsedByReferenceResponseBody {
+	if a == nil {
 		return nil
 	}
-	return o.FourHundredApplicationJSONObject
+	return a.FourHundredApplicationJSONObject
 }
 
-func (o *AddUsedByReferenceResponse) GetFourHundredAndFourApplicationJSONObject() *AddUsedByReferenceValidationRulesResponseBody {
-	if o == nil {
+func (a *AddUsedByReferenceResponse) GetFourHundredAndFourApplicationJSONObject() *AddUsedByReferenceValidationRulesResponseBody {
+	if a == nil {
 		return nil
 	}
-	return o.FourHundredAndFourApplicationJSONObject
+	return a.FourHundredAndFourApplicationJSONObject
 }
 
-func (o *AddUsedByReferenceResponse) GetFiveHundredApplicationJSONObject() *AddUsedByReferenceValidationRulesResponseResponseBody {
-	if o == nil {
+func (a *AddUsedByReferenceResponse) GetFiveHundredApplicationJSONObject() *AddUsedByReferenceValidationRulesResponseResponseBody {
+	if a == nil {
 		return nil
 	}
-	return o.FiveHundredApplicationJSONObject
+	return a.FiveHundredApplicationJSONObject
 }

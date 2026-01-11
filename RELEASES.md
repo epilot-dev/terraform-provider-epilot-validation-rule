@@ -15,3 +15,13 @@ Based on:
 - Speakeasy CLI 1.147.0 (2.237.2) https://github.com/speakeasy-api/speakeasy
 ### Generated
 - [terraform v0.4.4] .
+
+## 2026-01-11 00:33:00
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.684.0 (2.793.0) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [terraform v0.19.0] .
+### Releases
+- [Terraform v0.19.0] https://registry.terraform.io/providers/epilot-dev/epilot-validation-rule/0.19.0 - .

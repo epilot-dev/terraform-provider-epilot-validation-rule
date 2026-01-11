@@ -16,8 +16,8 @@ const (
 )
 
 type Not struct {
-	RegexFactCondition   *RegexFactCondition   `queryParam:"inline" name:"not"`
-	RegexNestedCondition *RegexNestedCondition `queryParam:"inline" name:"not"`
+	RegexFactCondition   *RegexFactCondition   `queryParam:"inline" union:"member"`
+	RegexNestedCondition *RegexNestedCondition `queryParam:"inline" union:"member"`
 
 	Type NotType
 }
@@ -42,17 +42,43 @@ func CreateNotRegexNestedCondition(regexNestedCondition RegexNestedCondition) No
 
 func (u *Not) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var regexFactCondition RegexFactCondition = RegexFactCondition{}
 	if err := utils.UnmarshalJSON(data, &regexFactCondition, "", true, nil); err == nil {
-		u.RegexFactCondition = &regexFactCondition
-		u.Type = NotTypeRegexFactCondition
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NotTypeRegexFactCondition,
+			Value: &regexFactCondition,
+		})
 	}
 
 	var regexNestedCondition RegexNestedCondition = RegexNestedCondition{}
 	if err := utils.UnmarshalJSON(data, &regexNestedCondition, "", true, nil); err == nil {
-		u.RegexNestedCondition = &regexNestedCondition
-		u.Type = NotTypeRegexNestedCondition
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NotTypeRegexNestedCondition,
+			Value: &regexNestedCondition,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for Not", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for Not", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(NotType)
+	switch best.Type {
+	case NotTypeRegexFactCondition:
+		u.RegexFactCondition = best.Value.(*RegexFactCondition)
+		return nil
+	case NotTypeRegexNestedCondition:
+		u.RegexNestedCondition = best.Value.(*RegexNestedCondition)
 		return nil
 	}
 
@@ -81,17 +107,17 @@ func (r RegexCondition3) MarshalJSON() ([]byte, error) {
 }
 
 func (r *RegexCondition3) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &r, "", false, []string{"not"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &r, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *RegexCondition3) GetNot() Not {
-	if o == nil {
+func (r *RegexCondition3) GetNot() Not {
+	if r == nil {
 		return Not{}
 	}
-	return o.Not
+	return r.Not
 }
 
 type AnyType string
@@ -102,8 +128,8 @@ const (
 )
 
 type Any struct {
-	RegexFactCondition   *RegexFactCondition   `queryParam:"inline" name:"any"`
-	RegexNestedCondition *RegexNestedCondition `queryParam:"inline" name:"any"`
+	RegexFactCondition   *RegexFactCondition   `queryParam:"inline" union:"member"`
+	RegexNestedCondition *RegexNestedCondition `queryParam:"inline" union:"member"`
 
 	Type AnyType
 }
@@ -128,17 +154,43 @@ func CreateAnyRegexNestedCondition(regexNestedCondition RegexNestedCondition) An
 
 func (u *Any) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var regexFactCondition RegexFactCondition = RegexFactCondition{}
 	if err := utils.UnmarshalJSON(data, &regexFactCondition, "", true, nil); err == nil {
-		u.RegexFactCondition = &regexFactCondition
-		u.Type = AnyTypeRegexFactCondition
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  AnyTypeRegexFactCondition,
+			Value: &regexFactCondition,
+		})
 	}
 
 	var regexNestedCondition RegexNestedCondition = RegexNestedCondition{}
 	if err := utils.UnmarshalJSON(data, &regexNestedCondition, "", true, nil); err == nil {
-		u.RegexNestedCondition = &regexNestedCondition
-		u.Type = AnyTypeRegexNestedCondition
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  AnyTypeRegexNestedCondition,
+			Value: &regexNestedCondition,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for Any", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for Any", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(AnyType)
+	switch best.Type {
+	case AnyTypeRegexFactCondition:
+		u.RegexFactCondition = best.Value.(*RegexFactCondition)
+		return nil
+	case AnyTypeRegexNestedCondition:
+		u.RegexNestedCondition = best.Value.(*RegexNestedCondition)
 		return nil
 	}
 
@@ -167,17 +219,17 @@ func (r RegexCondition2) MarshalJSON() ([]byte, error) {
 }
 
 func (r *RegexCondition2) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &r, "", false, []string{"any"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &r, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *RegexCondition2) GetAny() []Any {
-	if o == nil {
+func (r *RegexCondition2) GetAny() []Any {
+	if r == nil {
 		return []Any{}
 	}
-	return o.Any
+	return r.Any
 }
 
 type AllType string
@@ -188,8 +240,8 @@ const (
 )
 
 type All struct {
-	RegexFactCondition   *RegexFactCondition   `queryParam:"inline" name:"all"`
-	RegexNestedCondition *RegexNestedCondition `queryParam:"inline" name:"all"`
+	RegexFactCondition   *RegexFactCondition   `queryParam:"inline" union:"member"`
+	RegexNestedCondition *RegexNestedCondition `queryParam:"inline" union:"member"`
 
 	Type AllType
 }
@@ -214,17 +266,43 @@ func CreateAllRegexNestedCondition(regexNestedCondition RegexNestedCondition) Al
 
 func (u *All) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var regexFactCondition RegexFactCondition = RegexFactCondition{}
 	if err := utils.UnmarshalJSON(data, &regexFactCondition, "", true, nil); err == nil {
-		u.RegexFactCondition = &regexFactCondition
-		u.Type = AllTypeRegexFactCondition
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  AllTypeRegexFactCondition,
+			Value: &regexFactCondition,
+		})
 	}
 
 	var regexNestedCondition RegexNestedCondition = RegexNestedCondition{}
 	if err := utils.UnmarshalJSON(data, &regexNestedCondition, "", true, nil); err == nil {
-		u.RegexNestedCondition = &regexNestedCondition
-		u.Type = AllTypeRegexNestedCondition
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  AllTypeRegexNestedCondition,
+			Value: &regexNestedCondition,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for All", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for All", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(AllType)
+	switch best.Type {
+	case AllTypeRegexFactCondition:
+		u.RegexFactCondition = best.Value.(*RegexFactCondition)
+		return nil
+	case AllTypeRegexNestedCondition:
+		u.RegexNestedCondition = best.Value.(*RegexNestedCondition)
 		return nil
 	}
 
@@ -253,17 +331,17 @@ func (r RegexCondition1) MarshalJSON() ([]byte, error) {
 }
 
 func (r *RegexCondition1) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &r, "", false, []string{"all"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &r, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *RegexCondition1) GetAll() []All {
-	if o == nil {
+func (r *RegexCondition1) GetAll() []All {
+	if r == nil {
 		return []All{}
 	}
-	return o.All
+	return r.All
 }
 
 type RegexConditionType string
@@ -276,9 +354,9 @@ const (
 
 // RegexCondition - Condition definition for a regex-based validation rule (2 levels deep)
 type RegexCondition struct {
-	RegexCondition1 *RegexCondition1 `queryParam:"inline" name:"RegexCondition"`
-	RegexCondition2 *RegexCondition2 `queryParam:"inline" name:"RegexCondition"`
-	RegexCondition3 *RegexCondition3 `queryParam:"inline" name:"RegexCondition"`
+	RegexCondition1 *RegexCondition1 `queryParam:"inline" union:"member"`
+	RegexCondition2 *RegexCondition2 `queryParam:"inline" union:"member"`
+	RegexCondition3 *RegexCondition3 `queryParam:"inline" union:"member"`
 
 	Type RegexConditionType
 }
@@ -312,24 +390,54 @@ func CreateRegexConditionRegexCondition3(regexCondition3 RegexCondition3) RegexC
 
 func (u *RegexCondition) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var regexCondition1 RegexCondition1 = RegexCondition1{}
 	if err := utils.UnmarshalJSON(data, &regexCondition1, "", true, nil); err == nil {
-		u.RegexCondition1 = &regexCondition1
-		u.Type = RegexConditionTypeRegexCondition1
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  RegexConditionTypeRegexCondition1,
+			Value: &regexCondition1,
+		})
 	}
 
 	var regexCondition2 RegexCondition2 = RegexCondition2{}
 	if err := utils.UnmarshalJSON(data, &regexCondition2, "", true, nil); err == nil {
-		u.RegexCondition2 = &regexCondition2
-		u.Type = RegexConditionTypeRegexCondition2
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  RegexConditionTypeRegexCondition2,
+			Value: &regexCondition2,
+		})
 	}
 
 	var regexCondition3 RegexCondition3 = RegexCondition3{}
 	if err := utils.UnmarshalJSON(data, &regexCondition3, "", true, nil); err == nil {
-		u.RegexCondition3 = &regexCondition3
-		u.Type = RegexConditionTypeRegexCondition3
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  RegexConditionTypeRegexCondition3,
+			Value: &regexCondition3,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for RegexCondition", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for RegexCondition", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(RegexConditionType)
+	switch best.Type {
+	case RegexConditionTypeRegexCondition1:
+		u.RegexCondition1 = best.Value.(*RegexCondition1)
+		return nil
+	case RegexConditionTypeRegexCondition2:
+		u.RegexCondition2 = best.Value.(*RegexCondition2)
+		return nil
+	case RegexConditionTypeRegexCondition3:
+		u.RegexCondition3 = best.Value.(*RegexCondition3)
 		return nil
 	}
 
