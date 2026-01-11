@@ -16,8 +16,8 @@ const (
 )
 
 type NumericConditionNot struct {
-	NumericFactCondition   *NumericFactCondition   `queryParam:"inline" name:"not"`
-	NumericNestedCondition *NumericNestedCondition `queryParam:"inline" name:"not"`
+	NumericFactCondition   *NumericFactCondition   `queryParam:"inline" union:"member"`
+	NumericNestedCondition *NumericNestedCondition `queryParam:"inline" union:"member"`
 
 	Type NumericConditionNotType
 }
@@ -42,17 +42,43 @@ func CreateNumericConditionNotNumericNestedCondition(numericNestedCondition Nume
 
 func (u *NumericConditionNot) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var numericFactCondition NumericFactCondition = NumericFactCondition{}
 	if err := utils.UnmarshalJSON(data, &numericFactCondition, "", true, nil); err == nil {
-		u.NumericFactCondition = &numericFactCondition
-		u.Type = NumericConditionNotTypeNumericFactCondition
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionNotTypeNumericFactCondition,
+			Value: &numericFactCondition,
+		})
 	}
 
 	var numericNestedCondition NumericNestedCondition = NumericNestedCondition{}
 	if err := utils.UnmarshalJSON(data, &numericNestedCondition, "", true, nil); err == nil {
-		u.NumericNestedCondition = &numericNestedCondition
-		u.Type = NumericConditionNotTypeNumericNestedCondition
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionNotTypeNumericNestedCondition,
+			Value: &numericNestedCondition,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericConditionNot", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericConditionNot", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(NumericConditionNotType)
+	switch best.Type {
+	case NumericConditionNotTypeNumericFactCondition:
+		u.NumericFactCondition = best.Value.(*NumericFactCondition)
+		return nil
+	case NumericConditionNotTypeNumericNestedCondition:
+		u.NumericNestedCondition = best.Value.(*NumericNestedCondition)
 		return nil
 	}
 
@@ -81,17 +107,17 @@ func (n NumericCondition3) MarshalJSON() ([]byte, error) {
 }
 
 func (n *NumericCondition3) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &n, "", false, []string{"not"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &n, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *NumericCondition3) GetNot() NumericConditionNot {
-	if o == nil {
+func (n *NumericCondition3) GetNot() NumericConditionNot {
+	if n == nil {
 		return NumericConditionNot{}
 	}
-	return o.Not
+	return n.Not
 }
 
 type NumericConditionAnyType string
@@ -102,8 +128,8 @@ const (
 )
 
 type NumericConditionAny struct {
-	NumericFactCondition   *NumericFactCondition   `queryParam:"inline" name:"any"`
-	NumericNestedCondition *NumericNestedCondition `queryParam:"inline" name:"any"`
+	NumericFactCondition   *NumericFactCondition   `queryParam:"inline" union:"member"`
+	NumericNestedCondition *NumericNestedCondition `queryParam:"inline" union:"member"`
 
 	Type NumericConditionAnyType
 }
@@ -128,17 +154,43 @@ func CreateNumericConditionAnyNumericNestedCondition(numericNestedCondition Nume
 
 func (u *NumericConditionAny) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var numericFactCondition NumericFactCondition = NumericFactCondition{}
 	if err := utils.UnmarshalJSON(data, &numericFactCondition, "", true, nil); err == nil {
-		u.NumericFactCondition = &numericFactCondition
-		u.Type = NumericConditionAnyTypeNumericFactCondition
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionAnyTypeNumericFactCondition,
+			Value: &numericFactCondition,
+		})
 	}
 
 	var numericNestedCondition NumericNestedCondition = NumericNestedCondition{}
 	if err := utils.UnmarshalJSON(data, &numericNestedCondition, "", true, nil); err == nil {
-		u.NumericNestedCondition = &numericNestedCondition
-		u.Type = NumericConditionAnyTypeNumericNestedCondition
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionAnyTypeNumericNestedCondition,
+			Value: &numericNestedCondition,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericConditionAny", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericConditionAny", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(NumericConditionAnyType)
+	switch best.Type {
+	case NumericConditionAnyTypeNumericFactCondition:
+		u.NumericFactCondition = best.Value.(*NumericFactCondition)
+		return nil
+	case NumericConditionAnyTypeNumericNestedCondition:
+		u.NumericNestedCondition = best.Value.(*NumericNestedCondition)
 		return nil
 	}
 
@@ -167,17 +219,17 @@ func (n NumericCondition2) MarshalJSON() ([]byte, error) {
 }
 
 func (n *NumericCondition2) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &n, "", false, []string{"any"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &n, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *NumericCondition2) GetAny() []NumericConditionAny {
-	if o == nil {
+func (n *NumericCondition2) GetAny() []NumericConditionAny {
+	if n == nil {
 		return []NumericConditionAny{}
 	}
-	return o.Any
+	return n.Any
 }
 
 type NumericConditionAllType string
@@ -188,8 +240,8 @@ const (
 )
 
 type NumericConditionAll struct {
-	NumericFactCondition   *NumericFactCondition   `queryParam:"inline" name:"all"`
-	NumericNestedCondition *NumericNestedCondition `queryParam:"inline" name:"all"`
+	NumericFactCondition   *NumericFactCondition   `queryParam:"inline" union:"member"`
+	NumericNestedCondition *NumericNestedCondition `queryParam:"inline" union:"member"`
 
 	Type NumericConditionAllType
 }
@@ -214,17 +266,43 @@ func CreateNumericConditionAllNumericNestedCondition(numericNestedCondition Nume
 
 func (u *NumericConditionAll) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var numericFactCondition NumericFactCondition = NumericFactCondition{}
 	if err := utils.UnmarshalJSON(data, &numericFactCondition, "", true, nil); err == nil {
-		u.NumericFactCondition = &numericFactCondition
-		u.Type = NumericConditionAllTypeNumericFactCondition
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionAllTypeNumericFactCondition,
+			Value: &numericFactCondition,
+		})
 	}
 
 	var numericNestedCondition NumericNestedCondition = NumericNestedCondition{}
 	if err := utils.UnmarshalJSON(data, &numericNestedCondition, "", true, nil); err == nil {
-		u.NumericNestedCondition = &numericNestedCondition
-		u.Type = NumericConditionAllTypeNumericNestedCondition
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionAllTypeNumericNestedCondition,
+			Value: &numericNestedCondition,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericConditionAll", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericConditionAll", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(NumericConditionAllType)
+	switch best.Type {
+	case NumericConditionAllTypeNumericFactCondition:
+		u.NumericFactCondition = best.Value.(*NumericFactCondition)
+		return nil
+	case NumericConditionAllTypeNumericNestedCondition:
+		u.NumericNestedCondition = best.Value.(*NumericNestedCondition)
 		return nil
 	}
 
@@ -253,17 +331,17 @@ func (n NumericCondition1) MarshalJSON() ([]byte, error) {
 }
 
 func (n *NumericCondition1) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &n, "", false, []string{"all"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &n, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *NumericCondition1) GetAll() []NumericConditionAll {
-	if o == nil {
+func (n *NumericCondition1) GetAll() []NumericConditionAll {
+	if n == nil {
 		return []NumericConditionAll{}
 	}
-	return o.All
+	return n.All
 }
 
 type NumericConditionType string
@@ -276,9 +354,9 @@ const (
 
 // NumericCondition - Condition definition for a numeric-based validation rule (2 levels deep)
 type NumericCondition struct {
-	NumericCondition1 *NumericCondition1 `queryParam:"inline" name:"NumericCondition"`
-	NumericCondition2 *NumericCondition2 `queryParam:"inline" name:"NumericCondition"`
-	NumericCondition3 *NumericCondition3 `queryParam:"inline" name:"NumericCondition"`
+	NumericCondition1 *NumericCondition1 `queryParam:"inline" union:"member"`
+	NumericCondition2 *NumericCondition2 `queryParam:"inline" union:"member"`
+	NumericCondition3 *NumericCondition3 `queryParam:"inline" union:"member"`
 
 	Type NumericConditionType
 }
@@ -312,24 +390,54 @@ func CreateNumericConditionNumericCondition3(numericCondition3 NumericCondition3
 
 func (u *NumericCondition) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var numericCondition1 NumericCondition1 = NumericCondition1{}
 	if err := utils.UnmarshalJSON(data, &numericCondition1, "", true, nil); err == nil {
-		u.NumericCondition1 = &numericCondition1
-		u.Type = NumericConditionTypeNumericCondition1
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionTypeNumericCondition1,
+			Value: &numericCondition1,
+		})
 	}
 
 	var numericCondition2 NumericCondition2 = NumericCondition2{}
 	if err := utils.UnmarshalJSON(data, &numericCondition2, "", true, nil); err == nil {
-		u.NumericCondition2 = &numericCondition2
-		u.Type = NumericConditionTypeNumericCondition2
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionTypeNumericCondition2,
+			Value: &numericCondition2,
+		})
 	}
 
 	var numericCondition3 NumericCondition3 = NumericCondition3{}
 	if err := utils.UnmarshalJSON(data, &numericCondition3, "", true, nil); err == nil {
-		u.NumericCondition3 = &numericCondition3
-		u.Type = NumericConditionTypeNumericCondition3
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericConditionTypeNumericCondition3,
+			Value: &numericCondition3,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericCondition", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericCondition", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(NumericConditionType)
+	switch best.Type {
+	case NumericConditionTypeNumericCondition1:
+		u.NumericCondition1 = best.Value.(*NumericCondition1)
+		return nil
+	case NumericConditionTypeNumericCondition2:
+		u.NumericCondition2 = best.Value.(*NumericCondition2)
+		return nil
+	case NumericConditionTypeNumericCondition3:
+		u.NumericCondition3 = best.Value.(*NumericCondition3)
 		return nil
 	}
 

@@ -16,13 +16,14 @@ terraform {
   required_providers {
     epilot-validation-rule = {
       source  = "epilot-dev/epilot-validation-rule"
-      version = "0.18.5"
+      version = "0.19.0"
     }
   }
 }
 
 provider "epilot-validation-rule" {
-  # Configuration options
+  epilot_auth = "<YOUR_EPILOT_AUTH>" # Required
+  server_url  = "..."                # Optional
 }
 ```
 
