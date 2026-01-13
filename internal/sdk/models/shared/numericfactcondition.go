@@ -77,11 +77,11 @@ func (n *NumericFactConditionSchemasTrue4Params) UnmarshalJSON(data []byte) erro
 	return nil
 }
 
-func (o *NumericFactConditionSchemasTrue4Params) GetErrorMessage() *string {
-	if o == nil {
+func (n *NumericFactConditionSchemasTrue4Params) GetErrorMessage() *string {
+	if n == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return n.ErrorMessage
 }
 
 // NumericFactCondition4 - Leading zeros validation
@@ -90,10 +90,10 @@ type NumericFactCondition4 struct {
 	Fact NumericFactConditionSchemasTrue4Fact `json:"fact"`
 	// Leading zeros check operator
 	Operator NumericFactConditionSchemasTrue4Operator `json:"operator"`
-	// Whether leading zeros should be present or not
-	Value bool `json:"value"`
 	// Additional parameters for the condition
 	Params *NumericFactConditionSchemasTrue4Params `json:"params,omitempty"`
+	// Whether leading zeros should be present or not
+	Value bool `json:"value"`
 }
 
 func (n NumericFactCondition4) MarshalJSON() ([]byte, error) {
@@ -101,38 +101,38 @@ func (n NumericFactCondition4) MarshalJSON() ([]byte, error) {
 }
 
 func (n *NumericFactCondition4) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &n, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &n, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *NumericFactCondition4) GetFact() NumericFactConditionSchemasTrue4Fact {
-	if o == nil {
+func (n *NumericFactCondition4) GetFact() NumericFactConditionSchemasTrue4Fact {
+	if n == nil {
 		return NumericFactConditionSchemasTrue4Fact("")
 	}
-	return o.Fact
+	return n.Fact
 }
 
-func (o *NumericFactCondition4) GetOperator() NumericFactConditionSchemasTrue4Operator {
-	if o == nil {
+func (n *NumericFactCondition4) GetOperator() NumericFactConditionSchemasTrue4Operator {
+	if n == nil {
 		return NumericFactConditionSchemasTrue4Operator("")
 	}
-	return o.Operator
+	return n.Operator
 }
 
-func (o *NumericFactCondition4) GetValue() bool {
-	if o == nil {
-		return false
-	}
-	return o.Value
-}
-
-func (o *NumericFactCondition4) GetParams() *NumericFactConditionSchemasTrue4Params {
-	if o == nil {
+func (n *NumericFactCondition4) GetParams() *NumericFactConditionSchemasTrue4Params {
+	if n == nil {
 		return nil
 	}
-	return o.Params
+	return n.Params
+}
+
+func (n *NumericFactCondition4) GetValue() bool {
+	if n == nil {
+		return false
+	}
+	return n.Value
 }
 
 // NumericFactConditionSchemasTrueFact - Count of decimal digits
@@ -206,11 +206,11 @@ func (n *NumericFactConditionSchemasTrueParams) UnmarshalJSON(data []byte) error
 	return nil
 }
 
-func (o *NumericFactConditionSchemasTrueParams) GetErrorMessage() *string {
-	if o == nil {
+func (n *NumericFactConditionSchemasTrueParams) GetErrorMessage() *string {
+	if n == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return n.ErrorMessage
 }
 
 // NumericFactCondition3 - Decimal digits count validation
@@ -219,10 +219,10 @@ type NumericFactCondition3 struct {
 	Fact NumericFactConditionSchemasTrueFact `json:"fact"`
 	// Decimal digit count comparison operator
 	Operator NumericFactConditionSchemasTrueOperator `json:"operator"`
-	// Expected number of decimal digits
-	Value float64 `json:"value"`
 	// Additional parameters for the condition
 	Params *NumericFactConditionSchemasTrueParams `json:"params,omitempty"`
+	// Expected number of decimal digits
+	Value float64 `json:"value"`
 }
 
 func (n NumericFactCondition3) MarshalJSON() ([]byte, error) {
@@ -230,38 +230,38 @@ func (n NumericFactCondition3) MarshalJSON() ([]byte, error) {
 }
 
 func (n *NumericFactCondition3) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &n, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &n, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *NumericFactCondition3) GetFact() NumericFactConditionSchemasTrueFact {
-	if o == nil {
+func (n *NumericFactCondition3) GetFact() NumericFactConditionSchemasTrueFact {
+	if n == nil {
 		return NumericFactConditionSchemasTrueFact("")
 	}
-	return o.Fact
+	return n.Fact
 }
 
-func (o *NumericFactCondition3) GetOperator() NumericFactConditionSchemasTrueOperator {
-	if o == nil {
+func (n *NumericFactCondition3) GetOperator() NumericFactConditionSchemasTrueOperator {
+	if n == nil {
 		return NumericFactConditionSchemasTrueOperator("")
 	}
-	return o.Operator
+	return n.Operator
 }
 
-func (o *NumericFactCondition3) GetValue() float64 {
-	if o == nil {
-		return 0.0
-	}
-	return o.Value
-}
-
-func (o *NumericFactCondition3) GetParams() *NumericFactConditionSchemasTrueParams {
-	if o == nil {
+func (n *NumericFactCondition3) GetParams() *NumericFactConditionSchemasTrueParams {
+	if n == nil {
 		return nil
 	}
-	return o.Params
+	return n.Params
+}
+
+func (n *NumericFactCondition3) GetValue() float64 {
+	if n == nil {
+		return 0.0
+	}
+	return n.Value
 }
 
 // NumericFactConditionSchemasFact - Count of integer digits (excludes leading zeros unless allowed)
@@ -323,10 +323,10 @@ func (e *NumericFactConditionSchemasOperator) UnmarshalJSON(data []byte) error {
 
 // NumericFactConditionSchemasParams - Additional parameters for the condition
 type NumericFactConditionSchemasParams struct {
-	// Custom error message
-	ErrorMessage *string `json:"errorMessage,omitempty"`
 	// Whether to count leading zeroes in digit count
 	AllowLeadingZeroes *bool `default:"false" json:"allowLeadingZeroes"`
+	// Custom error message
+	ErrorMessage *string `json:"errorMessage,omitempty"`
 }
 
 func (n NumericFactConditionSchemasParams) MarshalJSON() ([]byte, error) {
@@ -340,18 +340,18 @@ func (n *NumericFactConditionSchemasParams) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *NumericFactConditionSchemasParams) GetErrorMessage() *string {
-	if o == nil {
+func (n *NumericFactConditionSchemasParams) GetAllowLeadingZeroes() *bool {
+	if n == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return n.AllowLeadingZeroes
 }
 
-func (o *NumericFactConditionSchemasParams) GetAllowLeadingZeroes() *bool {
-	if o == nil {
+func (n *NumericFactConditionSchemasParams) GetErrorMessage() *string {
+	if n == nil {
 		return nil
 	}
-	return o.AllowLeadingZeroes
+	return n.ErrorMessage
 }
 
 // NumericFactCondition2 - Integer digits count validation
@@ -360,10 +360,10 @@ type NumericFactCondition2 struct {
 	Fact NumericFactConditionSchemasFact `json:"fact"`
 	// Digit count comparison operator
 	Operator NumericFactConditionSchemasOperator `json:"operator"`
-	// Expected number of integer digits
-	Value float64 `json:"value"`
 	// Additional parameters for the condition
 	Params *NumericFactConditionSchemasParams `json:"params,omitempty"`
+	// Expected number of integer digits
+	Value float64 `json:"value"`
 }
 
 func (n NumericFactCondition2) MarshalJSON() ([]byte, error) {
@@ -371,38 +371,38 @@ func (n NumericFactCondition2) MarshalJSON() ([]byte, error) {
 }
 
 func (n *NumericFactCondition2) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &n, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &n, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *NumericFactCondition2) GetFact() NumericFactConditionSchemasFact {
-	if o == nil {
+func (n *NumericFactCondition2) GetFact() NumericFactConditionSchemasFact {
+	if n == nil {
 		return NumericFactConditionSchemasFact("")
 	}
-	return o.Fact
+	return n.Fact
 }
 
-func (o *NumericFactCondition2) GetOperator() NumericFactConditionSchemasOperator {
-	if o == nil {
+func (n *NumericFactCondition2) GetOperator() NumericFactConditionSchemasOperator {
+	if n == nil {
 		return NumericFactConditionSchemasOperator("")
 	}
-	return o.Operator
+	return n.Operator
 }
 
-func (o *NumericFactCondition2) GetValue() float64 {
-	if o == nil {
-		return 0.0
-	}
-	return o.Value
-}
-
-func (o *NumericFactCondition2) GetParams() *NumericFactConditionSchemasParams {
-	if o == nil {
+func (n *NumericFactCondition2) GetParams() *NumericFactConditionSchemasParams {
+	if n == nil {
 		return nil
 	}
-	return o.Params
+	return n.Params
+}
+
+func (n *NumericFactCondition2) GetValue() float64 {
+	if n == nil {
+		return 0.0
+	}
+	return n.Value
 }
 
 // NumericFactConditionFact - The numeric value extracted from input; The amount of digits
@@ -488,11 +488,11 @@ func (n *NumericFactConditionParams) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *NumericFactConditionParams) GetErrorMessage() *string {
-	if o == nil {
+func (n *NumericFactConditionParams) GetErrorMessage() *string {
+	if n == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return n.ErrorMessage
 }
 
 // NumericFactCondition1 - Numeric value comparison
@@ -501,10 +501,10 @@ type NumericFactCondition1 struct {
 	Fact NumericFactConditionFact `json:"fact"`
 	// Numeric comparison operator
 	Operator NumericFactConditionOperator `json:"operator"`
-	// Numeric value to compare against
-	Value float64 `json:"value"`
 	// Additional parameters for the condition
 	Params *NumericFactConditionParams `json:"params,omitempty"`
+	// Numeric value to compare against
+	Value float64 `json:"value"`
 }
 
 func (n NumericFactCondition1) MarshalJSON() ([]byte, error) {
@@ -512,38 +512,38 @@ func (n NumericFactCondition1) MarshalJSON() ([]byte, error) {
 }
 
 func (n *NumericFactCondition1) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &n, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &n, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *NumericFactCondition1) GetFact() NumericFactConditionFact {
-	if o == nil {
+func (n *NumericFactCondition1) GetFact() NumericFactConditionFact {
+	if n == nil {
 		return NumericFactConditionFact("")
 	}
-	return o.Fact
+	return n.Fact
 }
 
-func (o *NumericFactCondition1) GetOperator() NumericFactConditionOperator {
-	if o == nil {
+func (n *NumericFactCondition1) GetOperator() NumericFactConditionOperator {
+	if n == nil {
 		return NumericFactConditionOperator("")
 	}
-	return o.Operator
+	return n.Operator
 }
 
-func (o *NumericFactCondition1) GetValue() float64 {
-	if o == nil {
-		return 0.0
-	}
-	return o.Value
-}
-
-func (o *NumericFactCondition1) GetParams() *NumericFactConditionParams {
-	if o == nil {
+func (n *NumericFactCondition1) GetParams() *NumericFactConditionParams {
+	if n == nil {
 		return nil
 	}
-	return o.Params
+	return n.Params
+}
+
+func (n *NumericFactCondition1) GetValue() float64 {
+	if n == nil {
+		return 0.0
+	}
+	return n.Value
 }
 
 type NumericFactConditionType string
@@ -557,10 +557,10 @@ const (
 
 // NumericFactCondition - Fact-based condition for numeric validation
 type NumericFactCondition struct {
-	NumericFactCondition1 *NumericFactCondition1 `queryParam:"inline" name:"NumericFactCondition"`
-	NumericFactCondition2 *NumericFactCondition2 `queryParam:"inline" name:"NumericFactCondition"`
-	NumericFactCondition3 *NumericFactCondition3 `queryParam:"inline" name:"NumericFactCondition"`
-	NumericFactCondition4 *NumericFactCondition4 `queryParam:"inline" name:"NumericFactCondition"`
+	NumericFactCondition1 *NumericFactCondition1 `queryParam:"inline" union:"member"`
+	NumericFactCondition2 *NumericFactCondition2 `queryParam:"inline" union:"member"`
+	NumericFactCondition3 *NumericFactCondition3 `queryParam:"inline" union:"member"`
+	NumericFactCondition4 *NumericFactCondition4 `queryParam:"inline" union:"member"`
 
 	Type NumericFactConditionType
 }
@@ -603,31 +603,65 @@ func CreateNumericFactConditionNumericFactCondition4(numericFactCondition4 Numer
 
 func (u *NumericFactCondition) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var numericFactCondition1 NumericFactCondition1 = NumericFactCondition1{}
 	if err := utils.UnmarshalJSON(data, &numericFactCondition1, "", true, nil); err == nil {
-		u.NumericFactCondition1 = &numericFactCondition1
-		u.Type = NumericFactConditionTypeNumericFactCondition1
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericFactConditionTypeNumericFactCondition1,
+			Value: &numericFactCondition1,
+		})
 	}
 
 	var numericFactCondition2 NumericFactCondition2 = NumericFactCondition2{}
 	if err := utils.UnmarshalJSON(data, &numericFactCondition2, "", true, nil); err == nil {
-		u.NumericFactCondition2 = &numericFactCondition2
-		u.Type = NumericFactConditionTypeNumericFactCondition2
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericFactConditionTypeNumericFactCondition2,
+			Value: &numericFactCondition2,
+		})
 	}
 
 	var numericFactCondition3 NumericFactCondition3 = NumericFactCondition3{}
 	if err := utils.UnmarshalJSON(data, &numericFactCondition3, "", true, nil); err == nil {
-		u.NumericFactCondition3 = &numericFactCondition3
-		u.Type = NumericFactConditionTypeNumericFactCondition3
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericFactConditionTypeNumericFactCondition3,
+			Value: &numericFactCondition3,
+		})
 	}
 
 	var numericFactCondition4 NumericFactCondition4 = NumericFactCondition4{}
 	if err := utils.UnmarshalJSON(data, &numericFactCondition4, "", true, nil); err == nil {
-		u.NumericFactCondition4 = &numericFactCondition4
-		u.Type = NumericFactConditionTypeNumericFactCondition4
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  NumericFactConditionTypeNumericFactCondition4,
+			Value: &numericFactCondition4,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericFactCondition", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for NumericFactCondition", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(NumericFactConditionType)
+	switch best.Type {
+	case NumericFactConditionTypeNumericFactCondition1:
+		u.NumericFactCondition1 = best.Value.(*NumericFactCondition1)
+		return nil
+	case NumericFactConditionTypeNumericFactCondition2:
+		u.NumericFactCondition2 = best.Value.(*NumericFactCondition2)
+		return nil
+	case NumericFactConditionTypeNumericFactCondition3:
+		u.NumericFactCondition3 = best.Value.(*NumericFactCondition3)
+		return nil
+	case NumericFactConditionTypeNumericFactCondition4:
+		u.NumericFactCondition4 = best.Value.(*NumericFactCondition4)
 		return nil
 	}
 

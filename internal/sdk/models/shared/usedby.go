@@ -44,23 +44,23 @@ type UsedBy struct {
 	SourceID *string `json:"source_id,omitempty"`
 }
 
-func (o *UsedBy) GetType() UsedByType {
-	if o == nil {
+func (u *UsedBy) GetType() UsedByType {
+	if u == nil {
 		return UsedByType("")
 	}
-	return o.Type
+	return u.Type
 }
 
-func (o *UsedBy) GetSchemaSlug() *string {
-	if o == nil {
+func (u *UsedBy) GetSchemaSlug() *string {
+	if u == nil {
 		return nil
 	}
-	return o.SchemaSlug
+	return u.SchemaSlug
 }
 
-func (o *UsedBy) GetSourceID() *string {
-	if o == nil {
+func (u *UsedBy) GetSourceID() *string {
+	if u == nil {
 		return nil
 	}
-	return o.SourceID
+	return u.SourceID
 }

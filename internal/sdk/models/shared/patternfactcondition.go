@@ -62,12 +62,12 @@ func (e *PatternFactConditionSchemasTrue4Operator) UnmarshalJSON(data []byte) er
 
 // PatternFactConditionSchemasTrue4Params - Additional parameters for the condition
 type PatternFactConditionSchemasTrue4Params struct {
+	// To where to check
+	End *float64 `json:"end,omitempty"`
 	// Custom error message
 	ErrorMessage *string `json:"errorMessage,omitempty"`
 	// From where to check
 	Start *float64 `json:"start,omitempty"`
-	// To where to check
-	End *float64 `json:"end,omitempty"`
 }
 
 func (p PatternFactConditionSchemasTrue4Params) MarshalJSON() ([]byte, error) {
@@ -81,25 +81,25 @@ func (p *PatternFactConditionSchemasTrue4Params) UnmarshalJSON(data []byte) erro
 	return nil
 }
 
-func (o *PatternFactConditionSchemasTrue4Params) GetErrorMessage() *string {
-	if o == nil {
+func (p *PatternFactConditionSchemasTrue4Params) GetEnd() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return p.End
 }
 
-func (o *PatternFactConditionSchemasTrue4Params) GetStart() *float64 {
-	if o == nil {
+func (p *PatternFactConditionSchemasTrue4Params) GetErrorMessage() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Start
+	return p.ErrorMessage
 }
 
-func (o *PatternFactConditionSchemasTrue4Params) GetEnd() *float64 {
-	if o == nil {
+func (p *PatternFactConditionSchemasTrue4Params) GetStart() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.End
+	return p.Start
 }
 
 // Four - String-based condition
@@ -108,10 +108,10 @@ type Four struct {
 	Fact PatternFactConditionSchemasTrue4Fact `json:"fact"`
 	// String comparison operator
 	Operator PatternFactConditionSchemasTrue4Operator `json:"operator"`
-	// String value to compare against
-	Value string `json:"value"`
 	// Additional parameters for the condition
 	Params *PatternFactConditionSchemasTrue4Params `json:"params,omitempty"`
+	// String value to compare against
+	Value string `json:"value"`
 }
 
 func (f Four) MarshalJSON() ([]byte, error) {
@@ -119,38 +119,38 @@ func (f Four) MarshalJSON() ([]byte, error) {
 }
 
 func (f *Four) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &f, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &f, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *Four) GetFact() PatternFactConditionSchemasTrue4Fact {
-	if o == nil {
+func (f *Four) GetFact() PatternFactConditionSchemasTrue4Fact {
+	if f == nil {
 		return PatternFactConditionSchemasTrue4Fact("")
 	}
-	return o.Fact
+	return f.Fact
 }
 
-func (o *Four) GetOperator() PatternFactConditionSchemasTrue4Operator {
-	if o == nil {
+func (f *Four) GetOperator() PatternFactConditionSchemasTrue4Operator {
+	if f == nil {
 		return PatternFactConditionSchemasTrue4Operator("")
 	}
-	return o.Operator
+	return f.Operator
 }
 
-func (o *Four) GetValue() string {
-	if o == nil {
-		return ""
-	}
-	return o.Value
-}
-
-func (o *Four) GetParams() *PatternFactConditionSchemasTrue4Params {
-	if o == nil {
+func (f *Four) GetParams() *PatternFactConditionSchemasTrue4Params {
+	if f == nil {
 		return nil
 	}
-	return o.Params
+	return f.Params
+}
+
+func (f *Four) GetValue() string {
+	if f == nil {
+		return ""
+	}
+	return f.Value
 }
 
 // PatternFactConditionSchemasTrueFact - The name of the value to validate.
@@ -212,12 +212,12 @@ func (e *PatternFactConditionSchemasTrueOperator) UnmarshalJSON(data []byte) err
 
 // PatternFactConditionSchemasTrueParams - Additional parameters for the condition
 type PatternFactConditionSchemasTrueParams struct {
+	// To where to check
+	End *float64 `json:"end,omitempty"`
 	// Custom error message
 	ErrorMessage *string `json:"errorMessage,omitempty"`
 	// From where to check
 	Start *float64 `json:"start,omitempty"`
-	// To where to check
-	End *float64 `json:"end,omitempty"`
 }
 
 func (p PatternFactConditionSchemasTrueParams) MarshalJSON() ([]byte, error) {
@@ -231,25 +231,25 @@ func (p *PatternFactConditionSchemasTrueParams) UnmarshalJSON(data []byte) error
 	return nil
 }
 
-func (o *PatternFactConditionSchemasTrueParams) GetErrorMessage() *string {
-	if o == nil {
+func (p *PatternFactConditionSchemasTrueParams) GetEnd() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return p.End
 }
 
-func (o *PatternFactConditionSchemasTrueParams) GetStart() *float64 {
-	if o == nil {
+func (p *PatternFactConditionSchemasTrueParams) GetErrorMessage() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Start
+	return p.ErrorMessage
 }
 
-func (o *PatternFactConditionSchemasTrueParams) GetEnd() *float64 {
-	if o == nil {
+func (p *PatternFactConditionSchemasTrueParams) GetStart() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.End
+	return p.Start
 }
 
 // PatternFactCondition3 - Array-based condition (in, notIn, contains, doesNotContain)
@@ -258,10 +258,10 @@ type PatternFactCondition3 struct {
 	Fact PatternFactConditionSchemasTrueFact `json:"fact"`
 	// Array-based comparison operator
 	Operator PatternFactConditionSchemasTrueOperator `json:"operator"`
-	// Array of string values for array-based operators
-	Value []string `json:"value"`
 	// Additional parameters for the condition
 	Params *PatternFactConditionSchemasTrueParams `json:"params,omitempty"`
+	// Array of string values for array-based operators
+	Value []string `json:"value"`
 }
 
 func (p PatternFactCondition3) MarshalJSON() ([]byte, error) {
@@ -269,38 +269,38 @@ func (p PatternFactCondition3) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PatternFactCondition3) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *PatternFactCondition3) GetFact() PatternFactConditionSchemasTrueFact {
-	if o == nil {
+func (p *PatternFactCondition3) GetFact() PatternFactConditionSchemasTrueFact {
+	if p == nil {
 		return PatternFactConditionSchemasTrueFact("")
 	}
-	return o.Fact
+	return p.Fact
 }
 
-func (o *PatternFactCondition3) GetOperator() PatternFactConditionSchemasTrueOperator {
-	if o == nil {
+func (p *PatternFactCondition3) GetOperator() PatternFactConditionSchemasTrueOperator {
+	if p == nil {
 		return PatternFactConditionSchemasTrueOperator("")
 	}
-	return o.Operator
+	return p.Operator
 }
 
-func (o *PatternFactCondition3) GetValue() []string {
-	if o == nil {
-		return []string{}
-	}
-	return o.Value
-}
-
-func (o *PatternFactCondition3) GetParams() *PatternFactConditionSchemasTrueParams {
-	if o == nil {
+func (p *PatternFactCondition3) GetParams() *PatternFactConditionSchemasTrueParams {
+	if p == nil {
 		return nil
 	}
-	return o.Params
+	return p.Params
+}
+
+func (p *PatternFactCondition3) GetValue() []string {
+	if p == nil {
+		return []string{}
+	}
+	return p.Value
 }
 
 // PatternFactConditionSchemasFact - The name of the value to validate.
@@ -356,12 +356,12 @@ func (e *PatternFactConditionSchemasOperator) UnmarshalJSON(data []byte) error {
 
 // PatternFactConditionSchemasParams - Additional parameters for the condition
 type PatternFactConditionSchemasParams struct {
+	// To where to check
+	End *float64 `json:"end,omitempty"`
 	// Custom error message
 	ErrorMessage *string `json:"errorMessage,omitempty"`
 	// From where to check
 	Start *float64 `json:"start,omitempty"`
-	// To where to check
-	End *float64 `json:"end,omitempty"`
 }
 
 func (p PatternFactConditionSchemasParams) MarshalJSON() ([]byte, error) {
@@ -375,25 +375,25 @@ func (p *PatternFactConditionSchemasParams) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *PatternFactConditionSchemasParams) GetErrorMessage() *string {
-	if o == nil {
+func (p *PatternFactConditionSchemasParams) GetEnd() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return p.End
 }
 
-func (o *PatternFactConditionSchemasParams) GetStart() *float64 {
-	if o == nil {
+func (p *PatternFactConditionSchemasParams) GetErrorMessage() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Start
+	return p.ErrorMessage
 }
 
-func (o *PatternFactConditionSchemasParams) GetEnd() *float64 {
-	if o == nil {
+func (p *PatternFactConditionSchemasParams) GetStart() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.End
+	return p.Start
 }
 
 // PatternFactCondition2 - Exact digits condition
@@ -402,10 +402,10 @@ type PatternFactCondition2 struct {
 	Fact PatternFactConditionSchemasFact `json:"fact"`
 	// Exact digit count operator
 	Operator PatternFactConditionSchemasOperator `json:"operator"`
-	// Number of digits required
-	Value float64 `json:"value"`
 	// Additional parameters for the condition
 	Params *PatternFactConditionSchemasParams `json:"params,omitempty"`
+	// Number of digits required
+	Value float64 `json:"value"`
 }
 
 func (p PatternFactCondition2) MarshalJSON() ([]byte, error) {
@@ -413,38 +413,38 @@ func (p PatternFactCondition2) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PatternFactCondition2) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *PatternFactCondition2) GetFact() PatternFactConditionSchemasFact {
-	if o == nil {
+func (p *PatternFactCondition2) GetFact() PatternFactConditionSchemasFact {
+	if p == nil {
 		return PatternFactConditionSchemasFact("")
 	}
-	return o.Fact
+	return p.Fact
 }
 
-func (o *PatternFactCondition2) GetOperator() PatternFactConditionSchemasOperator {
-	if o == nil {
+func (p *PatternFactCondition2) GetOperator() PatternFactConditionSchemasOperator {
+	if p == nil {
 		return PatternFactConditionSchemasOperator("")
 	}
-	return o.Operator
+	return p.Operator
 }
 
-func (o *PatternFactCondition2) GetValue() float64 {
-	if o == nil {
-		return 0.0
-	}
-	return o.Value
-}
-
-func (o *PatternFactCondition2) GetParams() *PatternFactConditionSchemasParams {
-	if o == nil {
+func (p *PatternFactCondition2) GetParams() *PatternFactConditionSchemasParams {
+	if p == nil {
 		return nil
 	}
-	return o.Params
+	return p.Params
+}
+
+func (p *PatternFactCondition2) GetValue() float64 {
+	if p == nil {
+		return 0.0
+	}
+	return p.Value
 }
 
 // PatternFactConditionFact - The name of the value to validate.
@@ -512,12 +512,12 @@ func (e *PatternFactConditionOperator) UnmarshalJSON(data []byte) error {
 
 // PatternFactConditionParams - Additional parameters for the condition
 type PatternFactConditionParams struct {
+	// To where to check
+	End *float64 `json:"end,omitempty"`
 	// Custom error message
 	ErrorMessage *string `json:"errorMessage,omitempty"`
 	// From where to check
 	Start *float64 `json:"start,omitempty"`
-	// To where to check
-	End *float64 `json:"end,omitempty"`
 }
 
 func (p PatternFactConditionParams) MarshalJSON() ([]byte, error) {
@@ -531,25 +531,25 @@ func (p *PatternFactConditionParams) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *PatternFactConditionParams) GetErrorMessage() *string {
-	if o == nil {
+func (p *PatternFactConditionParams) GetEnd() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.ErrorMessage
+	return p.End
 }
 
-func (o *PatternFactConditionParams) GetStart() *float64 {
-	if o == nil {
+func (p *PatternFactConditionParams) GetErrorMessage() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Start
+	return p.ErrorMessage
 }
 
-func (o *PatternFactConditionParams) GetEnd() *float64 {
-	if o == nil {
+func (p *PatternFactConditionParams) GetStart() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.End
+	return p.Start
 }
 
 // PatternFactCondition1 - Numeric condition (total-length fact)
@@ -558,10 +558,10 @@ type PatternFactCondition1 struct {
 	Fact PatternFactConditionFact `json:"fact"`
 	// Numeric comparison operator
 	Operator PatternFactConditionOperator `json:"operator"`
-	// Numeric value to compare against
-	Value float64 `json:"value"`
 	// Additional parameters for the condition
 	Params *PatternFactConditionParams `json:"params,omitempty"`
+	// Numeric value to compare against
+	Value float64 `json:"value"`
 }
 
 func (p PatternFactCondition1) MarshalJSON() ([]byte, error) {
@@ -569,38 +569,38 @@ func (p PatternFactCondition1) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PatternFactCondition1) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"fact", "operator", "value"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *PatternFactCondition1) GetFact() PatternFactConditionFact {
-	if o == nil {
+func (p *PatternFactCondition1) GetFact() PatternFactConditionFact {
+	if p == nil {
 		return PatternFactConditionFact("")
 	}
-	return o.Fact
+	return p.Fact
 }
 
-func (o *PatternFactCondition1) GetOperator() PatternFactConditionOperator {
-	if o == nil {
+func (p *PatternFactCondition1) GetOperator() PatternFactConditionOperator {
+	if p == nil {
 		return PatternFactConditionOperator("")
 	}
-	return o.Operator
+	return p.Operator
 }
 
-func (o *PatternFactCondition1) GetValue() float64 {
-	if o == nil {
-		return 0.0
-	}
-	return o.Value
-}
-
-func (o *PatternFactCondition1) GetParams() *PatternFactConditionParams {
-	if o == nil {
+func (p *PatternFactCondition1) GetParams() *PatternFactConditionParams {
+	if p == nil {
 		return nil
 	}
-	return o.Params
+	return p.Params
+}
+
+func (p *PatternFactCondition1) GetValue() float64 {
+	if p == nil {
+		return 0.0
+	}
+	return p.Value
 }
 
 type PatternFactConditionType string
@@ -614,10 +614,10 @@ const (
 
 // PatternFactCondition - Fact-based condition for pattern validation
 type PatternFactCondition struct {
-	PatternFactCondition1 *PatternFactCondition1 `queryParam:"inline" name:"PatternFactCondition"`
-	PatternFactCondition2 *PatternFactCondition2 `queryParam:"inline" name:"PatternFactCondition"`
-	PatternFactCondition3 *PatternFactCondition3 `queryParam:"inline" name:"PatternFactCondition"`
-	Four                  *Four                  `queryParam:"inline" name:"PatternFactCondition"`
+	PatternFactCondition1 *PatternFactCondition1 `queryParam:"inline" union:"member"`
+	PatternFactCondition2 *PatternFactCondition2 `queryParam:"inline" union:"member"`
+	PatternFactCondition3 *PatternFactCondition3 `queryParam:"inline" union:"member"`
+	Four                  *Four                  `queryParam:"inline" union:"member"`
 
 	Type PatternFactConditionType
 }
@@ -660,31 +660,65 @@ func CreatePatternFactConditionFour(four Four) PatternFactCondition {
 
 func (u *PatternFactCondition) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var patternFactCondition1 PatternFactCondition1 = PatternFactCondition1{}
 	if err := utils.UnmarshalJSON(data, &patternFactCondition1, "", true, nil); err == nil {
-		u.PatternFactCondition1 = &patternFactCondition1
-		u.Type = PatternFactConditionTypePatternFactCondition1
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  PatternFactConditionTypePatternFactCondition1,
+			Value: &patternFactCondition1,
+		})
 	}
 
 	var patternFactCondition2 PatternFactCondition2 = PatternFactCondition2{}
 	if err := utils.UnmarshalJSON(data, &patternFactCondition2, "", true, nil); err == nil {
-		u.PatternFactCondition2 = &patternFactCondition2
-		u.Type = PatternFactConditionTypePatternFactCondition2
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  PatternFactConditionTypePatternFactCondition2,
+			Value: &patternFactCondition2,
+		})
 	}
 
 	var patternFactCondition3 PatternFactCondition3 = PatternFactCondition3{}
 	if err := utils.UnmarshalJSON(data, &patternFactCondition3, "", true, nil); err == nil {
-		u.PatternFactCondition3 = &patternFactCondition3
-		u.Type = PatternFactConditionTypePatternFactCondition3
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  PatternFactConditionTypePatternFactCondition3,
+			Value: &patternFactCondition3,
+		})
 	}
 
 	var four Four = Four{}
 	if err := utils.UnmarshalJSON(data, &four, "", true, nil); err == nil {
-		u.Four = &four
-		u.Type = PatternFactConditionTypeFour
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  PatternFactConditionTypeFour,
+			Value: &four,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for PatternFactCondition", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for PatternFactCondition", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(PatternFactConditionType)
+	switch best.Type {
+	case PatternFactConditionTypePatternFactCondition1:
+		u.PatternFactCondition1 = best.Value.(*PatternFactCondition1)
+		return nil
+	case PatternFactConditionTypePatternFactCondition2:
+		u.PatternFactCondition2 = best.Value.(*PatternFactCondition2)
+		return nil
+	case PatternFactConditionTypePatternFactCondition3:
+		u.PatternFactCondition3 = best.Value.(*PatternFactCondition3)
+		return nil
+	case PatternFactConditionTypeFour:
+		u.Four = best.Value.(*Four)
 		return nil
 	}
 

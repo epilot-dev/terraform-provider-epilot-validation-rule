@@ -18,17 +18,17 @@ func (p PatternNestedCondition3) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PatternNestedCondition3) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"not"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *PatternNestedCondition3) GetNot() PatternFactCondition {
-	if o == nil {
+func (p *PatternNestedCondition3) GetNot() PatternFactCondition {
+	if p == nil {
 		return PatternFactCondition{}
 	}
-	return o.Not
+	return p.Not
 }
 
 type PatternNestedCondition2 struct {
@@ -40,17 +40,17 @@ func (p PatternNestedCondition2) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PatternNestedCondition2) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"any"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *PatternNestedCondition2) GetAny() []PatternFactCondition {
-	if o == nil {
+func (p *PatternNestedCondition2) GetAny() []PatternFactCondition {
+	if p == nil {
 		return []PatternFactCondition{}
 	}
-	return o.Any
+	return p.Any
 }
 
 type PatternNestedCondition1 struct {
@@ -62,17 +62,17 @@ func (p PatternNestedCondition1) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PatternNestedCondition1) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"all"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *PatternNestedCondition1) GetAll() []PatternFactCondition {
-	if o == nil {
+func (p *PatternNestedCondition1) GetAll() []PatternFactCondition {
+	if p == nil {
 		return []PatternFactCondition{}
 	}
-	return o.All
+	return p.All
 }
 
 type PatternNestedConditionType string
@@ -85,9 +85,9 @@ const (
 
 // PatternNestedCondition - Nested condition with logical operators (level 2 only)
 type PatternNestedCondition struct {
-	PatternNestedCondition1 *PatternNestedCondition1 `queryParam:"inline" name:"PatternNestedCondition"`
-	PatternNestedCondition2 *PatternNestedCondition2 `queryParam:"inline" name:"PatternNestedCondition"`
-	PatternNestedCondition3 *PatternNestedCondition3 `queryParam:"inline" name:"PatternNestedCondition"`
+	PatternNestedCondition1 *PatternNestedCondition1 `queryParam:"inline" union:"member"`
+	PatternNestedCondition2 *PatternNestedCondition2 `queryParam:"inline" union:"member"`
+	PatternNestedCondition3 *PatternNestedCondition3 `queryParam:"inline" union:"member"`
 
 	Type PatternNestedConditionType
 }
@@ -121,24 +121,54 @@ func CreatePatternNestedConditionPatternNestedCondition3(patternNestedCondition3
 
 func (u *PatternNestedCondition) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var patternNestedCondition1 PatternNestedCondition1 = PatternNestedCondition1{}
 	if err := utils.UnmarshalJSON(data, &patternNestedCondition1, "", true, nil); err == nil {
-		u.PatternNestedCondition1 = &patternNestedCondition1
-		u.Type = PatternNestedConditionTypePatternNestedCondition1
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  PatternNestedConditionTypePatternNestedCondition1,
+			Value: &patternNestedCondition1,
+		})
 	}
 
 	var patternNestedCondition2 PatternNestedCondition2 = PatternNestedCondition2{}
 	if err := utils.UnmarshalJSON(data, &patternNestedCondition2, "", true, nil); err == nil {
-		u.PatternNestedCondition2 = &patternNestedCondition2
-		u.Type = PatternNestedConditionTypePatternNestedCondition2
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  PatternNestedConditionTypePatternNestedCondition2,
+			Value: &patternNestedCondition2,
+		})
 	}
 
 	var patternNestedCondition3 PatternNestedCondition3 = PatternNestedCondition3{}
 	if err := utils.UnmarshalJSON(data, &patternNestedCondition3, "", true, nil); err == nil {
-		u.PatternNestedCondition3 = &patternNestedCondition3
-		u.Type = PatternNestedConditionTypePatternNestedCondition3
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  PatternNestedConditionTypePatternNestedCondition3,
+			Value: &patternNestedCondition3,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for PatternNestedCondition", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for PatternNestedCondition", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(PatternNestedConditionType)
+	switch best.Type {
+	case PatternNestedConditionTypePatternNestedCondition1:
+		u.PatternNestedCondition1 = best.Value.(*PatternNestedCondition1)
+		return nil
+	case PatternNestedConditionTypePatternNestedCondition2:
+		u.PatternNestedCondition2 = best.Value.(*PatternNestedCondition2)
+		return nil
+	case PatternNestedConditionTypePatternNestedCondition3:
+		u.PatternNestedCondition3 = best.Value.(*PatternNestedCondition3)
 		return nil
 	}
 

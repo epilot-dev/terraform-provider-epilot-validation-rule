@@ -64,7 +64,7 @@ func (s *ValidationRules) GetValidationRules(ctx context.Context, opts ...operat
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "getValidationRules",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -305,7 +305,7 @@ func (s *ValidationRules) CreateValidationRule(ctx context.Context, request *sha
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "createValidationRule",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "Request", "json", `request:"mediaType=application/json"`)
@@ -511,7 +511,7 @@ func (s *ValidationRules) GetValidationRuleByID(ctx context.Context, request ope
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "getValidationRuleById",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -752,7 +752,7 @@ func (s *ValidationRules) UpdateValidationRule(ctx context.Context, request oper
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "updateValidationRule",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "RequestBody", "json", `request:"mediaType=application/json"`)
@@ -1000,7 +1000,7 @@ func (s *ValidationRules) DeleteValidationRule(ctx context.Context, request oper
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "deleteValidationRule",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -1156,6 +1156,7 @@ func (s *ValidationRules) DeleteValidationRule(ctx context.Context, request oper
 			}
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
+	case httpRes.StatusCode == 404:
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
@@ -1168,6 +1169,8 @@ func (s *ValidationRules) DeleteValidationRule(ctx context.Context, request oper
 
 }
 
+// AddUsedByReference - Add a reference to the used_by array
+// Adds a single reference to the used_by array of a validation rule
 func (s *ValidationRules) AddUsedByReference(ctx context.Context, request operations.AddUsedByReferenceRequest, opts ...operations.Option) (*operations.AddUsedByReferenceResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
@@ -1198,7 +1201,7 @@ func (s *ValidationRules) AddUsedByReference(ctx context.Context, request operat
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "addUsedByReference",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "UsedBy", "json", `request:"mediaType=application/json"`)
@@ -1435,6 +1438,8 @@ func (s *ValidationRules) AddUsedByReference(ctx context.Context, request operat
 
 }
 
+// RemoveUsedByReference - Remove a reference from the used_by array
+// Removes a specific reference from the used_by array of a validation rule
 func (s *ValidationRules) RemoveUsedByReference(ctx context.Context, request operations.RemoveUsedByReferenceRequest, opts ...operations.Option) (*operations.RemoveUsedByReferenceResponse, error) {
 	o := operations.Options{}
 	supportedOptions := []string{
@@ -1465,7 +1470,7 @@ func (s *ValidationRules) RemoveUsedByReference(ctx context.Context, request ope
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "removeUsedByReference",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "UsedBy", "json", `request:"mediaType=application/json"`)

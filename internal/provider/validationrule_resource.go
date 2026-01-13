@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-validation-rule/internal/planmodifiers/objectplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-validation-rule/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-validation-rule/internal/sdk"
 	speakeasy_boolvalidators "github.com/epilot-dev/terraform-provider-epilot-validation-rule/internal/validators/boolvalidators"
@@ -18,6 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -84,16 +86,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 				Required: true,
 				Attributes: map[string]schema.Attribute{
 					"numeric_rule_type": schema.SingleNestedAttribute{
-						Computed: true,
 						Optional: true,
+						PlanModifiers: []planmodifier.Object{
+							speakeasy_objectplanmodifier.UseConfigValue(),
+						},
 						Attributes: map[string]schema.Attribute{
 							"conditions": schema.SingleNestedAttribute{
 								Computed: true,
 								Optional: true,
 								Attributes: map[string]schema.Attribute{
 									"one": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"all": schema.ListNestedAttribute{
 												Computed: true,
@@ -104,12 +110,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"numeric_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"four": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -165,8 +175,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -227,8 +239,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -285,8 +299,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -358,12 +374,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"numeric_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
 																			Computed: true,
@@ -374,8 +394,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -431,8 +453,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -493,8 +517,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -551,8 +577,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -631,16 +659,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
 																			Computed: true,
 																			Optional: true,
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -696,8 +728,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -758,8 +792,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -816,8 +852,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -895,8 +933,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
 																			Computed: true,
@@ -907,8 +947,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -964,8 +1006,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -1026,8 +1070,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -1084,8 +1130,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -1188,20 +1236,26 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"three": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"not": schema.SingleNestedAttribute{
 												Computed: true,
 												Optional: true,
 												Attributes: map[string]schema.Attribute{
 													"numeric_fact_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
+														PlanModifiers: []planmodifier.Object{
+															speakeasy_objectplanmodifier.UseConfigValue(),
+														},
 														Attributes: map[string]schema.Attribute{
 															"four": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
 																		Computed:    true,
@@ -1257,8 +1311,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
 																		Computed:    true,
@@ -1319,8 +1375,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
 																		Computed:    true,
@@ -1377,8 +1435,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
 																		Computed:    true,
@@ -1450,12 +1510,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 														},
 													},
 													"numeric_nested_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
+														PlanModifiers: []planmodifier.Object{
+															speakeasy_objectplanmodifier.UseConfigValue(),
+														},
 														Attributes: map[string]schema.Attribute{
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"all": schema.ListNestedAttribute{
 																		Computed: true,
@@ -1466,8 +1530,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			},
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -1523,8 +1589,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -1585,8 +1653,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -1643,8 +1713,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -1723,16 +1795,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"not": schema.SingleNestedAttribute{
 																		Computed: true,
 																		Optional: true,
 																		Attributes: map[string]schema.Attribute{
 																			"four": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
+																				PlanModifiers: []planmodifier.Object{
+																					speakeasy_objectplanmodifier.UseConfigValue(),
+																				},
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
 																						Computed:    true,
@@ -1788,8 +1864,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"one": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
+																				PlanModifiers: []planmodifier.Object{
+																					speakeasy_objectplanmodifier.UseConfigValue(),
+																				},
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
 																						Computed:    true,
@@ -1850,8 +1928,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"three": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
+																				PlanModifiers: []planmodifier.Object{
+																					speakeasy_objectplanmodifier.UseConfigValue(),
+																				},
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
 																						Computed:    true,
@@ -1908,8 +1988,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"two": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
+																				PlanModifiers: []planmodifier.Object{
+																					speakeasy_objectplanmodifier.UseConfigValue(),
+																				},
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
 																						Computed:    true,
@@ -1987,8 +2069,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"any": schema.ListNestedAttribute{
 																		Computed: true,
@@ -1999,8 +2083,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			},
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -2056,8 +2142,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -2118,8 +2206,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -2176,8 +2266,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -2279,8 +2371,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"two": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"any": schema.ListNestedAttribute{
 												Computed: true,
@@ -2291,12 +2385,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"numeric_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"four": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -2352,8 +2450,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -2414,8 +2514,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -2472,8 +2574,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -2545,12 +2649,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"numeric_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
 																			Computed: true,
@@ -2561,8 +2669,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -2618,8 +2728,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -2680,8 +2792,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -2738,8 +2852,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -2818,16 +2934,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
 																			Computed: true,
 																			Optional: true,
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -2883,8 +3003,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -2945,8 +3067,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -3003,8 +3127,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -3082,8 +3208,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
 																			Computed: true,
@@ -3094,8 +3222,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -3151,8 +3281,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -3213,8 +3345,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -3271,8 +3405,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -3399,16 +3535,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 						},
 					},
 					"pattern_rule_type": schema.SingleNestedAttribute{
-						Computed: true,
 						Optional: true,
+						PlanModifiers: []planmodifier.Object{
+							speakeasy_objectplanmodifier.UseConfigValue(),
+						},
 						Attributes: map[string]schema.Attribute{
 							"conditions": schema.SingleNestedAttribute{
 								Computed: true,
 								Optional: true,
 								Attributes: map[string]schema.Attribute{
 									"one": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"all": schema.ListNestedAttribute{
 												Computed: true,
@@ -3419,12 +3559,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"pattern_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"four": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -3490,8 +3634,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -3561,8 +3707,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -3631,8 +3779,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -3706,12 +3856,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"pattern_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
 																			Computed: true,
@@ -3722,8 +3876,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -3789,8 +3945,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -3860,8 +4018,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -3930,8 +4090,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -4012,16 +4174,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
 																			Computed: true,
 																			Optional: true,
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -4087,8 +4253,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -4158,8 +4326,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -4228,8 +4398,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -4309,8 +4481,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
 																			Computed: true,
@@ -4321,8 +4495,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -4388,8 +4564,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -4459,8 +4637,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -4529,8 +4709,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -4635,20 +4817,26 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"three": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"not": schema.SingleNestedAttribute{
 												Computed: true,
 												Optional: true,
 												Attributes: map[string]schema.Attribute{
 													"pattern_fact_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
+														PlanModifiers: []planmodifier.Object{
+															speakeasy_objectplanmodifier.UseConfigValue(),
+														},
 														Attributes: map[string]schema.Attribute{
 															"four": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
 																		Computed:    true,
@@ -4714,8 +4902,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
 																		Computed:    true,
@@ -4785,8 +4975,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
 																		Computed:    true,
@@ -4855,8 +5047,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
 																		Computed:    true,
@@ -4930,12 +5124,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 														},
 													},
 													"pattern_nested_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
+														PlanModifiers: []planmodifier.Object{
+															speakeasy_objectplanmodifier.UseConfigValue(),
+														},
 														Attributes: map[string]schema.Attribute{
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"all": schema.ListNestedAttribute{
 																		Computed: true,
@@ -4946,8 +5144,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			},
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -5013,8 +5213,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -5084,8 +5286,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -5154,8 +5358,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -5236,16 +5442,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"not": schema.SingleNestedAttribute{
 																		Computed: true,
 																		Optional: true,
 																		Attributes: map[string]schema.Attribute{
 																			"four": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
+																				PlanModifiers: []planmodifier.Object{
+																					speakeasy_objectplanmodifier.UseConfigValue(),
+																				},
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
 																						Computed:    true,
@@ -5311,8 +5521,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"one": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
+																				PlanModifiers: []planmodifier.Object{
+																					speakeasy_objectplanmodifier.UseConfigValue(),
+																				},
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
 																						Computed:    true,
@@ -5382,8 +5594,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"three": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
+																				PlanModifiers: []planmodifier.Object{
+																					speakeasy_objectplanmodifier.UseConfigValue(),
+																				},
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
 																						Computed:    true,
@@ -5452,8 +5666,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"two": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
+																				PlanModifiers: []planmodifier.Object{
+																					speakeasy_objectplanmodifier.UseConfigValue(),
+																				},
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
 																						Computed:    true,
@@ -5533,8 +5749,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"any": schema.ListNestedAttribute{
 																		Computed: true,
@@ -5545,8 +5763,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			},
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -5612,8 +5832,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -5683,8 +5905,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -5753,8 +5977,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -5858,8 +6084,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"two": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"any": schema.ListNestedAttribute{
 												Computed: true,
@@ -5870,12 +6098,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"pattern_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"four": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -5941,8 +6173,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -6012,8 +6246,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -6082,8 +6318,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
 																			Computed:    true,
@@ -6157,12 +6395,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"pattern_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
 																			Computed: true,
@@ -6173,8 +6415,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -6240,8 +6484,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -6311,8 +6557,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -6381,8 +6629,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -6463,16 +6713,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
 																			Computed: true,
 																			Optional: true,
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -6538,8 +6792,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -6609,8 +6865,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -6679,8 +6937,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
+																					PlanModifiers: []planmodifier.Object{
+																						speakeasy_objectplanmodifier.UseConfigValue(),
+																					},
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
 																							Computed:    true,
@@ -6760,8 +7020,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
 																			Computed: true,
@@ -6772,8 +7034,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -6839,8 +7103,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -6910,8 +7176,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -6980,8 +7248,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
+																						PlanModifiers: []planmodifier.Object{
+																							speakeasy_objectplanmodifier.UseConfigValue(),
+																						},
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
 																								Computed:    true,
@@ -7110,16 +7380,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 						},
 					},
 					"regex_rule_type": schema.SingleNestedAttribute{
-						Computed: true,
 						Optional: true,
+						PlanModifiers: []planmodifier.Object{
+							speakeasy_objectplanmodifier.UseConfigValue(),
+						},
 						Attributes: map[string]schema.Attribute{
 							"conditions": schema.SingleNestedAttribute{
 								Computed: true,
 								Optional: true,
 								Attributes: map[string]schema.Attribute{
 									"one": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"all": schema.ListNestedAttribute{
 												Computed: true,
@@ -7130,8 +7404,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"regex_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"fact": schema.StringAttribute{
 																	Computed:    true,
@@ -7184,12 +7460,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"regex_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
 																			Computed: true,
@@ -7257,8 +7537,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
 																			Computed: true,
@@ -7321,8 +7603,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
 																			Computed: true,
@@ -7414,16 +7698,20 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"three": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"not": schema.SingleNestedAttribute{
 												Computed: true,
 												Optional: true,
 												Attributes: map[string]schema.Attribute{
 													"regex_fact_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
+														PlanModifiers: []planmodifier.Object{
+															speakeasy_objectplanmodifier.UseConfigValue(),
+														},
 														Attributes: map[string]schema.Attribute{
 															"fact": schema.StringAttribute{
 																Computed:    true,
@@ -7476,12 +7764,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 														},
 													},
 													"regex_nested_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
+														PlanModifiers: []planmodifier.Object{
+															speakeasy_objectplanmodifier.UseConfigValue(),
+														},
 														Attributes: map[string]schema.Attribute{
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"all": schema.ListNestedAttribute{
 																		Computed: true,
@@ -7549,8 +7841,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"not": schema.SingleNestedAttribute{
 																		Computed: true,
@@ -7613,8 +7907,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
+																PlanModifiers: []planmodifier.Object{
+																	speakeasy_objectplanmodifier.UseConfigValue(),
+																},
 																Attributes: map[string]schema.Attribute{
 																	"any": schema.ListNestedAttribute{
 																		Computed: true,
@@ -7705,8 +8001,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"two": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
+										PlanModifiers: []planmodifier.Object{
+											speakeasy_objectplanmodifier.UseConfigValue(),
+										},
 										Attributes: map[string]schema.Attribute{
 											"any": schema.ListNestedAttribute{
 												Computed: true,
@@ -7717,8 +8015,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"regex_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"fact": schema.StringAttribute{
 																	Computed:    true,
@@ -7771,12 +8071,16 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"regex_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
+															PlanModifiers: []planmodifier.Object{
+																speakeasy_objectplanmodifier.UseConfigValue(),
+															},
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
 																			Computed: true,
@@ -7844,8 +8148,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
 																			Computed: true,
@@ -7908,8 +8214,10 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
+																	PlanModifiers: []planmodifier.Object{
+																		speakeasy_objectplanmodifier.UseConfigValue(),
+																	},
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
 																			Computed: true,
@@ -8276,7 +8584,10 @@ func (r *ValidationRuleResource) Delete(ctx context.Context, req resource.Delete
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
-	if res.StatusCode != 204 {
+	switch res.StatusCode {
+	case 204, 404:
+		break
+	default:
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
