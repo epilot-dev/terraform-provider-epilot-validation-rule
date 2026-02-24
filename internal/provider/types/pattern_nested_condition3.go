@@ -3,5 +3,5 @@
 package types
 
 type PatternNestedCondition3 struct {
-	Not PatternFactCondition `tfsdk:"not"`
+	Not *PatternFactCondition `tfsdk:"not"`
 }

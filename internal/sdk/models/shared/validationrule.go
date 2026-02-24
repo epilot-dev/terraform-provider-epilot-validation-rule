@@ -17,9 +17,9 @@ const (
 )
 
 type Rule struct {
-	RegexRuleType   *RegexRuleType   `queryParam:"inline" name:"rule"`
-	PatternRuleType *PatternRuleType `queryParam:"inline" name:"rule"`
-	NumericRuleType *NumericRuleType `queryParam:"inline" name:"rule"`
+	RegexRuleType   *RegexRuleType   `queryParam:"inline" union:"member"`
+	PatternRuleType *PatternRuleType `queryParam:"inline" union:"member"`
+	NumericRuleType *NumericRuleType `queryParam:"inline" union:"member"`
 
 	Type RuleType
 }
@@ -53,24 +53,54 @@ func CreateRuleNumericRuleType(numericRuleType NumericRuleType) Rule {
 
 func (u *Rule) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var regexRuleType RegexRuleType = RegexRuleType{}
 	if err := utils.UnmarshalJSON(data, &regexRuleType, "", true, nil); err == nil {
-		u.RegexRuleType = &regexRuleType
-		u.Type = RuleTypeRegexRuleType
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  RuleTypeRegexRuleType,
+			Value: &regexRuleType,
+		})
 	}
 
 	var patternRuleType PatternRuleType = PatternRuleType{}
 	if err := utils.UnmarshalJSON(data, &patternRuleType, "", true, nil); err == nil {
-		u.PatternRuleType = &patternRuleType
-		u.Type = RuleTypePatternRuleType
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  RuleTypePatternRuleType,
+			Value: &patternRuleType,
+		})
 	}
 
 	var numericRuleType NumericRuleType = NumericRuleType{}
 	if err := utils.UnmarshalJSON(data, &numericRuleType, "", true, nil); err == nil {
-		u.NumericRuleType = &numericRuleType
-		u.Type = RuleTypeNumericRuleType
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  RuleTypeNumericRuleType,
+			Value: &numericRuleType,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for Rule", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for Rule", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(RuleType)
+	switch best.Type {
+	case RuleTypeRegexRuleType:
+		u.RegexRuleType = best.Value.(*RegexRuleType)
+		return nil
+	case RuleTypePatternRuleType:
+		u.PatternRuleType = best.Value.(*PatternRuleType)
+		return nil
+	case RuleTypeNumericRuleType:
+		u.NumericRuleType = best.Value.(*NumericRuleType)
 		return nil
 	}
 
@@ -116,72 +146,72 @@ type ValidationRule struct {
 	UpdatedBy string `json:"updated_by"`
 }
 
-func (o *ValidationRule) GetTitle() string {
-	if o == nil {
+func (v *ValidationRule) GetTitle() string {
+	if v == nil {
 		return ""
 	}
-	return o.Title
+	return v.Title
 }
 
-func (o *ValidationRule) GetPlaceholder() *string {
-	if o == nil {
+func (v *ValidationRule) GetPlaceholder() *string {
+	if v == nil {
 		return nil
 	}
-	return o.Placeholder
+	return v.Placeholder
 }
 
-func (o *ValidationRule) GetRule() *Rule {
-	if o == nil {
+func (v *ValidationRule) GetRule() *Rule {
+	if v == nil {
 		return nil
 	}
-	return o.Rule
+	return v.Rule
 }
 
-func (o *ValidationRule) GetSchemaVersion() string {
-	if o == nil {
+func (v *ValidationRule) GetSchemaVersion() string {
+	if v == nil {
 		return ""
 	}
-	return o.SchemaVersion
+	return v.SchemaVersion
 }
 
-func (o *ValidationRule) GetID() string {
-	if o == nil {
+func (v *ValidationRule) GetID() string {
+	if v == nil {
 		return ""
 	}
-	return o.ID
+	return v.ID
 }
 
-func (o *ValidationRule) GetOrganizationID() string {
-	if o == nil {
+func (v *ValidationRule) GetOrganizationID() string {
+	if v == nil {
 		return ""
 	}
-	return o.OrganizationID
+	return v.OrganizationID
 }
 
-func (o *ValidationRule) GetCreatedAt() string {
-	if o == nil {
+func (v *ValidationRule) GetCreatedAt() string {
+	if v == nil {
 		return ""
 	}
-	return o.CreatedAt
+	return v.CreatedAt
 }
 
-func (o *ValidationRule) GetUpdatedAt() string {
-	if o == nil {
+func (v *ValidationRule) GetUpdatedAt() string {
+	if v == nil {
 		return ""
 	}
-	return o.UpdatedAt
+	return v.UpdatedAt
 }
 
-func (o *ValidationRule) GetCreatedBy() string {
-	if o == nil {
+func (v *ValidationRule) GetCreatedBy() string {
+	if v == nil {
 		return ""
 	}
-	return o.CreatedBy
+	return v.CreatedBy
 }
 
-func (o *ValidationRule) GetUpdatedBy() string {
-	if o == nil {
+func (v *ValidationRule) GetUpdatedBy() string {
+	if v == nil {
 		return ""
 	}
-	return o.UpdatedBy
+	return v.UpdatedBy
 }

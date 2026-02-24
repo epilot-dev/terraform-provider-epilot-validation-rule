@@ -48,13 +48,14 @@ terraform {
   required_providers {
     epilot-validation-rule = {
       source  = "epilot-dev/epilot-validation-rule"
-      version = "0.18.5"
+      version = "0.19.0"
     }
   }
 }
 
 provider "epilot-validation-rule" {
-  # Configuration options
+  epilot_auth = "<YOUR_EPILOT_AUTH>" # Required
+  server_url = "..." # Optional
 }
 ```
 <!-- End Installation [installation] -->
@@ -74,9 +75,10 @@ Available configuration:
 <!-- Start Available Resources and Data Sources [operations] -->
 ## Available Resources and Data Sources
 
-### Resources
+### Managed Resources
 
 * [epilot-validation-rule_validation_rule](docs/resources/validation_rule.md)
+
 ### Data Sources
 
 * [epilot-validation-rule_validation_rule](docs/data-sources/validation_rule.md)

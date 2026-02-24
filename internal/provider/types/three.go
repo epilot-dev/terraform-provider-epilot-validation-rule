@@ -3,5 +3,5 @@
 package types
 
 type Three struct {
-	Not RegexFactCondition `tfsdk:"not"`
+	Not *RegexFactCondition `tfsdk:"not"`
 }

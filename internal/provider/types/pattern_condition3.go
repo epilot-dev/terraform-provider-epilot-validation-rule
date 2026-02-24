@@ -3,5 +3,5 @@
 package types
 
 type PatternCondition3 struct {
-	Not PatternConditionAll `tfsdk:"not"`
+	Not *PatternConditionAll `tfsdk:"not"`
 }

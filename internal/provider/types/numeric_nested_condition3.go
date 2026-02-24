@@ -3,5 +3,5 @@
 package types
 
 type NumericNestedCondition3 struct {
-	Not NumericFactCondition `tfsdk:"not"`
+	Not *NumericFactCondition `tfsdk:"not"`
 }

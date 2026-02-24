@@ -12,11 +12,11 @@ type GetValidationRulesValidationRulesResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *GetValidationRulesValidationRulesResponseBody) GetMessage() *string {
-	if o == nil {
+func (g *GetValidationRulesValidationRulesResponseBody) GetMessage() *string {
+	if g == nil {
 		return nil
 	}
-	return o.Message
+	return g.Message
 }
 
 // GetValidationRulesResponseBody - Bad Request - Invalid request body
@@ -24,11 +24,11 @@ type GetValidationRulesResponseBody struct {
 	Message *string `json:"message,omitempty"`
 }
 
-func (o *GetValidationRulesResponseBody) GetMessage() *string {
-	if o == nil {
+func (g *GetValidationRulesResponseBody) GetMessage() *string {
+	if g == nil {
 		return nil
 	}
-	return o.Message
+	return g.Message
 }
 
 type GetValidationRulesResponse struct {
@@ -46,44 +46,44 @@ type GetValidationRulesResponse struct {
 	FiveHundredApplicationJSONObject *GetValidationRulesValidationRulesResponseBody
 }
 
-func (o *GetValidationRulesResponse) GetContentType() string {
-	if o == nil {
+func (g *GetValidationRulesResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetValidationRulesResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetValidationRulesResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetValidationRulesResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetValidationRulesResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
 
-func (o *GetValidationRulesResponse) GetGetValidationRulesResponse() *shared.GetValidationRulesResponse {
-	if o == nil {
+func (g *GetValidationRulesResponse) GetGetValidationRulesResponse() *shared.GetValidationRulesResponse {
+	if g == nil {
 		return nil
 	}
-	return o.GetValidationRulesResponse
+	return g.GetValidationRulesResponse
 }
 
-func (o *GetValidationRulesResponse) GetFourHundredApplicationJSONObject() *GetValidationRulesResponseBody {
-	if o == nil {
+func (g *GetValidationRulesResponse) GetFourHundredApplicationJSONObject() *GetValidationRulesResponseBody {
+	if g == nil {
 		return nil
 	}
-	return o.FourHundredApplicationJSONObject
+	return g.FourHundredApplicationJSONObject
 }
 
-func (o *GetValidationRulesResponse) GetFiveHundredApplicationJSONObject() *GetValidationRulesValidationRulesResponseBody {
-	if o == nil {
+func (g *GetValidationRulesResponse) GetFiveHundredApplicationJSONObject() *GetValidationRulesValidationRulesResponseBody {
+	if g == nil {
 		return nil
 	}
-	return o.FiveHundredApplicationJSONObject
+	return g.FiveHundredApplicationJSONObject
 }

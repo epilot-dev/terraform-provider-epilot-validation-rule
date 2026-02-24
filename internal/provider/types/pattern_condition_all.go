@@ -3,6 +3,6 @@
 package types
 
 type PatternConditionAll struct {
-	PatternFactCondition   *PatternFactCondition   `queryParam:"inline" tfsdk:"pattern_fact_condition" tfPlanOnly:"true"`
-	PatternNestedCondition *PatternNestedCondition `queryParam:"inline" tfsdk:"pattern_nested_condition" tfPlanOnly:"true"`
+	PatternFactCondition   *PatternFactCondition   `queryParam:"inline" tfsdk:"pattern_fact_condition"`
+	PatternNestedCondition *PatternNestedCondition `queryParam:"inline" tfsdk:"pattern_nested_condition"`
 }

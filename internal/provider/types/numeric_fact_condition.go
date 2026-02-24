@@ -3,8 +3,8 @@
 package types
 
 type NumericFactCondition struct {
-	One   *NumericFactCondition1 `queryParam:"inline" tfsdk:"one" tfPlanOnly:"true"`
-	Two   *NumericFactCondition2 `queryParam:"inline" tfsdk:"two" tfPlanOnly:"true"`
-	Three *NumericFactCondition1 `queryParam:"inline" tfsdk:"three" tfPlanOnly:"true"`
-	Four  *NumericFactCondition4 `queryParam:"inline" tfsdk:"four" tfPlanOnly:"true"`
+	One   *NumericFactCondition1 `queryParam:"inline" tfsdk:"one"`
+	Two   *NumericFactCondition2 `queryParam:"inline" tfsdk:"two"`
+	Three *NumericFactCondition1 `queryParam:"inline" tfsdk:"three"`
+	Four  *NumericFactCondition4 `queryParam:"inline" tfsdk:"four"`
 }

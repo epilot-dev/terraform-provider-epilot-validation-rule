@@ -3,5 +3,5 @@
 package types
 
 type NumericCondition3 struct {
-	Not NumericConditionAll `tfsdk:"not"`
+	Not *NumericConditionAll `tfsdk:"not"`
 }

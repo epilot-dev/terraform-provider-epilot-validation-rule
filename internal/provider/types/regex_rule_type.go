@@ -7,6 +7,6 @@ import (
 )
 
 type RegexRuleType struct {
-	Conditions RegexCondition `tfsdk:"conditions"`
-	Type       types.String   `tfsdk:"type"`
+	Conditions *RegexCondition `tfsdk:"conditions"`
+	Type       types.String    `tfsdk:"type"`
 }

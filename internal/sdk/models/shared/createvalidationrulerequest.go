@@ -17,9 +17,9 @@ const (
 )
 
 type CreateValidationRuleRequestRule struct {
-	RegexRuleType   *RegexRuleType   `queryParam:"inline" name:"rule"`
-	PatternRuleType *PatternRuleType `queryParam:"inline" name:"rule"`
-	NumericRuleType *NumericRuleType `queryParam:"inline" name:"rule"`
+	RegexRuleType   *RegexRuleType   `queryParam:"inline" union:"member"`
+	PatternRuleType *PatternRuleType `queryParam:"inline" union:"member"`
+	NumericRuleType *NumericRuleType `queryParam:"inline" union:"member"`
 
 	Type CreateValidationRuleRequestRuleType
 }
@@ -53,24 +53,54 @@ func CreateCreateValidationRuleRequestRuleNumericRuleType(numericRuleType Numeri
 
 func (u *CreateValidationRuleRequestRule) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var regexRuleType RegexRuleType = RegexRuleType{}
 	if err := utils.UnmarshalJSON(data, &regexRuleType, "", true, nil); err == nil {
-		u.RegexRuleType = &regexRuleType
-		u.Type = CreateValidationRuleRequestRuleTypeRegexRuleType
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  CreateValidationRuleRequestRuleTypeRegexRuleType,
+			Value: &regexRuleType,
+		})
 	}
 
 	var patternRuleType PatternRuleType = PatternRuleType{}
 	if err := utils.UnmarshalJSON(data, &patternRuleType, "", true, nil); err == nil {
-		u.PatternRuleType = &patternRuleType
-		u.Type = CreateValidationRuleRequestRuleTypePatternRuleType
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  CreateValidationRuleRequestRuleTypePatternRuleType,
+			Value: &patternRuleType,
+		})
 	}
 
 	var numericRuleType NumericRuleType = NumericRuleType{}
 	if err := utils.UnmarshalJSON(data, &numericRuleType, "", true, nil); err == nil {
-		u.NumericRuleType = &numericRuleType
-		u.Type = CreateValidationRuleRequestRuleTypeNumericRuleType
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  CreateValidationRuleRequestRuleTypeNumericRuleType,
+			Value: &numericRuleType,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for CreateValidationRuleRequestRule", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for CreateValidationRuleRequestRule", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(CreateValidationRuleRequestRuleType)
+	switch best.Type {
+	case CreateValidationRuleRequestRuleTypeRegexRuleType:
+		u.RegexRuleType = best.Value.(*RegexRuleType)
+		return nil
+	case CreateValidationRuleRequestRuleTypePatternRuleType:
+		u.PatternRuleType = best.Value.(*PatternRuleType)
+		return nil
+	case CreateValidationRuleRequestRuleTypeNumericRuleType:
+		u.NumericRuleType = best.Value.(*NumericRuleType)
 		return nil
 	}
 
@@ -101,23 +131,23 @@ type CreateValidationRuleRequest struct {
 	Rule        CreateValidationRuleRequestRule `json:"rule"`
 }
 
-func (o *CreateValidationRuleRequest) GetTitle() string {
-	if o == nil {
+func (c *CreateValidationRuleRequest) GetTitle() string {
+	if c == nil {
 		return ""
 	}
-	return o.Title
+	return c.Title
 }
 
-func (o *CreateValidationRuleRequest) GetPlaceholder() *string {
-	if o == nil {
+func (c *CreateValidationRuleRequest) GetPlaceholder() *string {
+	if c == nil {
 		return nil
 	}
-	return o.Placeholder
+	return c.Placeholder
 }
 
-func (o *CreateValidationRuleRequest) GetRule() CreateValidationRuleRequestRule {
-	if o == nil {
+func (c *CreateValidationRuleRequest) GetRule() CreateValidationRuleRequestRule {
+	if c == nil {
 		return CreateValidationRuleRequestRule{}
 	}
-	return o.Rule
+	return c.Rule
 }

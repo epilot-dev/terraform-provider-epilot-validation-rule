@@ -7,6 +7,6 @@ import (
 )
 
 type PatternRuleType struct {
-	Conditions PatternCondition `tfsdk:"conditions"`
-	Type       types.String     `tfsdk:"type"`
+	Conditions *PatternCondition `tfsdk:"conditions"`
+	Type       types.String      `tfsdk:"type"`
 }

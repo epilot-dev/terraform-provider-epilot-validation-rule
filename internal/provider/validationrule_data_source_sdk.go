@@ -25,6 +25,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 			r.Rule = &tfTypes.CreateValidationRuleRequestRule{}
 			if resp.Rule.NumericRuleType != nil {
 				r.Rule.NumericRuleType = &tfTypes.NumericRuleType{}
+				if r.Rule.NumericRuleType.Conditions == nil {
+					r.Rule.NumericRuleType.Conditions = &tfTypes.NumericCondition{}
+				}
 				if resp.Rule.NumericRuleType.Conditions.NumericCondition1 != nil {
 					r.Rule.NumericRuleType.Conditions.One = &tfTypes.NumericCondition1{}
 					r.Rule.NumericRuleType.Conditions.One.All = []tfTypes.NumericConditionAll{}
@@ -34,6 +37,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 
 						if allItem.NumericFactCondition != nil {
 							all.NumericFactCondition = &tfTypes.NumericFactCondition{}
+							if all.NumericFactCondition == nil {
+								all.NumericFactCondition = &tfTypes.NumericFactCondition{}
+							}
 							if allItem.NumericFactCondition.NumericFactCondition1 != nil {
 								all.NumericFactCondition.One = &tfTypes.NumericFactCondition1{}
 								all.NumericFactCondition.One.Fact = types.StringValue(string(allItem.NumericFactCondition.NumericFactCondition1.Fact))
@@ -86,6 +92,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if allItem.NumericNestedCondition != nil {
 							all.NumericNestedCondition = &tfTypes.NumericNestedCondition{}
+							if all.NumericNestedCondition == nil {
+								all.NumericNestedCondition = &tfTypes.NumericNestedCondition{}
+							}
 							if allItem.NumericNestedCondition.NumericNestedCondition1 != nil {
 								all.NumericNestedCondition.One = &tfTypes.NumericNestedCondition1{}
 								all.NumericNestedCondition.One.All = []tfTypes.NumericFactCondition{}
@@ -208,6 +217,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 							}
 							if allItem.NumericNestedCondition.NumericNestedCondition3 != nil {
 								all.NumericNestedCondition.Three = &tfTypes.NumericNestedCondition3{}
+								if all.NumericNestedCondition.Three.Not == nil {
+									all.NumericNestedCondition.Three.Not = &tfTypes.NumericFactCondition{}
+								}
 								if allItem.NumericNestedCondition.NumericNestedCondition3.Not.NumericFactCondition1 != nil {
 									all.NumericNestedCondition.Three.Not.One = &tfTypes.NumericFactCondition1{}
 									all.NumericNestedCondition.Three.Not.One.Fact = types.StringValue(string(allItem.NumericNestedCondition.NumericNestedCondition3.Not.NumericFactCondition1.Fact))
@@ -272,6 +284,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 
 						if anyVarItem1.NumericFactCondition != nil {
 							anyVar1.NumericFactCondition = &tfTypes.NumericFactCondition{}
+							if anyVar1.NumericFactCondition == nil {
+								anyVar1.NumericFactCondition = &tfTypes.NumericFactCondition{}
+							}
 							if anyVarItem1.NumericFactCondition.NumericFactCondition1 != nil {
 								anyVar1.NumericFactCondition.One = &tfTypes.NumericFactCondition1{}
 								anyVar1.NumericFactCondition.One.Fact = types.StringValue(string(anyVarItem1.NumericFactCondition.NumericFactCondition1.Fact))
@@ -324,6 +339,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if anyVarItem1.NumericNestedCondition != nil {
 							anyVar1.NumericNestedCondition = &tfTypes.NumericNestedCondition{}
+							if anyVar1.NumericNestedCondition == nil {
+								anyVar1.NumericNestedCondition = &tfTypes.NumericNestedCondition{}
+							}
 							if anyVarItem1.NumericNestedCondition.NumericNestedCondition1 != nil {
 								anyVar1.NumericNestedCondition.One = &tfTypes.NumericNestedCondition1{}
 								anyVar1.NumericNestedCondition.One.All = []tfTypes.NumericFactCondition{}
@@ -446,6 +464,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 							}
 							if anyVarItem1.NumericNestedCondition.NumericNestedCondition3 != nil {
 								anyVar1.NumericNestedCondition.Three = &tfTypes.NumericNestedCondition3{}
+								if anyVar1.NumericNestedCondition.Three.Not == nil {
+									anyVar1.NumericNestedCondition.Three.Not = &tfTypes.NumericFactCondition{}
+								}
 								if anyVarItem1.NumericNestedCondition.NumericNestedCondition3.Not.NumericFactCondition1 != nil {
 									anyVar1.NumericNestedCondition.Three.Not.One = &tfTypes.NumericFactCondition1{}
 									anyVar1.NumericNestedCondition.Three.Not.One.Fact = types.StringValue(string(anyVarItem1.NumericNestedCondition.NumericNestedCondition3.Not.NumericFactCondition1.Fact))
@@ -503,8 +524,14 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 				}
 				if resp.Rule.NumericRuleType.Conditions.NumericCondition3 != nil {
 					r.Rule.NumericRuleType.Conditions.Three = &tfTypes.NumericCondition3{}
+					if r.Rule.NumericRuleType.Conditions.Three.Not == nil {
+						r.Rule.NumericRuleType.Conditions.Three.Not = &tfTypes.NumericConditionAll{}
+					}
 					if resp.Rule.NumericRuleType.Conditions.NumericCondition3.Not.NumericFactCondition != nil {
 						r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition = &tfTypes.NumericFactCondition{}
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition == nil {
+							r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition = &tfTypes.NumericFactCondition{}
+						}
 						if resp.Rule.NumericRuleType.Conditions.NumericCondition3.Not.NumericFactCondition.NumericFactCondition1 != nil {
 							r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One = &tfTypes.NumericFactCondition1{}
 							r.Rule.NumericRuleType.Conditions.Three.Not.NumericFactCondition.One.Fact = types.StringValue(string(resp.Rule.NumericRuleType.Conditions.NumericCondition3.Not.NumericFactCondition.NumericFactCondition1.Fact))
@@ -557,6 +584,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 					}
 					if resp.Rule.NumericRuleType.Conditions.NumericCondition3.Not.NumericNestedCondition != nil {
 						r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition = &tfTypes.NumericNestedCondition{}
+						if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition == nil {
+							r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition = &tfTypes.NumericNestedCondition{}
+						}
 						if resp.Rule.NumericRuleType.Conditions.NumericCondition3.Not.NumericNestedCondition.NumericNestedCondition1 != nil {
 							r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One = &tfTypes.NumericNestedCondition1{}
 							r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.One.All = []tfTypes.NumericFactCondition{}
@@ -679,6 +709,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if resp.Rule.NumericRuleType.Conditions.NumericCondition3.Not.NumericNestedCondition.NumericNestedCondition3 != nil {
 							r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three = &tfTypes.NumericNestedCondition3{}
+							if r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not == nil {
+								r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not = &tfTypes.NumericFactCondition{}
+							}
 							if resp.Rule.NumericRuleType.Conditions.NumericCondition3.Not.NumericNestedCondition.NumericNestedCondition3.Not.NumericFactCondition1 != nil {
 								r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One = &tfTypes.NumericFactCondition1{}
 								r.Rule.NumericRuleType.Conditions.Three.Not.NumericNestedCondition.Three.Not.One.Fact = types.StringValue(string(resp.Rule.NumericRuleType.Conditions.NumericCondition3.Not.NumericNestedCondition.NumericNestedCondition3.Not.NumericFactCondition1.Fact))
@@ -735,6 +768,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 			}
 			if resp.Rule.PatternRuleType != nil {
 				r.Rule.PatternRuleType = &tfTypes.PatternRuleType{}
+				if r.Rule.PatternRuleType.Conditions == nil {
+					r.Rule.PatternRuleType.Conditions = &tfTypes.PatternCondition{}
+				}
 				if resp.Rule.PatternRuleType.Conditions.PatternCondition1 != nil {
 					r.Rule.PatternRuleType.Conditions.One = &tfTypes.PatternCondition1{}
 					r.Rule.PatternRuleType.Conditions.One.All = []tfTypes.PatternConditionAll{}
@@ -744,6 +780,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 
 						if allItem4.PatternFactCondition != nil {
 							all4.PatternFactCondition = &tfTypes.PatternFactCondition{}
+							if all4.PatternFactCondition == nil {
+								all4.PatternFactCondition = &tfTypes.PatternFactCondition{}
+							}
 							if allItem4.PatternFactCondition.PatternFactCondition1 != nil {
 								all4.PatternFactCondition.One = &tfTypes.PatternFactCondition1{}
 								all4.PatternFactCondition.One.Fact = types.StringValue(string(allItem4.PatternFactCondition.PatternFactCondition1.Fact))
@@ -806,6 +845,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if allItem4.PatternNestedCondition != nil {
 							all4.PatternNestedCondition = &tfTypes.PatternNestedCondition{}
+							if all4.PatternNestedCondition == nil {
+								all4.PatternNestedCondition = &tfTypes.PatternNestedCondition{}
+							}
 							if allItem4.PatternNestedCondition.PatternNestedCondition1 != nil {
 								all4.PatternNestedCondition.One = &tfTypes.PatternNestedCondition1{}
 								all4.PatternNestedCondition.One.All = []tfTypes.PatternFactCondition{}
@@ -948,6 +990,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 							}
 							if allItem4.PatternNestedCondition.PatternNestedCondition3 != nil {
 								all4.PatternNestedCondition.Three = &tfTypes.PatternNestedCondition3{}
+								if all4.PatternNestedCondition.Three.Not == nil {
+									all4.PatternNestedCondition.Three.Not = &tfTypes.PatternFactCondition{}
+								}
 								if allItem4.PatternNestedCondition.PatternNestedCondition3.Not.PatternFactCondition1 != nil {
 									all4.PatternNestedCondition.Three.Not.One = &tfTypes.PatternFactCondition1{}
 									all4.PatternNestedCondition.Three.Not.One.Fact = types.StringValue(string(allItem4.PatternNestedCondition.PatternNestedCondition3.Not.PatternFactCondition1.Fact))
@@ -1022,6 +1067,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 
 						if anyVarItem5.PatternFactCondition != nil {
 							anyVar5.PatternFactCondition = &tfTypes.PatternFactCondition{}
+							if anyVar5.PatternFactCondition == nil {
+								anyVar5.PatternFactCondition = &tfTypes.PatternFactCondition{}
+							}
 							if anyVarItem5.PatternFactCondition.PatternFactCondition1 != nil {
 								anyVar5.PatternFactCondition.One = &tfTypes.PatternFactCondition1{}
 								anyVar5.PatternFactCondition.One.Fact = types.StringValue(string(anyVarItem5.PatternFactCondition.PatternFactCondition1.Fact))
@@ -1084,6 +1132,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if anyVarItem5.PatternNestedCondition != nil {
 							anyVar5.PatternNestedCondition = &tfTypes.PatternNestedCondition{}
+							if anyVar5.PatternNestedCondition == nil {
+								anyVar5.PatternNestedCondition = &tfTypes.PatternNestedCondition{}
+							}
 							if anyVarItem5.PatternNestedCondition.PatternNestedCondition1 != nil {
 								anyVar5.PatternNestedCondition.One = &tfTypes.PatternNestedCondition1{}
 								anyVar5.PatternNestedCondition.One.All = []tfTypes.PatternFactCondition{}
@@ -1226,6 +1277,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 							}
 							if anyVarItem5.PatternNestedCondition.PatternNestedCondition3 != nil {
 								anyVar5.PatternNestedCondition.Three = &tfTypes.PatternNestedCondition3{}
+								if anyVar5.PatternNestedCondition.Three.Not == nil {
+									anyVar5.PatternNestedCondition.Three.Not = &tfTypes.PatternFactCondition{}
+								}
 								if anyVarItem5.PatternNestedCondition.PatternNestedCondition3.Not.PatternFactCondition1 != nil {
 									anyVar5.PatternNestedCondition.Three.Not.One = &tfTypes.PatternFactCondition1{}
 									anyVar5.PatternNestedCondition.Three.Not.One.Fact = types.StringValue(string(anyVarItem5.PatternNestedCondition.PatternNestedCondition3.Not.PatternFactCondition1.Fact))
@@ -1293,8 +1347,14 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 				}
 				if resp.Rule.PatternRuleType.Conditions.PatternCondition3 != nil {
 					r.Rule.PatternRuleType.Conditions.Three = &tfTypes.PatternCondition3{}
+					if r.Rule.PatternRuleType.Conditions.Three.Not == nil {
+						r.Rule.PatternRuleType.Conditions.Three.Not = &tfTypes.PatternConditionAll{}
+					}
 					if resp.Rule.PatternRuleType.Conditions.PatternCondition3.Not.PatternFactCondition != nil {
 						r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition = &tfTypes.PatternFactCondition{}
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition == nil {
+							r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition = &tfTypes.PatternFactCondition{}
+						}
 						if resp.Rule.PatternRuleType.Conditions.PatternCondition3.Not.PatternFactCondition.PatternFactCondition1 != nil {
 							r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One = &tfTypes.PatternFactCondition1{}
 							r.Rule.PatternRuleType.Conditions.Three.Not.PatternFactCondition.One.Fact = types.StringValue(string(resp.Rule.PatternRuleType.Conditions.PatternCondition3.Not.PatternFactCondition.PatternFactCondition1.Fact))
@@ -1357,6 +1417,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 					}
 					if resp.Rule.PatternRuleType.Conditions.PatternCondition3.Not.PatternNestedCondition != nil {
 						r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition = &tfTypes.PatternNestedCondition{}
+						if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition == nil {
+							r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition = &tfTypes.PatternNestedCondition{}
+						}
 						if resp.Rule.PatternRuleType.Conditions.PatternCondition3.Not.PatternNestedCondition.PatternNestedCondition1 != nil {
 							r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One = &tfTypes.PatternNestedCondition1{}
 							r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.One.All = []tfTypes.PatternFactCondition{}
@@ -1499,6 +1562,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if resp.Rule.PatternRuleType.Conditions.PatternCondition3.Not.PatternNestedCondition.PatternNestedCondition3 != nil {
 							r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three = &tfTypes.PatternNestedCondition3{}
+							if r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not == nil {
+								r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not = &tfTypes.PatternFactCondition{}
+							}
 							if resp.Rule.PatternRuleType.Conditions.PatternCondition3.Not.PatternNestedCondition.PatternNestedCondition3.Not.PatternFactCondition1 != nil {
 								r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One = &tfTypes.PatternFactCondition1{}
 								r.Rule.PatternRuleType.Conditions.Three.Not.PatternNestedCondition.Three.Not.One.Fact = types.StringValue(string(resp.Rule.PatternRuleType.Conditions.PatternCondition3.Not.PatternNestedCondition.PatternNestedCondition3.Not.PatternFactCondition1.Fact))
@@ -1565,6 +1631,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 			}
 			if resp.Rule.RegexRuleType != nil {
 				r.Rule.RegexRuleType = &tfTypes.RegexRuleType{}
+				if r.Rule.RegexRuleType.Conditions == nil {
+					r.Rule.RegexRuleType.Conditions = &tfTypes.RegexCondition{}
+				}
 				if resp.Rule.RegexRuleType.Conditions.RegexCondition1 != nil {
 					r.Rule.RegexRuleType.Conditions.One = &tfTypes.RegexCondition1{}
 					r.Rule.RegexRuleType.Conditions.One.All = []tfTypes.All{}
@@ -1586,6 +1655,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if allItem8.RegexNestedCondition != nil {
 							all8.RegexNestedCondition = &tfTypes.RegexNestedCondition{}
+							if all8.RegexNestedCondition == nil {
+								all8.RegexNestedCondition = &tfTypes.RegexNestedCondition{}
+							}
 							if allItem8.RegexNestedCondition.One != nil {
 								all8.RegexNestedCondition.One = &tfTypes.One{}
 								all8.RegexNestedCondition.One.All = []tfTypes.RegexFactCondition{}
@@ -1628,6 +1700,7 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 							}
 							if allItem8.RegexNestedCondition.Three != nil {
 								all8.RegexNestedCondition.Three = &tfTypes.Three{}
+								all8.RegexNestedCondition.Three.Not = &tfTypes.RegexFactCondition{}
 								all8.RegexNestedCondition.Three.Not.Fact = types.StringValue(string(allItem8.RegexNestedCondition.Three.Not.Fact))
 								all8.RegexNestedCondition.Three.Not.Operator = types.StringValue(string(allItem8.RegexNestedCondition.Three.Not.Operator))
 								if allItem8.RegexNestedCondition.Three.Not.Params == nil {
@@ -1664,6 +1737,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if anyVarItem9.RegexNestedCondition != nil {
 							anyVar9.RegexNestedCondition = &tfTypes.RegexNestedCondition{}
+							if anyVar9.RegexNestedCondition == nil {
+								anyVar9.RegexNestedCondition = &tfTypes.RegexNestedCondition{}
+							}
 							if anyVarItem9.RegexNestedCondition.One != nil {
 								anyVar9.RegexNestedCondition.One = &tfTypes.One{}
 								anyVar9.RegexNestedCondition.One.All = []tfTypes.RegexFactCondition{}
@@ -1706,6 +1782,7 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 							}
 							if anyVarItem9.RegexNestedCondition.Three != nil {
 								anyVar9.RegexNestedCondition.Three = &tfTypes.Three{}
+								anyVar9.RegexNestedCondition.Three.Not = &tfTypes.RegexFactCondition{}
 								anyVar9.RegexNestedCondition.Three.Not.Fact = types.StringValue(string(anyVarItem9.RegexNestedCondition.Three.Not.Fact))
 								anyVar9.RegexNestedCondition.Three.Not.Operator = types.StringValue(string(anyVarItem9.RegexNestedCondition.Three.Not.Operator))
 								if anyVarItem9.RegexNestedCondition.Three.Not.Params == nil {
@@ -1723,6 +1800,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 				}
 				if resp.Rule.RegexRuleType.Conditions.RegexCondition3 != nil {
 					r.Rule.RegexRuleType.Conditions.Three = &tfTypes.RegexCondition3{}
+					if r.Rule.RegexRuleType.Conditions.Three.Not == nil {
+						r.Rule.RegexRuleType.Conditions.Three.Not = &tfTypes.All{}
+					}
 					if resp.Rule.RegexRuleType.Conditions.RegexCondition3.Not.RegexFactCondition != nil {
 						r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition = &tfTypes.RegexFactCondition{}
 						r.Rule.RegexRuleType.Conditions.Three.Not.RegexFactCondition.Fact = types.StringValue(string(resp.Rule.RegexRuleType.Conditions.RegexCondition3.Not.RegexFactCondition.Fact))
@@ -1737,6 +1817,9 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 					}
 					if resp.Rule.RegexRuleType.Conditions.RegexCondition3.Not.RegexNestedCondition != nil {
 						r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition = &tfTypes.RegexNestedCondition{}
+						if r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition == nil {
+							r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition = &tfTypes.RegexNestedCondition{}
+						}
 						if resp.Rule.RegexRuleType.Conditions.RegexCondition3.Not.RegexNestedCondition.One != nil {
 							r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One = &tfTypes.One{}
 							r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.One.All = []tfTypes.RegexFactCondition{}
@@ -1779,6 +1862,7 @@ func (r *ValidationRuleDataSourceModel) RefreshFromSharedValidationRule(ctx cont
 						}
 						if resp.Rule.RegexRuleType.Conditions.RegexCondition3.Not.RegexNestedCondition.Three != nil {
 							r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three = &tfTypes.Three{}
+							r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not = &tfTypes.RegexFactCondition{}
 							r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Fact = types.StringValue(string(resp.Rule.RegexRuleType.Conditions.RegexCondition3.Not.RegexNestedCondition.Three.Not.Fact))
 							r.Rule.RegexRuleType.Conditions.Three.Not.RegexNestedCondition.Three.Not.Operator = types.StringValue(string(resp.Rule.RegexRuleType.Conditions.RegexCondition3.Not.RegexNestedCondition.Three.Not.Operator))
 							if resp.Rule.RegexRuleType.Conditions.RegexCondition3.Not.RegexNestedCondition.Three.Not.Params == nil {

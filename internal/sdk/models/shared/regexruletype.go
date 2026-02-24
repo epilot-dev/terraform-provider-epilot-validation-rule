@@ -45,22 +45,22 @@ func (r RegexRuleType) MarshalJSON() ([]byte, error) {
 }
 
 func (r *RegexRuleType) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &r, "", false, []string{"type", "conditions"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &r, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *RegexRuleType) GetType() Type {
-	if o == nil {
+func (r *RegexRuleType) GetType() Type {
+	if r == nil {
 		return Type("")
 	}
-	return o.Type
+	return r.Type
 }
 
-func (o *RegexRuleType) GetConditions() RegexCondition {
-	if o == nil {
+func (r *RegexRuleType) GetConditions() RegexCondition {
+	if r == nil {
 		return RegexCondition{}
 	}
-	return o.Conditions
+	return r.Conditions
 }

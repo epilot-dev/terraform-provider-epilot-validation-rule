@@ -3,7 +3,7 @@
 package types
 
 type PatternCondition struct {
-	One   *PatternCondition1 `queryParam:"inline" tfsdk:"one" tfPlanOnly:"true"`
-	Two   *PatternCondition2 `queryParam:"inline" tfsdk:"two" tfPlanOnly:"true"`
-	Three *PatternCondition3 `queryParam:"inline" tfsdk:"three" tfPlanOnly:"true"`
+	One   *PatternCondition1 `queryParam:"inline" tfsdk:"one"`
+	Two   *PatternCondition2 `queryParam:"inline" tfsdk:"two"`
+	Three *PatternCondition3 `queryParam:"inline" tfsdk:"three"`
 }

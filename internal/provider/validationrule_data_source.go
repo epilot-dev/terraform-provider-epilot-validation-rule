@@ -61,7 +61,7 @@ func (r *ValidationRuleDataSource) Schema(ctx context.Context, req datasource.Sc
 				Description: `User ID of the creator.`,
 			},
 			"id": schema.StringAttribute{
-				Computed:    true,
+				Required:    true,
 				Description: `Unique identifier for the validation rule.`,
 			},
 			"organization_id": schema.StringAttribute{

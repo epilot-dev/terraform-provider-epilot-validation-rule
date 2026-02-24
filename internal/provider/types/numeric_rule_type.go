@@ -7,6 +7,6 @@ import (
 )
 
 type NumericRuleType struct {
-	Conditions NumericCondition `tfsdk:"conditions"`
-	Type       types.String     `tfsdk:"type"`
+	Conditions *NumericCondition `tfsdk:"conditions"`
+	Type       types.String      `tfsdk:"type"`
 }

@@ -17,9 +17,9 @@ const (
 )
 
 type ValidationRuleBaseRule struct {
-	RegexRuleType   *RegexRuleType   `queryParam:"inline" name:"rule"`
-	PatternRuleType *PatternRuleType `queryParam:"inline" name:"rule"`
-	NumericRuleType *NumericRuleType `queryParam:"inline" name:"rule"`
+	RegexRuleType   *RegexRuleType   `queryParam:"inline" union:"member"`
+	PatternRuleType *PatternRuleType `queryParam:"inline" union:"member"`
+	NumericRuleType *NumericRuleType `queryParam:"inline" union:"member"`
 
 	Type ValidationRuleBaseRuleType
 }
@@ -53,24 +53,54 @@ func CreateValidationRuleBaseRuleNumericRuleType(numericRuleType NumericRuleType
 
 func (u *ValidationRuleBaseRule) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var regexRuleType RegexRuleType = RegexRuleType{}
 	if err := utils.UnmarshalJSON(data, &regexRuleType, "", true, nil); err == nil {
-		u.RegexRuleType = &regexRuleType
-		u.Type = ValidationRuleBaseRuleTypeRegexRuleType
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  ValidationRuleBaseRuleTypeRegexRuleType,
+			Value: &regexRuleType,
+		})
 	}
 
 	var patternRuleType PatternRuleType = PatternRuleType{}
 	if err := utils.UnmarshalJSON(data, &patternRuleType, "", true, nil); err == nil {
-		u.PatternRuleType = &patternRuleType
-		u.Type = ValidationRuleBaseRuleTypePatternRuleType
-		return nil
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  ValidationRuleBaseRuleTypePatternRuleType,
+			Value: &patternRuleType,
+		})
 	}
 
 	var numericRuleType NumericRuleType = NumericRuleType{}
 	if err := utils.UnmarshalJSON(data, &numericRuleType, "", true, nil); err == nil {
-		u.NumericRuleType = &numericRuleType
-		u.Type = ValidationRuleBaseRuleTypeNumericRuleType
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  ValidationRuleBaseRuleTypeNumericRuleType,
+			Value: &numericRuleType,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for ValidationRuleBaseRule", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for ValidationRuleBaseRule", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(ValidationRuleBaseRuleType)
+	switch best.Type {
+	case ValidationRuleBaseRuleTypeRegexRuleType:
+		u.RegexRuleType = best.Value.(*RegexRuleType)
+		return nil
+	case ValidationRuleBaseRuleTypePatternRuleType:
+		u.PatternRuleType = best.Value.(*PatternRuleType)
+		return nil
+	case ValidationRuleBaseRuleTypeNumericRuleType:
+		u.NumericRuleType = best.Value.(*NumericRuleType)
 		return nil
 	}
 
@@ -101,23 +131,23 @@ type ValidationRuleBase struct {
 	Rule        *ValidationRuleBaseRule `json:"rule,omitempty"`
 }
 
-func (o *ValidationRuleBase) GetTitle() *string {
-	if o == nil {
+func (v *ValidationRuleBase) GetTitle() *string {
+	if v == nil {
 		return nil
 	}
-	return o.Title
+	return v.Title
 }
 
-func (o *ValidationRuleBase) GetPlaceholder() *string {
-	if o == nil {
+func (v *ValidationRuleBase) GetPlaceholder() *string {
+	if v == nil {
 		return nil
 	}
-	return o.Placeholder
+	return v.Placeholder
 }
 
-func (o *ValidationRuleBase) GetRule() *ValidationRuleBaseRule {
-	if o == nil {
+func (v *ValidationRuleBase) GetRule() *ValidationRuleBaseRule {
+	if v == nil {
 		return nil
 	}
-	return o.Rule
+	return v.Rule
 }

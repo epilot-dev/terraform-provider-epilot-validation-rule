@@ -3,7 +3,7 @@
 package types
 
 type PatternNestedCondition struct {
-	One   *PatternNestedCondition1 `queryParam:"inline" tfsdk:"one" tfPlanOnly:"true"`
-	Two   *PatternNestedCondition2 `queryParam:"inline" tfsdk:"two" tfPlanOnly:"true"`
-	Three *PatternNestedCondition3 `queryParam:"inline" tfsdk:"three" tfPlanOnly:"true"`
+	One   *PatternNestedCondition1 `queryParam:"inline" tfsdk:"one"`
+	Two   *PatternNestedCondition2 `queryParam:"inline" tfsdk:"two"`
+	Three *PatternNestedCondition3 `queryParam:"inline" tfsdk:"three"`
 }

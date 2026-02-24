@@ -39,16 +39,16 @@ type ValidationRuleResource struct {
 
 // ValidationRuleResourceModel describes the resource data model.
 type ValidationRuleResourceModel struct {
-	CreatedAt      types.String                            `tfsdk:"created_at"`
-	CreatedBy      types.String                            `tfsdk:"created_by"`
-	ID             types.String                            `tfsdk:"id"`
-	OrganizationID types.String                            `tfsdk:"organization_id"`
-	Placeholder    types.String                            `tfsdk:"placeholder"`
-	Rule           tfTypes.CreateValidationRuleRequestRule `tfsdk:"rule"`
-	SchemaVersion  types.String                            `tfsdk:"schema_version"`
-	Title          types.String                            `tfsdk:"title"`
-	UpdatedAt      types.String                            `tfsdk:"updated_at"`
-	UpdatedBy      types.String                            `tfsdk:"updated_by"`
+	CreatedAt      types.String                             `tfsdk:"created_at"`
+	CreatedBy      types.String                             `tfsdk:"created_by"`
+	ID             types.String                             `tfsdk:"id"`
+	OrganizationID types.String                             `tfsdk:"organization_id"`
+	Placeholder    types.String                             `tfsdk:"placeholder"`
+	Rule           *tfTypes.CreateValidationRuleRequestRule `tfsdk:"rule"`
+	SchemaVersion  types.String                             `tfsdk:"schema_version"`
+	Title          types.String                             `tfsdk:"title"`
+	UpdatedAt      types.String                             `tfsdk:"updated_at"`
+	UpdatedBy      types.String                             `tfsdk:"updated_by"`
 }
 
 func (r *ValidationRuleResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -84,7 +84,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 				Required: true,
 				Attributes: map[string]schema.Attribute{
 					"numeric_rule_type": schema.SingleNestedAttribute{
-						Computed: true,
 						Optional: true,
 						Attributes: map[string]schema.Attribute{
 							"conditions": schema.SingleNestedAttribute{
@@ -92,7 +91,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 								Optional: true,
 								Attributes: map[string]schema.Attribute{
 									"one": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"all": schema.ListNestedAttribute{
@@ -104,11 +102,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"numeric_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"four": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -165,7 +161,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -227,7 +222,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -285,7 +279,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -358,11 +351,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"numeric_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
@@ -374,7 +365,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -431,7 +421,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -493,7 +482,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -551,7 +539,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -631,7 +618,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
@@ -639,7 +625,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			Optional: true,
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -696,7 +681,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -758,7 +742,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -816,7 +799,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -895,7 +877,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
@@ -907,7 +888,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -964,7 +944,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -1026,7 +1005,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -1084,7 +1062,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -1188,7 +1165,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"three": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"not": schema.SingleNestedAttribute{
@@ -1196,11 +1172,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 												Optional: true,
 												Attributes: map[string]schema.Attribute{
 													"numeric_fact_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
 														Attributes: map[string]schema.Attribute{
 															"four": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
@@ -1257,7 +1231,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
@@ -1319,7 +1292,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
@@ -1377,7 +1349,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
@@ -1450,11 +1421,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 														},
 													},
 													"numeric_nested_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
 														Attributes: map[string]schema.Attribute{
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"all": schema.ListNestedAttribute{
@@ -1466,7 +1435,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			},
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -1523,7 +1491,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -1585,7 +1552,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -1643,7 +1609,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -1723,7 +1688,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"not": schema.SingleNestedAttribute{
@@ -1731,7 +1695,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																		Optional: true,
 																		Attributes: map[string]schema.Attribute{
 																			"four": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
@@ -1788,7 +1751,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"one": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
@@ -1850,7 +1812,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"three": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
@@ -1908,7 +1869,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"two": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
@@ -1987,7 +1947,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"any": schema.ListNestedAttribute{
@@ -1999,7 +1958,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			},
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -2056,7 +2014,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -2118,7 +2075,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -2176,7 +2132,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -2279,7 +2234,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"two": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"any": schema.ListNestedAttribute{
@@ -2291,11 +2245,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"numeric_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"four": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -2352,7 +2304,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -2414,7 +2365,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -2472,7 +2422,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -2545,11 +2494,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"numeric_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
@@ -2561,7 +2508,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -2618,7 +2564,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -2680,7 +2625,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -2738,7 +2682,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -2818,7 +2761,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
@@ -2826,7 +2768,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			Optional: true,
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -2883,7 +2824,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -2945,7 +2885,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -3003,7 +2942,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -3082,7 +3020,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
@@ -3094,7 +3031,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -3151,7 +3087,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -3213,7 +3148,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -3271,7 +3205,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -3399,7 +3332,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 						},
 					},
 					"pattern_rule_type": schema.SingleNestedAttribute{
-						Computed: true,
 						Optional: true,
 						Attributes: map[string]schema.Attribute{
 							"conditions": schema.SingleNestedAttribute{
@@ -3407,7 +3339,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 								Optional: true,
 								Attributes: map[string]schema.Attribute{
 									"one": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"all": schema.ListNestedAttribute{
@@ -3419,11 +3350,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"pattern_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"four": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -3490,7 +3419,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -3561,7 +3489,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -3631,7 +3558,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -3706,11 +3632,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"pattern_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
@@ -3722,7 +3646,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -3789,7 +3712,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -3860,7 +3782,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -3930,7 +3851,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -4012,7 +3932,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
@@ -4020,7 +3939,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			Optional: true,
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -4087,7 +4005,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -4158,7 +4075,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -4228,7 +4144,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -4309,7 +4224,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
@@ -4321,7 +4235,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -4388,7 +4301,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -4459,7 +4371,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -4529,7 +4440,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -4635,7 +4545,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"three": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"not": schema.SingleNestedAttribute{
@@ -4643,11 +4552,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 												Optional: true,
 												Attributes: map[string]schema.Attribute{
 													"pattern_fact_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
 														Attributes: map[string]schema.Attribute{
 															"four": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
@@ -4714,7 +4621,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
@@ -4785,7 +4691,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
@@ -4855,7 +4760,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"fact": schema.StringAttribute{
@@ -4930,11 +4834,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 														},
 													},
 													"pattern_nested_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
 														Attributes: map[string]schema.Attribute{
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"all": schema.ListNestedAttribute{
@@ -4946,7 +4848,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			},
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -5013,7 +4914,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -5084,7 +4984,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -5154,7 +5053,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -5236,7 +5134,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"not": schema.SingleNestedAttribute{
@@ -5244,7 +5141,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																		Optional: true,
 																		Attributes: map[string]schema.Attribute{
 																			"four": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
@@ -5311,7 +5207,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"one": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
@@ -5382,7 +5277,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"three": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
@@ -5452,7 +5346,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																			},
 																			"two": schema.SingleNestedAttribute{
-																				Computed: true,
 																				Optional: true,
 																				Attributes: map[string]schema.Attribute{
 																					"fact": schema.StringAttribute{
@@ -5533,7 +5426,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"any": schema.ListNestedAttribute{
@@ -5545,7 +5437,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			},
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -5612,7 +5503,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -5683,7 +5573,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -5753,7 +5642,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -5858,7 +5746,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"two": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"any": schema.ListNestedAttribute{
@@ -5870,11 +5757,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"pattern_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"four": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -5941,7 +5826,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -6012,7 +5896,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -6082,7 +5965,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"fact": schema.StringAttribute{
@@ -6157,11 +6039,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"pattern_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
@@ -6173,7 +6053,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -6240,7 +6119,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -6311,7 +6189,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -6381,7 +6258,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -6463,7 +6339,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
@@ -6471,7 +6346,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																			Optional: true,
 																			Attributes: map[string]schema.Attribute{
 																				"four": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -6538,7 +6412,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"one": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -6609,7 +6482,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"three": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -6679,7 +6551,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																					},
 																				},
 																				"two": schema.SingleNestedAttribute{
-																					Computed: true,
 																					Optional: true,
 																					Attributes: map[string]schema.Attribute{
 																						"fact": schema.StringAttribute{
@@ -6760,7 +6631,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
@@ -6772,7 +6642,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																				},
 																				Attributes: map[string]schema.Attribute{
 																					"four": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -6839,7 +6708,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"one": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -6910,7 +6778,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"three": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -6980,7 +6847,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																						},
 																					},
 																					"two": schema.SingleNestedAttribute{
-																						Computed: true,
 																						Optional: true,
 																						Attributes: map[string]schema.Attribute{
 																							"fact": schema.StringAttribute{
@@ -7110,7 +6976,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 						},
 					},
 					"regex_rule_type": schema.SingleNestedAttribute{
-						Computed: true,
 						Optional: true,
 						Attributes: map[string]schema.Attribute{
 							"conditions": schema.SingleNestedAttribute{
@@ -7118,7 +6983,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 								Optional: true,
 								Attributes: map[string]schema.Attribute{
 									"one": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"all": schema.ListNestedAttribute{
@@ -7130,7 +6994,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"regex_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"fact": schema.StringAttribute{
@@ -7184,11 +7047,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"regex_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
@@ -7257,7 +7118,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
@@ -7321,7 +7181,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
@@ -7414,7 +7273,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"three": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"not": schema.SingleNestedAttribute{
@@ -7422,7 +7280,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 												Optional: true,
 												Attributes: map[string]schema.Attribute{
 													"regex_fact_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
 														Attributes: map[string]schema.Attribute{
 															"fact": schema.StringAttribute{
@@ -7476,11 +7333,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 														},
 													},
 													"regex_nested_condition": schema.SingleNestedAttribute{
-														Computed: true,
 														Optional: true,
 														Attributes: map[string]schema.Attribute{
 															"one": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"all": schema.ListNestedAttribute{
@@ -7549,7 +7404,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"three": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"not": schema.SingleNestedAttribute{
@@ -7613,7 +7467,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																},
 															},
 															"two": schema.SingleNestedAttribute{
-																Computed: true,
 																Optional: true,
 																Attributes: map[string]schema.Attribute{
 																	"any": schema.ListNestedAttribute{
@@ -7705,7 +7558,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 										},
 									},
 									"two": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										Attributes: map[string]schema.Attribute{
 											"any": schema.ListNestedAttribute{
@@ -7717,7 +7569,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 													},
 													Attributes: map[string]schema.Attribute{
 														"regex_fact_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"fact": schema.StringAttribute{
@@ -7771,11 +7622,9 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 															},
 														},
 														"regex_nested_condition": schema.SingleNestedAttribute{
-															Computed: true,
 															Optional: true,
 															Attributes: map[string]schema.Attribute{
 																"one": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"all": schema.ListNestedAttribute{
@@ -7844,7 +7693,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"three": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"not": schema.SingleNestedAttribute{
@@ -7908,7 +7756,6 @@ func (r *ValidationRuleResource) Schema(ctx context.Context, req resource.Schema
 																	},
 																},
 																"two": schema.SingleNestedAttribute{
-																	Computed: true,
 																	Optional: true,
 																	Attributes: map[string]schema.Attribute{
 																		"any": schema.ListNestedAttribute{
@@ -8276,7 +8123,10 @@ func (r *ValidationRuleResource) Delete(ctx context.Context, req resource.Delete
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
-	if res.StatusCode != 204 {
+	switch res.StatusCode {
+	case 204, 404:
+		break
+	default:
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}

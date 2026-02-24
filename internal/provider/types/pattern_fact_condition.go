@@ -3,8 +3,8 @@
 package types
 
 type PatternFactCondition struct {
-	One   *PatternFactCondition1 `queryParam:"inline" tfsdk:"one" tfPlanOnly:"true"`
-	Two   *PatternFactCondition1 `queryParam:"inline" tfsdk:"two" tfPlanOnly:"true"`
-	Three *PatternFactCondition3 `queryParam:"inline" tfsdk:"three" tfPlanOnly:"true"`
-	Four  *Four                  `queryParam:"inline" tfsdk:"four" tfPlanOnly:"true"`
+	One   *PatternFactCondition1 `queryParam:"inline" tfsdk:"one"`
+	Two   *PatternFactCondition1 `queryParam:"inline" tfsdk:"two"`
+	Three *PatternFactCondition3 `queryParam:"inline" tfsdk:"three"`
+	Four  *Four                  `queryParam:"inline" tfsdk:"four"`
 }
